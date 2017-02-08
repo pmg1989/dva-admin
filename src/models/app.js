@@ -88,15 +88,6 @@ export default {
       }, {put}) {
         yield put({type: 'handleChangeTheme'})
     },
-    *changeNavbar({
-        payload
-      }, {put}) {
-        if (document.body.clientWidth < 769) {
-          yield put({type: 'showNavbar'})
-        } else {
-          yield put({type: 'hideNavbar'})
-        }
-    },
     *switchMenuPopver({
         payload
       }, {put}) {
@@ -137,16 +128,10 @@ export default {
         darkTheme: !state.darkTheme
       }
     },
-    showNavbar(state) {
+    changeNavbar(state) {
       return {
         ...state,
-        isNavbar: true
-      }
-    },
-    hideNavbar(state) {
-      return {
-        ...state,
-        isNavbar: false
+        isNavbar: document.body.clientWidth < 769
       }
     },
     handleSwitchMenuPopver(state) {
