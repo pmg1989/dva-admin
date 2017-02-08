@@ -78,11 +78,6 @@ export default {
           }))
         }
     },
-    *switchSider({
-        payload
-      }, {put}) {
-        yield put({type: 'handleSwitchSider'})
-    },
     *changeTheme({
         payload
       }, {put}) {
@@ -114,7 +109,7 @@ export default {
         login: false
       }
     },
-    handleSwitchSider(state) {
+    switchSider(state) {
       localStorage.setItem('antdAdminSiderFold', !state.siderFold)
       return {
         ...state,
