@@ -108,24 +108,15 @@ export default {
         })
       }
     },
-    *showModal ({ payload }, { select, call, put }) {
-      const roleList = yield select(({ accountAdmin }) => accountAdmin.roleList)
-      if(!roleList.length) {
-        yield put({ type: 'queryRole', payload })
-      } else {
-        yield put({ type: 'showModalSuccess', payload })
-      }
-    },
-    *queryRole ({ payload }, { call, put }) {
+    *queryRole ({ payload }, { select, call, put }) {
       const data = yield call(queryRole)
       if (data && data.success) {
         yield put({
-          type: 'querySuccess',
+          type: 'queryRoleSuccess',
           payload: {
             roleList: data.data
           }
         })
-        yield put({ type: 'showModalSuccess', payload })
       }
     }
   },
@@ -134,7 +125,10 @@ export default {
     querySuccess (state, action) {
       return { ...state, ...action.payload }
     },
-    showModalSuccess (state, action) {
+    queryRoleSuccess (state, action) {
+      return { ...state, ...action.payload, modalVisible: true }
+    },
+    showModal (state, action) {
       return { ...state, ...action.payload, modalVisible: true }
     },
     hideModal (state) {

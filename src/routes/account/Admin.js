@@ -52,10 +52,9 @@ function Admin({location, dispatch, accountAdmin, loading}) {
     },
     onEditItem(item) {
       dispatch({
-        type: 'accountAdmin/showModal',
+        type: !roleList.length ? 'accountAdmin/queryRole' : 'accountAdmin/showModal',
         payload: {
-          modalType: 'update',
-          currentItem: item
+          modalType: 'create'
         }
       })
     },
@@ -83,7 +82,7 @@ function Admin({location, dispatch, accountAdmin, loading}) {
     },
     onAdd() {
       dispatch({
-        type: 'accountAdmin/showModal',
+        type: !roleList.length ? 'accountAdmin/queryRole' : 'accountAdmin/showModal',
         payload: {
           modalType: 'create'
         }
