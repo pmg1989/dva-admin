@@ -79,7 +79,7 @@ npm run build
 
 ## 参考
 
-用户列表：https://github.com/dvajs/dva/tree/master/examples/user-dashboard
+用户列表：https://github.com/dvajs/dva-example-user-dashboard
 
 dashboard设计稿：https://dribbble.com/shots/3108122-Dashboard-Admin （已征得作者同意）
 
