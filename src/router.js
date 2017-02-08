@@ -21,7 +21,7 @@ export default function ({history, app}) {
 
   return  (
     <Router history={history}>
-      <Route path="/" component={require("./routes/App")}>
+      <Route path="/" component={require("./routes/App")} onEnter={redirectToLogin}>
         <IndexRoute component={require("./routes/Dashboard")}/>
         <Route path="dashboard" component={require("./routes/Dashboard")}/>
         <Route path="account">

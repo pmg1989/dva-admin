@@ -18,18 +18,11 @@ export default {
   },
   subscriptions : {
     setup({ dispatch, history }) {
-      const { pathname, search } = location
-      if(!isLogin()){
-        //在未登录状态下访问管理页面，可拦截首次订阅数据的请求
-        pathname !== '/login' && dispatch(routerRedux.replace({
-          pathname: '/login',
-          state: { nextPathname: pathname, nextSearch: search }
-        }))
-      } else {
+      window.onresize = function() {
+        dispatch({type: 'changeNavbar'})
+      }
+      if(isLogin()){
         dispatch({type: 'queryUser'})
-        window.onresize = function() {
-          dispatch({type: 'changeNavbar'})
-        }
       }
     }
   },
