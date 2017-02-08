@@ -1,11 +1,11 @@
-# Newband dashbordAdmin
+# dva-admin
 
 [![React Native](https://img.shields.io/badge/react-^15.4.1-brightgreen.svg?style=flat-square)](https://github.com/facebook/react)
 [![Ant Design](https://img.shields.io/badge/ant--design-^2.7.0-yellowgreen.svg?style=flat-square)](https://github.com/ant-design/ant-design)
 [![dva](https://img.shields.io/badge/dva-^1.1.0-orange.svg?style=flat-square)](https://github.com/dvajs/dva)
 
-[![GitHub issues](https://img.shields.io/github/issues/zuiidea/antd-admin.svg?style=flat-square)](https://git.coding.net/newband-dev/app_dashboard.git)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://coding.net/t/newband-dev/p/app_dashboard/git/merges)
+[![GitHub issues](https://img.shields.io/github/issues/zuiidea/antd-admin.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/pulls)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 ## 特性
@@ -42,7 +42,7 @@
 克隆项目文件:
 
 ```
-git clone git@git.coding.net:newband-dev/app_dashboard.git
+git clone git@github.com:pmg1989/dva-admin.git
 ```
 
 进入目录安装依赖:
