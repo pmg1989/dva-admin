@@ -99,7 +99,7 @@ module.exports = {
   'PUT /api/admin' (req, res) {
     const editItem = getBody(req.body)
 
-    const roleListData = global['AccountRoleList'].data
+    const roleListData = global['dva-AccountRoleList'].data
     const roleList = roleListData.map(item => {
       return item.roleName
     })
