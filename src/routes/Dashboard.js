@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'dva'
 import {Row, Col, Card} from 'antd'
+import { createSelector } from 'reselect'
 import NumberCard from '../components/dashboard/numberCard'
 import Quote from '../components/dashboard/quote'
 import Sales from '../components/dashboard/sales'
@@ -108,4 +109,15 @@ Dashboard.propTypes = {
   user: PropTypes.object
 }
 
-export default connect(({dashboard}) => ({dashboard}))(Dashboard)
+const mapStateToProps = createSelector(
+  state => state.dashboard,
+  state => state.loading.models.dashboard,
+  (dashboard, loading) => {
+    return {
+      dashboard,
+      loading
+    }
+  }
+)
+
+export default connect(mapStateToProps)(Dashboard)

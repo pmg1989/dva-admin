@@ -3,7 +3,7 @@ const Mock = require('mockjs')
 import mockStorge from '../../src/utils/mockStorge'
 import { getBody } from '../utils'
 
-let dataKey = 'AdminUsers'
+let dataKey = 'dva-AdminUsers'
 
 let adminListData = global[dataKey]
 
