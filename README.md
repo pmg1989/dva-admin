@@ -13,7 +13,6 @@
 - 基于[react](https://github.com/facebook/react)，[ant-design](https://github.com/ant-design/ant-design)，[dva](https://github.com/dvajs/dva)，[Mock](https://github.com/nuysoft/Mock) 企业级后台管理系统最佳实践
 - 基于[Mock](https://github.com/nuysoft/Mock)实现脱离后端独立开发
 - 基于Antd UI 设计语言，提供后台管理系统常见使用场景
-- 基于[dva](https://github.com/dvajs/dva)动态加载 Model 和路由，按需加载
 - 浅度响应式设计
 
 ## 开发及构建
@@ -75,13 +74,13 @@ npm run build
 - 如需重写antd样式配置，请修改`src/theme.js`
 - 项目配置文件在`src/utils/config.js`
 - 如需重写异步请求函数，请修改`src/utils/request.js`
-  （关于为什么使用robe-ajax而不是fetch：在一个无服务器的环境中模拟数据请求，[Mock](https://github.com/nuysoft/Mock)不能拦截Fetch，只能拦截XHR，所以我选了一个类似jquery Ajax的库robe-ajax）
+  （关于为什么使用axios而不是fetch：在一个无服务器的环境中模拟数据请求，[Mock](https://github.com/nuysoft/Mock)不能拦截Fetch，只能拦截XHR，所以我选了一个纯Ajax的库[axios](https://github.com/mzabriskie/axios)）
 
 ## 参考
 
 用户列表：https://github.com/dvajs/dva-example-user-dashboard
 
-dashboard设计稿：https://dribbble.com/shots/3108122-Dashboard-Admin （已征得作者同意）
+dashboard设计稿：https://dribbble.com/shots/3108122-Dashboard-Admin
 
 ## 截屏
 
