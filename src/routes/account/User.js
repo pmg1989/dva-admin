@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
-import { createSelector } from 'reselect'
-import UserList from '../../components/account/user/List'
+import UserList from '../../components/account/user/List2'
 import UserSearch from '../../components/account/user/Search'
 import UserModal from '../../components/account/user/Modal'
 
-function User ({ location, dispatch, accountUser, loading }) {
-  const { list, pagination, currentItem, modalVisible, modalType } = accountUser
+function User ({ location, dispatch, accountUser }) {
+  const { list, pagination, currentItem, modalVisible, modalType, loading } = accountUser
   const { field, keyword } = location.query
   const userModalProps = {
     item: modalType === 'create' ? {} : currentItem,
@@ -30,6 +29,7 @@ function User ({ location, dispatch, accountUser, loading }) {
     dataSource: list,
     loading,
     pagination: pagination,
+    location,
     onPageChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
@@ -52,7 +52,7 @@ function User ({ location, dispatch, accountUser, loading }) {
         type: 'accountUser/showModal',
         payload: {
           modalType: 'update',
-          currentItem: item
+          id: item.id
         }
       })
     },
@@ -108,15 +108,8 @@ User.propTypes = {
   dispatch: PropTypes.func
 }
 
-const mapStateToProps = createSelector(
-  state => state.accountUser,
-  state => state.loading.models.accountUser,
-  (accountUser, loading) => {
-    return {
-      accountUser,
-      loading
-    }
-  }
-)
+function mapStateToProps({ accountUser }) {
+  return { accountUser }
+}
 
 export default connect(mapStateToProps)(User)

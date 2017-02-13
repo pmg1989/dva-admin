@@ -1,6 +1,6 @@
 import config from './config'
 import menu from './menu'
-import request from './request'
+import request from './request-mock'
 import classnames from 'classnames'
 import {color} from './theme'
 import Cookie from 'js-cookie'

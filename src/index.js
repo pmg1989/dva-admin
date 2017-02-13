@@ -1,21 +1,16 @@
 import './index.html'
 import dva from 'dva'
 import { browserHistory } from 'dva/router'
-import createLoading from 'dva-loading'
-import { message } from 'antd'
 
 // 1. Initialize
 const app = dva({
   history: browserHistory,
   onError(error) {
-    message.error(error.message)
+    console.error("app onError -- ", error)
   }
 });
 
-// 2. Plugins
-app.use(createLoading())
-
-// 3. Model
+// 2. Model
 
 app.model(require('./models/app'))
 app.model(require('./models/dashboard'))
@@ -26,8 +21,8 @@ app.model(require('./models/account/role'))
 
 app.model(require('./models/system/modifyPassword'))
 
-// 4. Router
+// 3. Router
 app.router(require('./router'))
 
-// 5. Start
+// 4. Start
 app.start('#root')

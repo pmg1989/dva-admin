@@ -1,18 +1,18 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
-import { createSelector } from 'reselect'
 import RoleList from '../../components/account/role/List'
 import RoleSearch from '../../components/account/role/Search'
 import RoleModal from '../../components/account/role/Modal'
 
-function Role({ location, dispatch, accountRole, loading }) {
+function Role({ location, dispatch, accountRole }) {
   const {
     list,
     pagination,
     currentItem,
     modalVisible,
-    modalType
+    modalType,
+    loading
   } = accountRole
   const {field, keyword} = location.query
 
@@ -34,6 +34,7 @@ function Role({ location, dispatch, accountRole, loading }) {
     dataSource: list,
     loading,
     pagination: pagination,
+    location,
     onPageChange(page) {
       const {query, pathname} = location
       dispatch(routerRedux.push({
@@ -100,15 +101,8 @@ Role.propTypes = {
   dispatch: PropTypes.func
 }
 
-const mapStateToProps = createSelector(
-  state => state.accountRole,
-  state => state.loading.models.accountRole,
-  (accountRole, loading) => {
-    return {
-      accountRole,
-      loading
-    }
-  }
-)
+function mapStateToProps({ accountRole }) {
+  return { accountRole }
+}
 
 export default connect(mapStateToProps)(Role)

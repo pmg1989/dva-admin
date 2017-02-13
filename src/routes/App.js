@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Spin } from 'antd'
 import { connect } from 'dva'
-import { createSelector } from 'reselect'
 import Login from '../components/Login'
 import Header from '../components/layout/Header'
 import Bread from '../components/layout/Bread'
@@ -12,8 +11,8 @@ import { classnames } from '../utils'
 import '../components/layout/common.less'
 
 
-function App ({ children, location, dispatch, app, loading }) {
-  const {login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys} = app
+function App ({ children, location, dispatch, app }) {
+  const {login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading} = app
   const loginProps = {
     loading,
     onOk (data) {
@@ -89,15 +88,8 @@ App.propTypes = {
   darkTheme: PropTypes.bool
 }
 
-const mapStateToProps = createSelector(
-  state => state.app,
-  state => state.loading.models.app,
-  (app, loading) => {
-    return {
-      app,
-      loading
-    }
-  }
-)
+function mapStateToProps({ app }) {
+  return { app }
+}
 
 export default connect(mapStateToProps)(App)

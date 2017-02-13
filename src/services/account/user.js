@@ -7,6 +7,13 @@ export async function query (params) {
   })
 }
 
+export async function get (params) {
+  return request('/api/userItem', {
+    method: 'get',
+    data: params
+  })
+}
+
 export async function create (params) {
   return request('/api/user', {
     method: 'post',

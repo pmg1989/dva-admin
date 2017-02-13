@@ -1,19 +1,19 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
-import { createSelector } from 'reselect'
 import AdminList from '../../components/account/admin/List'
 import AdminSearch from '../../components/account/admin/Search'
 import AdminModal from '../../components/account/admin/Modal'
 
-function Admin({location, dispatch, accountAdmin, loading}) {
+function Admin({location, dispatch, accountAdmin}) {
   const {
     list,
     pagination,
     currentItem,
     modalVisible,
     modalType,
-    roleList
+    roleList,
+    loading
   } = accountAdmin
   const {field, keyword} = location.query
 
@@ -52,9 +52,10 @@ function Admin({location, dispatch, accountAdmin, loading}) {
     },
     onEditItem(item) {
       dispatch({
-        type: !roleList.length ? 'accountAdmin/queryRole' : 'accountAdmin/showModal',
+        type: 'accountAdmin/showModal',
         payload: {
-          modalType: 'create'
+          modalType: 'update',
+          id: item.id
         }
       })
     },
@@ -82,7 +83,7 @@ function Admin({location, dispatch, accountAdmin, loading}) {
     },
     onAdd() {
       dispatch({
-        type: !roleList.length ? 'accountAdmin/queryRole' : 'accountAdmin/showModal',
+        type: 'accountAdmin/showModal',
         payload: {
           modalType: 'create'
         }
@@ -107,15 +108,8 @@ Admin.propTypes = {
   dispatch: PropTypes.func
 }
 
-const mapStateToProps = createSelector(
-  state => state.accountAdmin,
-  state => state.loading.models.accountAdmin,
-  (accountAdmin, loading) => {
-    return {
-      accountAdmin,
-      loading
-    }
-  }
-)
+function mapStateToProps({ accountAdmin }) {
+  return { accountAdmin }
+}
 
 export default connect(mapStateToProps)(Admin)

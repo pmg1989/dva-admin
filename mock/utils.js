@@ -1,3 +1,4 @@
-export function getBody(body) {
-  return JSON.parse(body)
+export function getBody(req) {
+  // console.log(req);
+  return JSON.parse(req.body)
 }

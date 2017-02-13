@@ -34,6 +34,14 @@ let AdminListData = global[dataKey]
 
 module.exports = {
 
+  'GET /api/adminItem' (req, res) {
+    const getItem = qs.parse(req.query)
+    const adminItem = AdminListData.data.find(function (item) {
+      return item.id == +getItem.id
+    })
+    res.json({success: true, data: adminItem})
+  },
+
   'GET /api/admin' (req, res) {
     const page = qs.parse(req.query)
     const pageSize = page.pageSize || 20
@@ -64,7 +72,7 @@ module.exports = {
   },
 
   'POST /api/admin' (req, res) {
-    const newData = getBody(req.body)
+    const newData = getBody(req)
     newData.createTime = Mock.mock('@now')
     newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
@@ -80,8 +88,7 @@ module.exports = {
   },
 
   'DELETE /api/admin' (req, res) {
-    const deleteItem = getBody(req.body)
-
+    const deleteItem = getBody(req)
     AdminListData.data = AdminListData.data.filter(function (item) {
       if (item.id === deleteItem.id) {
         return false
@@ -97,9 +104,9 @@ module.exports = {
   },
 
   'PUT /api/admin' (req, res) {
-    const editItem = getBody(req.body)
+    const editItem = getBody(req)
 
-    const roleListData = global['dva-AccountRoleList'].data
+    const roleListData = global['AccountRoleList'].data
     const roleList = roleListData.map(item => {
       return item.roleName
     })

@@ -1,77 +1,153 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'dva'
-import { Menu, Icon } from 'antd';
-const SubMenu = Menu.SubMenu;
 
-const Sider = React.createClass({
-  getInitialState() {
-    return {
-      current: '1',
-      openKeys: [],
-    };
-  },
-  handleClick(e) {
-    console.log('Clicked: ', e);
-    this.setState({ current: e.key });
-  },
-  onOpenChange(openKeys) {
-    const state = this.state;
-    const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
-    const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1));
-    console.log(latestOpenKey, latestCloseKey);
+import { Table, Button } from 'antd'
+import { TweenOneGroup } from 'rc-tween-one'
 
-    let nextOpenKeys = [];
-    if (latestOpenKey) {
-      nextOpenKeys = this.getAncestorKeys(latestOpenKey).concat(latestOpenKey);
-    }
-    if (latestCloseKey) {
-      nextOpenKeys = this.getAncestorKeys(latestCloseKey);
-    }
-    this.setState({ openKeys: nextOpenKeys });
-  },
-  getAncestorKeys(key) {
-    const map = {
-      sub3: ['sub2'],
+import styles from './Demo.less'
+
+class Demo extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+  };
+
+  static defaultProps = {
+    className: 'table-animate'
+  };
+
+  constructor(props) {
+    super(props);
+    this.columns = [
+      { title: 'Name', dataIndex: 'name', key: 'name' },
+      { title: 'Age', dataIndex: 'age', key: 'age' },
+      { title: 'Address', dataIndex: 'address', key: 'address' },
+      {
+        title: 'Action',
+        dataIndex: '',
+        key: 'x',
+        render: (text, record) => (
+          <span className={`${this.props.className}-delete`} onClick={e => this.onDelete(record.key, e)}>
+          Delete
+        </span>),
+      },
+    ];
+    this.enterAnim = [
+      { opacity: 0, x: 30, backgroundColor: '#fffeee', duration: 0 },
+      {
+        height: 0,
+        duration: 200,
+        type: 'from',
+        delay: 250,
+        ease: 'easeOutQuad',
+        onComplete: this.onEnd,
+      },
+      { opacity: 1, x: 0, duration: 250, ease: 'easeOutQuad' },
+      { delay: 1000, backgroundColor: '#fff' },
+    ];
+    this.leaveAnim = [
+      { duration: 250, opacity: 0 },
+      { height: 0, duration: 200, ease: 'easeOutQuad' },
+    ];
+    this.data = [
+      {
+        key: 1,
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No.1 Lake Park',
+      },
+      {
+        key: 2,
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No.1 Lake Park',
+      },
+      {
+        key: 3,
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No.1 Lake Park',
+      },
+      {
+        key: 4,
+        name: 'Jim Red',
+        age: 18,
+        address: 'London No.1 Lake Park',
+      },
+    ];
+    this.currentPage = 1;
+    this.newPage = 1;
+    this.state = {
+      data: this.data,
     };
-    return map[key] || [];
-  },
+  }
+
+  onEnd = (e) => {
+    const dom = e.target;
+    dom.style.height = 'auto';
+  }
+
+  onAdd = () => {
+    const data = this.state.data;
+    const i = Math.round(Math.random() * (this.data.length - 1));
+    data.unshift({
+      key: Date.now(),
+      name: this.data[i].name,
+      age: this.data[i].age,
+      address: this.data[i].address,
+    });
+    this.setState({
+      data,
+    });
+  };
+
+  onDelete = (key, e) => {
+    e.preventDefault();
+    const data = this.state.data.filter(item => item.key !== key);
+    this.setState({ data });
+  }
+
+  getBodyWrapper = (body) => {
+    // 切换分页去除动画;
+    if (this.currentPage !== this.newPage) {
+      this.currentPage = this.newPage;
+      return body;
+    }
+    return (<TweenOneGroup
+      component="tbody"
+      className={body.props.className}
+      enter={this.enterAnim}
+      leave={this.leaveAnim}
+      appear={false}
+    >
+      {body.props.children}
+    </TweenOneGroup>);
+  }
+
+  pageChange = (pagination) => {
+    this.newPage = pagination.current;
+  };
+
   render() {
-    return (
-      <Menu
-        mode="inline"
-        openKeys={this.state.openKeys}
-        selectedKeys={[this.state.current]}
-        style={{ width: 240 }}
-        onOpenChange={this.onOpenChange}
-        onClick={this.handleClick}
-      >
-        <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
-          <Menu.Item key="1">Option 1</Menu.Item>
-          <Menu.Item key="2">Option 2</Menu.Item>
-          <Menu.Item key="3">Option 3</Menu.Item>
-          <Menu.Item key="4">Option 4</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>Navigation Two</span></span>}>
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="7">Option 7</Menu.Item>
-            <Menu.Item key="8">Option 8</Menu.Item>
-          </SubMenu>
-        </SubMenu>
-        <SubMenu key="sub4" title={<span><Icon type="setting" /><span>Navigation Three</span></span>}>
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-          <Menu.Item key="11">Option 11</Menu.Item>
-          <Menu.Item key="12">Option 12</Menu.Item>
-        </SubMenu>
-      </Menu>
-    );
-  },
-});
-
-function mapStateToProps({  }) {
-  return {  }
+    return (<div>
+      <div className='table-animate-wrapper'>
+        <div className='table-animate'>
+          <div className='table-animate-table-wrapper'>
+            <div className='table-animate-action-bar'>
+              <Button type="primary" onClick={this.onAdd}>Add</Button>
+            </div>
+            <Table
+              columns={this.columns}
+              scroll={{ x: 600 }}
+              pagination={{ pageSize: 4 }}
+              dataSource={this.state.data}
+              className='table-animate-table'
+              getBodyWrapper={this.getBodyWrapper}
+              onChange={this.pageChange}
+            />
+          </div>
+        </div>
+      </div>
+    </div>)
+  }
 }
 
-export default connect(mapStateToProps)(Sider)
+export default Demo

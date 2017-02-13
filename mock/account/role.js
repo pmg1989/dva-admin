@@ -51,7 +51,7 @@ module.exports = {
   },
 
   'POST /api/role' (req, res) {
-    const newData = getBody(req.body)
+    const newData = getBody(req)
 
     newData.id = roleListData.data.length + 1
     roleListData.data.push(newData)
@@ -65,7 +65,7 @@ module.exports = {
   },
 
   'DELETE /api/role' (req, res) {
-    const deleteItem = getBody(req.body)
+    const deleteItem = getBody(req)
 
     roleListData.data = roleListData.data.filter(function (item) {
       return item.id !== deleteItem.id
@@ -79,7 +79,7 @@ module.exports = {
   },
 
   'PUT /api/role' (req, res) {
-    const editItem = getBody(req.body)
+    const editItem = getBody(req)
 
     roleListData.data = roleListData.data.map(function (item) {
       if (item.id === editItem.id) {

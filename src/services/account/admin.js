@@ -7,6 +7,13 @@ export async function query (params) {
   })
 }
 
+export async function get (params) {
+  return request('/api/adminItem', {
+    method: 'get',
+    data: params
+  })
+}
+
 export async function create (params) {
   return request('/api/admin', {
     method: 'post',

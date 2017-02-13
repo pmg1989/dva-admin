@@ -3,14 +3,14 @@ const Mock = require('mockjs')
 import mockStorge from '../../src/utils/mockStorge'
 import { getBody } from '../utils'
 
-let dataKey = 'dva-AdminUsers'
+let dataKey = 'AdminUsers'
 
 let adminListData = global[dataKey]
 
 module.exports = {
 
   'PUT /api/modifyPassword' (req, res) {
-    const editItem = getBody(req.body)
+    const editItem = getBody(req)
     let flag = false
 
     adminListData = adminListData.map(function (item) {

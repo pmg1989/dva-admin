@@ -7,8 +7,12 @@ message.config({
   top: 50
 })
 
-axios.defaults.baseURL = 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2'
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+const isMock = newband.admin.isMock
+
+if(!isMock){
+  axios.defaults.baseURL = 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2'
+  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+}
 
 export default function request(url, options) {
   switch (options.method.toLowerCase()) {
@@ -37,13 +41,23 @@ function checkStatus(res) {
 
 function handelData(res) {
   const data = res.data
+  if(isMock) {
+    if(data && data.msg && !data.success) {
+      message.warning(data.msg)
+    } else if(data && data.msg && data.success) {
+      message.success(data.msg)
+    }
+    // console.log(data);
+    return data
+  }
+
   if(data && data.errors) {
     message.warning(data.errors)
-    return null
   } else if(data && data.info) {
     message.success(data.info)
   }
-  return data
+  // console.log({ ...data, success: data.message == "Success" });
+  return { ...data, success: data.message == "Success" }
 }
 
 function handleError(error) {
@@ -58,14 +72,14 @@ export function get(url, params) {
 }
 
 export function post(url, data) {
-  return axios.post(url, stringify(data))
+  return axios.post(url, isMock ? parse(data) : stringify(data))
   .then(checkStatus)
   .then(handelData)
   .catch(handleError)
 }
 
 export function put(url, data) {
-  return axios.put(url,  stringify(data))
+  return axios.put(url,  isMock ? parse(data) : stringify(data))
   .then(checkStatus)
   .then(handelData)
   .catch(handleError)

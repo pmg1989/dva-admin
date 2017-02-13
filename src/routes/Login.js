@@ -5,9 +5,9 @@ import styles from '../components/layout/main.less'
 import { Spin } from 'antd'
 import '../components/layout/common.less'
 
-function LoginApp ({ dispatch, loading=false }) {
+function LoginApp ({ dispatch, loading }) {
   const loginProps = {
-    loading: loading,
+    loading,
     onOk (data) {
       dispatch({type: 'app/login', payload: data})
     }
@@ -22,8 +22,8 @@ LoginApp.propTypes = {
   loading: PropTypes.bool
 }
 
-function mapStateToProps({ loading }) {
-  return { loading: loading.models.app }
+function mapStateToProps({ app }) {
+  return { loading: app.loading }
 }
 
 export default connect(mapStateToProps)(LoginApp)

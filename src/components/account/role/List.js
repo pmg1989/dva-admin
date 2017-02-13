@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm, Icon, Tooltip  } from 'antd'
+import TableBodyWrapper from '../../common/TableBodyWrapper'
+import styles from './List.less'
 
 function List ({
   loading,
   dataSource,
   pagination,
+  location,
   onPageChange,
   onDeleteItem,
   onEditItem
@@ -25,7 +28,7 @@ function List ({
     }, {
       title: '操作',
       key: 'operation',
-      width: 100,
+      // width: 100,
       render: (text, record) => (
         <p>
           <Tooltip placement="bottom" title='编辑'>
@@ -44,20 +47,27 @@ function List ({
     }
   ]
 
+  const getBodyWrapperProps = {
+    page: location.query.page,
+    current: pagination.current
+  }
+
+  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
+
   return (
-    <div>
-      <Table
-        bordered
-        scroll={{ x: 1000 }}
-        columns={columns}
-        dataSource={dataSource}
-        loading={loading}
-        onChange={onPageChange}
-        pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-        simple
-        rowKey={record => record.id}
-      />
-    </div>
+    <Table
+      className={styles.table}
+      bordered
+      scroll={{ x: 1000 }}
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      onChange={onPageChange}
+      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
+      simple
+      rowKey={record => record.id}
+      getBodyWrapper={getBodyWrapper}
+    />
   )
 }
 

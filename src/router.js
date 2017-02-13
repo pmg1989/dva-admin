@@ -15,7 +15,7 @@ export default function ({history, app}) {
 
   function redirectToDashboard(nextState, replace) {
     if (isLogin()) {
-      replace('/dashboard')
+      replace('/')
     }
   }
 

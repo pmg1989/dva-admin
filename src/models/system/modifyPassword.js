@@ -4,6 +4,7 @@ import { update } from '../../services/system/modifyPassword'
 export default {
   namespace: 'systemModifyPassword',
   state: {
+    loading: false
   },
 
   subscriptions: {
@@ -12,11 +13,19 @@ export default {
 
   effects: {
     *update ({ payload }, { select, call, put }) {
-      const data = yield call(update, parse(payload))
+      yield put({ type: 'showLoading' })
+      yield call(update, parse(payload))
+      yield put({ type: 'hideLoading' })
     }
   },
 
   reducers: {
+    showLoading (state) {
+      return { ...state, loading: true }
+    },
+    hideLoading (state) {
+      return { ...state, loading: false }
+    }
   }
 
 }

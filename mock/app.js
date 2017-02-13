@@ -10,12 +10,25 @@ let dataKey = mockStorge('AdminUsers', [
   {
     username: '胡彦斌',
     password: '123456'
+  },
+  {
+    username: '13918909224',
+    password: '123456'
   }
 ])
 
 module.exports = {
-  'POST /api/login' (req, res) {
-    const userItem = getBody(req.body)
+  'POST /oauth/token' (req, res) {
+    const userItem = getBody(req)
+    const response = {
+      success: true,
+      access_token: 'i am a test access_token'
+    }
+    res.json(response)
+  },
+
+  'POST /admin/check' (req, res) {
+    const userItem = getBody(req)
     const response = {
       success: false,
       msg: ''

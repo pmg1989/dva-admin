@@ -1,10 +1,9 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'dva'
-import { createSelector } from 'reselect'
 import ModifyForm from '../../components/system/ModifyPassword/ModifyForm'
 
-function ModifyPassword({ dispatch, systemModifyPassword, loading=false }) {
-
+function ModifyPassword({ dispatch, systemModifyPassword }) {
+  const { loading } = systemModifyPassword
   const modifyFormProps = {
     loading,
     onOk(data) {
@@ -24,15 +23,8 @@ ModifyPassword.propTypes = {
   dispatch: PropTypes.func
 }
 
-const mapStateToProps = createSelector(
-  state => state.systemModifyPassword,
-  state => state.loading.models.systemModifyPassword,
-  (systemModifyPassword, loading) => {
-    return {
-      systemModifyPassword,
-      loading
-    }
-  }
-)
+function mapStateToProps({ systemModifyPassword }) {
+  return { systemModifyPassword }
+}
 
 export default connect(mapStateToProps)(ModifyPassword)
