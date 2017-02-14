@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
 import { stringify, parse } from 'qs'
+import { baseURL } from './config'
 
 //message 全局配置
 message.config({
@@ -10,7 +11,7 @@ message.config({
 const isMock = newband.admin.isMock
 
 if(!isMock){
-  axios.defaults.baseURL = 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2'
+  axios.defaults.baseURL = baseURL
   axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
 }
 

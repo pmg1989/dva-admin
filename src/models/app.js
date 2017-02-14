@@ -1,12 +1,12 @@
 import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
-import { isLogin, userName } from '../utils'
+import { isLogin, userName, setLoginIn, setLoginOut } from '../utils'
 import { getToken, login, userInfo, logout } from '../services/app'
 
 export default {
   namespace : 'app',
   state : {
-    login: false,//!!isLogin(),
+    login: !!isLogin(),
     loading: false,
     user: {
       name: userName || ''
@@ -22,9 +22,9 @@ export default {
       window.onresize = function() {
         dispatch({type: 'changeNavbar'})
       }
-      if(isLogin()){
-        dispatch({type: 'queryUser'})
-      }
+      // if(isLogin()){
+      //   dispatch({type: 'queryUser'})
+      // }
     }
   },
   effects : {
@@ -37,6 +37,7 @@ export default {
           const params = { access_token: dataToken.access_token, mobile: payload.username, username: payload.username, password: payload.password }
           const data = yield call(login, params)
           if (data.success) {
+            yield setLoginIn(payload.username)
             yield put({
               type: 'loginSuccess',
               payload: {
@@ -77,6 +78,7 @@ export default {
         yield put({ type: 'showLoading' })
         const data = yield call(logout, parse(payload))
         if (data.success) {
+          //yield setLoginOut()
           yield put({type: 'logoutSuccess'})
           yield put(routerRedux.push({
             pathname: '/login',

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, Modal, Icon } from 'antd'
+import UserPower from './UserPower'
 
 const FormItem = Form.Item
 
@@ -16,6 +17,7 @@ const modal = ({
   visible,
   type,
   item = {},
+  currentPowerLst,
   onOk,
   onCancel,
   form: {
@@ -41,7 +43,8 @@ const modal = ({
     visible,
     onOk: handleOk,
     onCancel,
-    wrapClassName: 'vertical-center-modal'
+    wrapClassName: 'vertical-center-modal',
+    width: 1050
   }
 
   return (
@@ -69,6 +72,10 @@ const modal = ({
             ]
           })(<Input disabled/>)}
         </FormItem>
+        <FormItem >
+          <UserPower powerList={currentPowerLst}/>
+        </FormItem>
+
       </Form>
     </Modal>
   )

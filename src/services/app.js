@@ -4,9 +4,9 @@ export async function getToken (params) {
   return request('/oauth/token', {
     method: 'post',
     data: {
-      client_id: '1_g8jkp9mm6mg4c4goo0gokc0o084004k8s4o0oks0gcs0w0cw4',
-      client_secret: 'sga0vq93bnkw4w0880kwgo0cc0ok4ok8ogogwkg4wosk00w0w',
-      grant_type: 'client_credentials'
+      client_id: "7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck",
+      client_secret: "4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc",
+      grant_type: "client_credentials"
     }
   })
 }

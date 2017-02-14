@@ -1,6 +1,6 @@
 import { parse } from 'qs'
 import { message } from 'antd'
-import { create, remove, update, query } from '../../services/account/role'
+import { create, remove, update, query, queryPowerList } from '../../services/account/role'
 
 export default {
   namespace: 'accountRole',
@@ -8,6 +8,7 @@ export default {
     list: [],
     loading: false,
     currentItem: {},
+    currentPowerLst: {},
     modalVisible: false,
     modalType: 'create',
     pagination: {
@@ -102,7 +103,24 @@ export default {
         message.success("角色修改成功！")
       }
       yield put({ type: 'hideLoading' })
-    }
+    },
+    *showModal ({ payload }, { call, put }) {
+      const { modalType, currentItem } = payload
+      let newData = { modalType, currentPowerLst: {} }
+
+      if(!!currentItem) {
+        yield put({ type: 'showLoading' })
+
+        const data = yield call(queryPowerList, { id: currentItem.id })
+        if(data.success) {
+          newData.currentPowerLst = data.data
+        }
+        newData.currentItem = currentItem
+        newData.loading = false
+      }
+
+      yield put({ type: 'showModalSuccess', payload: newData })
+    },
   },
 
   reducers: {
@@ -115,7 +133,7 @@ export default {
     querySuccess (state, action) {
       return { ...state, ...action.payload }
     },
-    showModal (state, action) {
+    showModalSuccess (state, action) {
       return { ...state, ...action.payload, modalVisible: true }
     },
     hideModal (state) {

@@ -17,7 +17,40 @@ let dataKey = mockStorge('AccountRoleList', Mock.mock({
   }
 }))
 
+let dataKeyPL = mockStorge('AccountPowerList', Mock.mock({
+  data: {
+    1: {
+      1: [0],
+      2: [0],
+      3: [0, 1, 2, 3, 4],
+      4: [0, 1, 2, 3, 4],
+      5: [0, 1, 2, 3, 4],
+      6: [0],
+      7: [0, 2]
+    },
+    2: {
+      1: [0],
+      2: [0],
+      5: [0, 1, 2, 3, 4],
+      6: [0],
+      7: [1, 2]
+    },
+    3: {
+      1: [0],
+      2: [0],
+      6: [0],
+      7: [0, 2]
+    }
+  }
+}))
+
 let roleListData = global[dataKey]
+let powerList = global[dataKeyPL]
+
+const getPowerList = (id) => {
+  const powerListData = powerList.data
+  return powerListData[id] || powerListData[3]
+}
 
 module.exports = {
 
@@ -90,6 +123,15 @@ module.exports = {
 
     global[dataKey] = roleListData
     res.json({success: true, data: roleListData.data, page: roleListData.page})
+  },
+
+  'GET /api/powerList' (req, res) {
+    const query = qs.parse(req.query)
+    const id = +query.id
+    // const roleListData = global[dataKey].data
+    // const currentItem = roleListData.find((item) => (item.id === id))
+    const powerList = getPowerList(id)
+    res.json({success: true, data: powerList})
   }
 
 }

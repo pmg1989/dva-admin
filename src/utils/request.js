@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { message } from 'antd'
 import { stringify, parse } from 'qs'
+import { baseURL } from './config'
 
 //message 全局配置
 message.config({
   top: 50
 })
 
-axios.defaults.baseURL = 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2'
+axios.defaults.baseURL = baseURL
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
 
 export default function request(url, options) {
@@ -37,17 +38,24 @@ function checkStatus(res) {
 
 function handelData(res) {
   const data = res.data
+  // if(data && data.errors) {
+  //   message.warning(data.errors)
+  //   return null
+  // } else if(data && data.info) {
+  //   message.success(data.info)
+  // }
+  // return data
   if(data && data.errors) {
     message.warning(data.errors)
-    return null
   } else if(data && data.info) {
     message.success(data.info)
   }
-  return data
+  // console.log({ ...data.data, success: data.message == "Success" });
+  return { ...data.data, success: data.message == "Success" }
 }
 
 function handleError(error) {
-  message.error(error.response.data.errors, 5)
+  message.error("ajax errors: " + error.response.data.errors, 5)
 }
 
 export function get(url, params) {

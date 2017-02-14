@@ -5,15 +5,18 @@ import { getBody } from './utils'
 let dataKey = mockStorge('AdminUsers', [
   {
     username: 'guest',
-    password: 'guest'
+    password: 'guest',
+    roleId: 3
   },
   {
     username: '胡彦斌',
-    password: '123456'
+    password: '123456',
+    roleId: 2,
   },
   {
     username: '13918909224',
-    password: '123456'
+    password: '123456',
+    roleId: 1
   }
 ])
 
@@ -42,6 +45,8 @@ module.exports = {
         now.setDate(now.getDate() + 1)
         Cookie.set('user_session', now.getTime(), { path: '/' })
         Cookie.set('user_name', userItem.username, { path: '/' })
+        const power = global['AccountPowerList'].data[d[0].roleId]
+        sessionStorage.setItem('user_power', JSON.stringify(power))
         response.msg = '登录成功'
         response.success = true
       } else {

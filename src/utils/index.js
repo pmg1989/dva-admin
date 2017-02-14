@@ -44,11 +44,31 @@ Date.prototype.format = function (format) {
   return format
 }
 
+function equalSet(a, b) {
+    const as = new Set(a)
+    const bs = new Set(b)
+    if (as.size !== bs.size) return false
+    for (var a of as) if (!bs.has(a)) return false
+    return true
+}
+
 const isLogin = () => {
   return Cookie.get('user_session') && Cookie.get('user_session') > new Date().getTime()
 }
 
 const userName = Cookie.get('user_name')
+
+const setLoginIn = (userName) => {
+  const now = new Date()
+  now.setDate(now.getDate() + 1)
+  Cookie.set('user_session', now.getTime(), { path: '/' })
+  Cookie.set('user_name', userName, { path: '/' })
+}
+
+const setLoginOut = () => {
+  Cookie.remove('user_session', { path: '/' })
+  Cookie.remove('user_name', { path: '/' })
+}
 
 module.exports = {
   config,
@@ -56,6 +76,9 @@ module.exports = {
   request,
   color,
   classnames,
+  equalSet,
   isLogin,
-  userName
+  userName,
+  setLoginIn,
+  setLoginOut
 }

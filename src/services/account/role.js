@@ -27,3 +27,10 @@ export async function update (params) {
     data: params
   })
 }
+
+export async function queryPowerList (params) {
+  return request('/api/powerList', {
+    method: 'get',
+    data: params
+  })
+}

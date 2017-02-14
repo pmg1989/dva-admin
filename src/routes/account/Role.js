@@ -12,7 +12,8 @@ function Role({ location, dispatch, accountRole }) {
     currentItem,
     modalVisible,
     modalType,
-    loading
+    loading,
+    currentPowerLst
   } = accountRole
   const {field, keyword} = location.query
 
@@ -22,6 +23,7 @@ function Role({ location, dispatch, accountRole }) {
       : currentItem,
     type: modalType,
     visible: modalVisible,
+    currentPowerLst,
     onOk(data) {
       dispatch({type: `accountRole/${modalType}`, payload: data})
     },

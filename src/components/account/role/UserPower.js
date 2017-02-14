@@ -1,11 +1,11 @@
 import React, { PropTypes, Component } from 'react'
 import { Table, Icon, Checkbox } from 'antd'
-import { menu, equalSet } from '../../utils'
+import { menu, equalSet } from '../../../utils'
 
 const CheckboxGroup = Checkbox.Group
 
 const getPowerText = (item) => {
-  const powerName = ["菜单查看", "内容查看", "新增", "修改", "删除"]
+  const powerName = ["菜单查看", "列表查看", "新增", "修改", "删除"]
   const optionsPowerName = item.power.map((cur) => {
     return { label: powerName[cur], value: cur }
   })
@@ -15,16 +15,12 @@ const getPowerText = (item) => {
 
 class Demo extends Component {
 
+  static propTypes = {
+    powerList: PropTypes.object.isRequired
+  }
+
   state = {
-    userPower: {
-      1: [0],
-      2: [0],
-      3: [0, 1, 2, 3, 4],
-      4: [0, 1, 2, 3, 4],
-      5: [0, 1, 2, 3, 4],
-      6: [0],
-      7: [0, 2]
-    }
+    userPower: this.props.powerList
   }
 
   onChangePower(checkedValues, item){
@@ -34,7 +30,7 @@ class Demo extends Component {
 
   render() {
     const columns = [{
-      title: '菜单项',
+      title: '菜单选项',
       dataIndex: 'name',
       width: '30%',
       render: (text, record) => record.icon ?
@@ -43,8 +39,8 @@ class Demo extends Component {
              </span> :
              text
     }, {
-      title: '操作',
-      width: '70%',
+      title: '操作权限',
+      width: '60%',
       render: (text, record) => (
         <CheckboxGroup ref={record.key} options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={(checkedValues) => this.onChangePower(checkedValues, record)}/>
       )
@@ -74,7 +70,7 @@ class Demo extends Component {
         }
       },
       getCheckboxProps: record => ({
-        disabled: false,
+        // disabled: false,
         defaultChecked: equalSet(record.power, this.state.userPower[record.id])
       })
     }
@@ -85,7 +81,9 @@ class Demo extends Component {
         dataSource={menu}
         bordered
         scroll={{ x: 1000 }}
+        pagination={false}
         simple
+        size="small"
         defaultExpandAllRows
         rowSelection={rowSelection}
         rowKey={record => record.key}
