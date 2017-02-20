@@ -67,7 +67,8 @@ class ModifyForm extends Component {
       loading,
       form: {
         getFieldDecorator
-      }
+      },
+      updatePower
     } = this.props
 
     return (
@@ -107,7 +108,7 @@ class ModifyForm extends Component {
           })(<Input placeholder="请输入新密码确认" type="password" />)}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit" size="large" className={styles.button} loading={loading}>确认修改</Button>
+            <Button type="primary" htmlType="submit" size="large" className={styles.button} loading={loading} disabled={!updatePower}>确认修改</Button>
         </FormItem>
       </Form>
     )

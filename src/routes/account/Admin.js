@@ -4,8 +4,10 @@ import {connect} from 'dva'
 import AdminList from '../../components/account/admin/List'
 import AdminSearch from '../../components/account/admin/Search'
 import AdminModal from '../../components/account/admin/Modal'
+import { checkPower } from '../../utils'
+import { ADD, UPDATE, DELETE } from '../../constants/options'
 
-function Admin({location, dispatch, accountAdmin}) {
+function Admin({location, curPowers, dispatch, accountAdmin}) {
   const {
     list,
     pagination,
@@ -16,6 +18,10 @@ function Admin({location, dispatch, accountAdmin}) {
     loading
   } = accountAdmin
   const {field, keyword} = location.query
+
+  const addPower = checkPower(ADD, curPowers)
+  const updatePower = checkPower(UPDATE, curPowers)
+  const deletePower = checkPower(DELETE, curPowers)
 
   const adminModalProps = {
     item: modalType === 'create'
@@ -36,6 +42,8 @@ function Admin({location, dispatch, accountAdmin}) {
     dataSource: list,
     loading,
     pagination: pagination,
+    updatePower,
+    deletePower,
     onPageChange(page) {
       const {query, pathname} = location
       dispatch(routerRedux.push({
@@ -70,6 +78,7 @@ function Admin({location, dispatch, accountAdmin}) {
   const adminSearchProps = {
     field,
     keyword,
+    addPower,
     onSearch(fieldsValue) {
       !!fieldsValue.keyword.length
       ? dispatch(routerRedux.push({

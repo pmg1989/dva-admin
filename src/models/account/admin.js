@@ -1,7 +1,9 @@
 import { parse } from 'qs'
 import { message } from 'antd'
+import { routerRedux } from 'dva/router'
 import { create, remove, update, query, get } from '../../services/account/admin'
 import { query as queryRole } from '../../services/account/role'
+import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountAdmin',
@@ -22,11 +24,15 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === '/account/admin' || location.pathname === '/account/' || location.pathname === '/account') {
-          dispatch({
-            type: 'query',
-            payload: location.query
-          })
+        const pathname = location.pathname
+        if (pathname === '/account/admin') {
+          const curPowers = getCurPowers(pathname)
+          if(curPowers) {
+            dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
+            dispatch({ type: 'query', payload: location.query })
+          } else {
+            dispatch(routerRedux.push({ pathname: '/no-power' }))
+          }
         }
       })
     }

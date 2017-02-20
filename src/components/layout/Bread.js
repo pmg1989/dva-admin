@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Breadcrumb, Icon } from 'antd'
+import { Link } from 'dva/router'
 import styles from './main.less'
 import { menu } from '../../utils'
 
@@ -13,8 +14,8 @@ const getPathSet = function (menuArray, parentPath) {
       icon: item.icon || '',
       clickable: item.clickable === undefined
     }
-    if (item.child) {
-      getPathSet(item.child, parentPath + item.key + '/')
+    if (item.children) {
+      getPathSet(item.children, parentPath + item.key + '/')
     }
   })
 }
@@ -46,8 +47,8 @@ function Bread ({ location }) {
   return (
     <div className={styles.bread}>
       <Breadcrumb>
-        <Breadcrumb.Item href='/'><Icon type='home' />
-          <span>主页</span>
+        <Breadcrumb.Item>
+          <Link to='/'><Icon type='home' /><span>主页</span></Link>
         </Breadcrumb.Item>
         {breads}
       </Breadcrumb>

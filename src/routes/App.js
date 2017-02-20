@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import { Spin } from 'antd'
 import { connect } from 'dva'
+import { routerRedux } from 'dva/router'
+import classnames from 'classnames'
 import Login from '../components/Login'
 import Header from '../components/layout/Header'
 import Bread from '../components/layout/Bread'
 import Footer from '../components/layout/Footer'
 import Sider from '../components/layout/Sider'
 import styles from '../components/layout/main.less'
-import { classnames } from '../utils'
 import '../components/layout/common.less'
-
+import { getCurPowers } from '../utils'
 
 function App ({ children, location, dispatch, app }) {
-  const {login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading} = app
+  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading, userPower, curPowers } = app
+
   const loginProps = {
     loading,
     onOk (data) {
@@ -27,6 +29,7 @@ function App ({ children, location, dispatch, app }) {
     isNavbar,
     menuPopoverVisible,
     navOpenKeys,
+    userPower,
     switchMenuPopover () {
       dispatch({type: 'app/switchMenuPopver'})
     },
@@ -47,6 +50,7 @@ function App ({ children, location, dispatch, app }) {
     darkTheme,
     location,
     navOpenKeys,
+    userPower,
     changeTheme () {
       dispatch({type: 'app/changeTheme'})
     },
@@ -67,7 +71,7 @@ function App ({ children, location, dispatch, app }) {
             <Bread location={location} />
             <div className={styles.container}>
               <div className={styles.content}>
-                {children}
+                { children && React.cloneElement(children, { curPowers })}
               </div>
             </div>
             <Footer />
@@ -78,7 +82,7 @@ function App ({ children, location, dispatch, app }) {
 }
 
 App.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.bool,

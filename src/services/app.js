@@ -1,13 +1,14 @@
 import { request } from '../utils'
 
 export async function getToken (params) {
+  const data = {
+    client_id: newband.app.admin.CLIENT_ID,
+    client_secret: newband.app.admin.CLIENT_SECRET,
+    grant_type: newband.app.admin.GRANT_TYPE
+  }
   return request('/oauth/token', {
     method: 'post',
-    data: {
-      client_id: "7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck",
-      client_secret: "4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc",
-      grant_type: "client_credentials"
-    }
+    data: data
   })
 }
 

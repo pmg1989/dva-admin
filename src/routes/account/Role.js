@@ -4,8 +4,10 @@ import {connect} from 'dva'
 import RoleList from '../../components/account/role/List'
 import RoleSearch from '../../components/account/role/Search'
 import RoleModal from '../../components/account/role/Modal'
+import { checkPower } from '../../utils'
+import { ADD, UPDATE, DELETE } from '../../constants/options'
 
-function Role({ location, dispatch, accountRole }) {
+function Role({ location, curPowers, dispatch, accountRole }) {
   const {
     list,
     pagination,
@@ -13,9 +15,13 @@ function Role({ location, dispatch, accountRole }) {
     modalVisible,
     modalType,
     loading,
-    currentPowerLst
+    currentPowerList
   } = accountRole
   const {field, keyword} = location.query
+
+  const addPower = checkPower(ADD, curPowers)
+  const updatePower = checkPower(UPDATE, curPowers)
+  const deletePower = checkPower(DELETE, curPowers)
 
   const roleModalProps = {
     item: modalType === 'create'
@@ -23,7 +29,7 @@ function Role({ location, dispatch, accountRole }) {
       : currentItem,
     type: modalType,
     visible: modalVisible,
-    currentPowerLst,
+    currentPowerList,
     onOk(data) {
       dispatch({type: `accountRole/${modalType}`, payload: data})
     },
@@ -37,6 +43,8 @@ function Role({ location, dispatch, accountRole }) {
     loading,
     pagination: pagination,
     location,
+    updatePower,
+    deletePower,
     onPageChange(page) {
       const {query, pathname} = location
       dispatch(routerRedux.push({
@@ -65,6 +73,7 @@ function Role({ location, dispatch, accountRole }) {
   const roleSearchProps = {
     field,
     keyword,
+    addPower,
     onSearch(fieldsValue) {
       !!fieldsValue.keyword.length
         ? dispatch(routerRedux.push({

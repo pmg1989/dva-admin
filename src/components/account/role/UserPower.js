@@ -1,11 +1,20 @@
 import React, { PropTypes, Component } from 'react'
 import { Table, Icon, Checkbox } from 'antd'
 import { menu, equalSet } from '../../../utils'
+import { MENU, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
 
 const CheckboxGroup = Checkbox.Group
 
 const getPowerText = (item) => {
-  const powerName = ["菜单查看", "列表查看", "新增", "修改", "删除"]
+  const powerName = {
+    [MENU]: "查看菜单",
+    [DETAIL]: "查看详情",
+    [ADD]: "新增",
+    [UPDATE]: "修改",
+    [DELETE]: "删除",
+    [CHECK]: "审核",
+    [UPLOAD]: "上传"
+  }
   const optionsPowerName = item.power.map((cur) => {
     return { label: powerName[cur], value: cur }
   })
@@ -42,7 +51,7 @@ class Demo extends Component {
       title: '操作权限',
       width: '60%',
       render: (text, record) => (
-        <CheckboxGroup ref={record.key} options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={(checkedValues) => this.onChangePower(checkedValues, record)}/>
+        <CheckboxGroup options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={(checkedValues) => this.onChangePower(checkedValues, record)}/>
       )
     }]
 

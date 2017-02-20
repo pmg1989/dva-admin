@@ -5,6 +5,7 @@ import SearchGroup from '../../common/Search'
 const Search = ({
   field,
   keyword,
+  addPower,
   onSearch,
   onAdd,
   form: {
@@ -18,7 +19,7 @@ const Search = ({
     keyword,
     size: 'large',
     select: true,
-    selectOptions: [{ value: 'name', name: '姓名' }, { value: 'nickName', name: '昵称' }, { value: 'phone', name: '手机号' }, { value: 'email', name: '邮箱' }],
+    selectOptions: [{ value: 'name', name: '用户名' }, { value: 'mobile', name: '手机号' }, { value: 'email', name: '邮箱' }],
     selectProps: {
       defaultValue: field || 'name'
     },
@@ -32,9 +33,10 @@ const Search = ({
       <Col lg={8} md={12} sm={16} xs={24} style={{marginBottom: 16}}>
         <SearchGroup {...searchGroupProps} />
       </Col>
+      {addPower &&
       <Col lg={{offset: 8, span: 8}} md={12} sm={8} xs={24} style={{marginBottom: 16, textAlign: 'right'}}>
         <Button size='large' type='ghost' onClick={onAdd}><Icon type="plus-circle-o" />添加</Button>
-      </Col>
+      </Col>}
     </Row>
   )
 }

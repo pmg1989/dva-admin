@@ -20,26 +20,27 @@ let dataKey = mockStorge('AccountRoleList', Mock.mock({
 let dataKeyPL = mockStorge('AccountPowerList', Mock.mock({
   data: {
     1: {
-      1: [0],
-      2: [0],
-      3: [0, 1, 2, 3, 4],
-      4: [0, 1, 2, 3, 4],
-      5: [0, 1, 2, 3, 4],
-      6: [0],
-      7: [0, 2]
+      1: [1],
+      2: [1],
+      3: [1, 2, 3, 4, 5],
+      4: [1, 2, 3, 4, 5],
+      5: [1, 2, 3, 4, 5],
+      6: [1],
+      7: [1, 4]
     },
     2: {
-      1: [0],
-      2: [0],
-      5: [0, 1, 2, 3, 4],
-      6: [0],
-      7: [1, 2]
+      1: [1],
+      2: [1],
+      3: [1],
+      4: [1, 3, 4],
+      5: [1, 2, 3, 4, 5],
+      6: [1],
+      7: [1, 4]
     },
     3: {
-      1: [0],
-      2: [0],
-      6: [0],
-      7: [0, 2]
+      1: [1],
+      6: [1],
+      7: [1, 4]
     }
   }
 }))
@@ -120,6 +121,9 @@ module.exports = {
       }
       return item
     })
+
+    global[dataKeyPL].data[editItem.id] = editItem.currentPowerList
+    // global[dataKeyPL] = global[dataKeyPL]
 
     global[dataKey] = roleListData
     res.json({success: true, data: roleListData.data, page: roleListData.page})

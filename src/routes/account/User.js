@@ -1,13 +1,20 @@
 import React, { PropTypes } from 'react'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
-import UserList from '../../components/account/user/List2'
+import UserList from '../../components/account/user/List'
 import UserSearch from '../../components/account/user/Search'
 import UserModal from '../../components/account/user/Modal'
+import { checkPower } from '../../utils'
+import { ADD, UPDATE, DELETE } from '../../constants/options'
 
-function User ({ location, dispatch, accountUser }) {
+function User ({ location, curPowers, dispatch, accountUser }) {
   const { list, pagination, currentItem, modalVisible, modalType, loading } = accountUser
   const { field, keyword } = location.query
+
+  const addPower = checkPower(ADD, curPowers)
+  const updatePower = checkPower(UPDATE, curPowers)
+  const deletePower = checkPower(DELETE, curPowers)
+
   const userModalProps = {
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
@@ -30,13 +37,15 @@ function User ({ location, dispatch, accountUser }) {
     loading,
     pagination: pagination,
     location,
+    updatePower,
+    deletePower,
     onPageChange (page) {
       const { query, pathname } = location
       dispatch(routerRedux.push({
         pathname: pathname,
         query: {
           ...query,
-          page: page.current,
+          current: page.current,
           pageSize: page.pageSize
         }
       }))
@@ -67,6 +76,7 @@ function User ({ location, dispatch, accountUser }) {
   const userSearchProps = {
     field,
     keyword,
+    addPower,
     onSearch (fieldsValue) {
       !!fieldsValue.keyword.length ?
       dispatch(routerRedux.push({

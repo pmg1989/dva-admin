@@ -1,6 +1,6 @@
-const Cookie = require('js-cookie')
 import mockStorge from '../src/utils/mockStorge'
 import { getBody } from './utils'
+import Cookie from '../src/utils/cookie'
 
 let dataKey = mockStorge('AdminUsers', [
   {
@@ -11,12 +11,12 @@ let dataKey = mockStorge('AdminUsers', [
   {
     username: '胡彦斌',
     password: '123456',
-    roleId: 2,
+    roleId: 1,
   },
   {
     username: '13918909224',
     password: '123456',
-    roleId: 1
+    roleId: 2
   }
 ])
 
@@ -41,14 +41,16 @@ module.exports = {
     })
     if (d.length) {
       if (d[0].password === userItem.password) {
-        const now = new Date()
-        now.setDate(now.getDate() + 1)
-        Cookie.set('user_session', now.getTime(), { path: '/' })
-        Cookie.set('user_name', userItem.username, { path: '/' })
+        // const now = new Date()
+        // now.setDate(now.getDate() + 1)
+        // Cookie.set('user_session', now.getTime())
+        // Cookie.set('user_name', userItem.username)
+        // Cookie.set('user_power', power)
         const power = global['AccountPowerList'].data[d[0].roleId]
-        sessionStorage.setItem('user_power', JSON.stringify(power))
+
         response.msg = '登录成功'
         response.success = true
+        response.power = power
       } else {
         response.msg = '密码不正确'
       }
@@ -68,8 +70,11 @@ module.exports = {
   },
 
   'POST /api/logout' (req, res) {
-    Cookie.remove('user_session', { path: '/' })
-    Cookie.remove('user_name', { path: '/' })
+    // Cookie.remove('user_session')
+    // Cookie.remove('user_name')
+    // Cookie.remove('user_power')
+    // Cookie.remove('access_token')
+    // Cookie.remove('cur_menu_id')
     res.json({
       success: true,
       msg: '注销成功'

@@ -1,11 +1,10 @@
-import config from './config'
 import menu from './menu'
-import request from './request-mock'
-import classnames from 'classnames'
-import {color} from './theme'
-import Cookie from 'js-cookie'
+import Cookie from './cookie'
+export config from './config'
+export request from './request-mock'
+export { color } from './theme'
 
-if(newband.admin.isMock){
+if(newband.app.admin.ISMOCK){
   require('./mock.js')
 }
 
@@ -58,27 +57,57 @@ const isLogin = () => {
 
 const userName = Cookie.get('user_name')
 
-const setLoginIn = (userName) => {
+let allPathPowers
+const setLoginIn = (userName, accessToken, power, allPathPowers) => {
   const now = new Date()
   now.setDate(now.getDate() + 1)
-  Cookie.set('user_session', now.getTime(), { path: '/' })
-  Cookie.set('user_name', userName, { path: '/' })
+  Cookie.set('user_session', now.getTime())
+  Cookie.set('user_name', userName)
+  Cookie.set('access_token', accessToken)
+  Cookie.set('user_power', power)
+  localStorage.setItem('allPathPowers', JSON.stringify(allPathPowers))
+  allPathPowers = allPathPowers
 }
 
 const setLoginOut = () => {
-  Cookie.remove('user_session', { path: '/' })
-  Cookie.remove('user_name', { path: '/' })
+  Cookie.remove('user_session')
+  Cookie.remove('user_name')
+  Cookie.remove('access_token')
+  Cookie.remove('user_power')
+  localStorage.removeItem('allPathPowers')
+  allPathPowers = null
 }
 
-module.exports = {
-  config,
+const checkPower = (optionId, curPowers = []) => {
+  return curPowers.some(cur => cur === optionId)
+}
+
+const getCurPowers = (curPath) => {
+  if(!allPathPowers) {
+    allPathPowers = JSON.parse(localStorage.getItem('allPathPowers'))
+  }
+  const curPathPower = allPathPowers[curPath]
+  if(!curPathPower || !curPathPower.curPowers || !curPathPower.curPowers.find(cur => cur === 1)) {
+    return false
+  }
+  return curPathPower.curPowers //返回curPower，是为方便页面跳转验证权限后，dispatch当然权限
+}
+
+localStorage.setItem('menu', JSON.stringify(menu))
+
+const getMenu = () => {
+  return JSON.parse(localStorage.getItem('menu'))
+}
+
+export {
+  Cookie,
   menu,
-  request,
-  color,
-  classnames,
+  getMenu,
   equalSet,
   isLogin,
   userName,
   setLoginIn,
-  setLoginOut
+  setLoginOut,
+  checkPower,
+  getCurPowers
 }

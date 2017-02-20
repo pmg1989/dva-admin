@@ -8,16 +8,12 @@ let dataKey = mockStorge('AccountUserList', Mock.mock({
     {
       'id|+1': 1,
       name: '@cname',
-      nickName: '@last',
-      phone: /^1[34578]\d{9}$/,
-      'age|11-99': 1,
-      address: '@county(true)',
-      isMale: '@boolean',
+      mobile: /^1[34578]\d{9}$/,
       email: '@email',
       status: '@boolean',
-      createTime: '@datetime',
-      avatar: function () {
-        return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.nickName.substr(0, 1))
+      created_at: '@integer(1487000000000, 1487999999999)',
+      image: function () {
+        return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.name.substr(0, 1))
       }
     }
   ],
@@ -39,10 +35,10 @@ module.exports = {
     res.json({success: true, data: userItem})
   },
 
-  'GET /api/user' (req, res) {
+  'GET /dashboard-user/list' (req, res) {
     const page = qs.parse(req.query)
     const pageSize = page.pageSize || 10
-    const currentPage = page.page || 1
+    const currentPage = page.current || 1
 
     let data
     let newPage
@@ -65,13 +61,13 @@ module.exports = {
       userListData.page.current = currentPage * 1
       newPage = userListData.page
     }
-    res.json({success: true, data, page: {...newPage, pageSize: Number(pageSize)}})
+    res.json({success: true, list: data, page: {...newPage, pageSize: Number(pageSize)}})
   },
 
   'POST /api/user' (req, res) {
     const newData = getBody(req)
     newData.createTime = Mock.mock('@now')
-    newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.nickName.substr(0, 1))
+    newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
     newData.id = userListData.data.length + 1
     userListData.data.unshift(newData)
@@ -104,7 +100,7 @@ module.exports = {
   'PUT /api/user' (req, res) {
     const editItem = getBody(req)
     editItem.createTime = Mock.mock('@now')
-    editItem.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.nickName.substr(0, 1))
+    editItem.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
 
     userListData.data = userListData.data.map(function (item) {
       if (item.id === editItem.id) {
