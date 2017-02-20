@@ -15,7 +15,7 @@ export default function ({history, app}) {
 
   function redirectToDashboard(nextState, replace) {
     if (isLogin()) {
-      replace('/')
+      replace('/dashboard')
     }
   }
 
@@ -25,15 +25,14 @@ export default function ({history, app}) {
         <IndexRoute component={require("./routes/Dashboard")}/>
         <Route path="dashboard" component={require("./routes/Dashboard")}/>
         <Route path="account">
-          <IndexRoute component={require("./routes/account/Admin")}/>
           <Route path="admin" component={require("./routes/account/Admin")}/>
           <Route path="user" component={require("./routes/account/User")}/>
           <Route path="role" component={require("./routes/account/Role")}/>
         </Route>
         <Route path="system">
-          <IndexRoute component={require("./routes/system/ModifyPassword")}/>
           <Route path="modify-password" component={require("./routes/system/ModifyPassword")}></Route>
         </Route>
+        <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>
       <Route path="demo" component={require("./routes/demo/Demo")}/>

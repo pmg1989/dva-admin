@@ -1,6 +1,8 @@
 import { parse } from 'qs'
 import { message } from 'antd'
+import { routerRedux } from 'dva/router'
 import { create, remove, update, query, queryPowerList } from '../../services/account/role'
+import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountRole',
@@ -8,7 +10,7 @@ export default {
     list: [],
     loading: false,
     currentItem: {},
-    currentPowerLst: {},
+    currentPowerList: {},
     modalVisible: false,
     modalType: 'create',
     pagination: {
@@ -21,11 +23,15 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === '/account/role') {
-          dispatch({
-            type: 'query',
-            payload: location.query
-          })
+        const pathname = location.pathname
+        if (pathname === '/account/role') {
+          const curPowers = getCurPowers(pathname)
+          if(curPowers) {
+            dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
+            dispatch({ type: 'query', payload: location.query })
+          } else {
+            dispatch(routerRedux.push({ pathname: '/no-power' }))
+          }
         }
       })
     }
@@ -100,20 +106,20 @@ export default {
             }
           }
         })
-        message.success("角色修改成功！")
+        message.success("角色修改成功, 注销登录后重新登录即可生效！")
       }
       yield put({ type: 'hideLoading' })
     },
     *showModal ({ payload }, { call, put }) {
       const { modalType, currentItem } = payload
-      let newData = { modalType, currentPowerLst: {} }
+      let newData = { modalType, currentPowerList: {} }
 
       if(!!currentItem) {
         yield put({ type: 'showLoading' })
 
         const data = yield call(queryPowerList, { id: currentItem.id })
         if(data.success) {
-          newData.currentPowerLst = data.data
+          newData.currentPowerList = data.data
         }
         newData.currentItem = currentItem
         newData.loading = false

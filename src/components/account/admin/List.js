@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm, Icon, Tooltip } from 'antd'
 import styles from './List.less'
-import { classnames } from '../../../utils'
 
 function List ({
   loading,
   dataSource,
   pagination,
+  updatePower,
+  deletePower,
   onPageChange,
   onDeleteItem,
   onEditItem,
@@ -57,11 +58,13 @@ function List ({
       width: 100,
       render: (text, record) => (
         <p>
+          {updatePower &&
           <Tooltip placement="bottom" title='编辑'>
             <a onClick={() => onEditItem(record)} style={{
               marginRight: 10
             }}><Icon type="edit"/></a>
-          </Tooltip>
+          </Tooltip>}
+          {updatePower &&
           <Tooltip placement="bottom" title={record.status ? '点击禁用' : '点击启用'}>
             {record.status ?
             <Popconfirm title={`确定要禁用${record.name}吗？`} onConfirm={() => onStatusItem(record)}>
@@ -72,12 +75,13 @@ function List ({
             <a onClick={() => onStatusItem(record)} style={{ marginRight: 10 }}>
               <Icon type="lock" className={styles.warning}/>
             </a>}
-          </Tooltip>
+          </Tooltip>}
+          {deletePower &&
           <Tooltip placement="bottom" title='删除'>
             <Popconfirm title='确定要删除吗？' onConfirm={() => onDeleteItem(record.id)}>
               <a><Icon type="close-circle-o" className={styles.danger}/></a>
             </Popconfirm>
-          </Tooltip>
+          </Tooltip>}
         </p>
       ),
       fixed: 'right'

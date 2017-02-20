@@ -5,6 +5,7 @@ import SearchGroup from '../../common/Search'
 const Search = ({
   field,
   keyword,
+  addPower,
   onSearch,
   onAdd,
   form: {
@@ -29,9 +30,10 @@ const Search = ({
 
   return (
     <Row gutter={24}>
+      {addPower &&
       <Col lg={24} md={24} sm={24} xs={24} style={{marginBottom: 16, textAlign: 'right'}}>
         <Button size='large' type='ghost' onClick={onAdd}><Icon type="plus-circle-o" />添加</Button>
-      </Col>
+      </Col>}
     </Row>
   )
 }

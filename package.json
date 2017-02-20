@@ -44,10 +44,12 @@
     "watchjs": "^0.0.0"
   },
   "scripts": {
+    "dev": "dora --plugins \"webpack?config=conf/webpack.config.js,webpack-hmr,browser-history?index=/src/index.html\"",
+    "build-dev": "atool-build --devtool #eval --config conf/webpack.config.js",
+    "build-staging": "atool-build --devtool #eval --config conf/webpack.config.staging.js",
+    "build-release": "atool-build --config conf/webpack.config.release.js",
     "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
-    "dev": "dora --plugins \"webpack,webpack-hmr,browser-history?index=/src/index.html\"",
-    "lint": "eslint --fix --ext .js,.jsx src/components/layout",
-    "build": "atool-build"
+    "lint": "eslint --fix --ext .js,.jsx src/components/layout"
   },
   "theme": "./src/theme.js",
   "standard": {

@@ -1,21 +1,20 @@
 import axios from 'axios'
 import { message } from 'antd'
 import { stringify, parse } from 'qs'
-import { baseURL } from './config'
+import Ajax from 'robe-ajax'
 
 //message 全局配置
 message.config({
   top: 50
 })
 
-const isMock = newband.admin.isMock
-
-if(!isMock){
-  axios.defaults.baseURL = baseURL
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
-}
-
 export default function request(url, options) {
+  if (options.cross) {
+    return Ajax.getJSON('http://query.yahooapis.com/v1/public/yql', {
+      q: "select * from json where url='" + url + '?' + Ajax.param(options.data) + "'",
+      format: 'json'
+    })
+  }
   switch (options.method.toLowerCase()) {
     case 'get':
       return get(url, options.data)
@@ -42,23 +41,13 @@ function checkStatus(res) {
 
 function handelData(res) {
   const data = res.data
-  if(isMock) {
-    if(data && data.msg && !data.success) {
-      message.warning(data.msg)
-    } else if(data && data.msg && data.success) {
-      message.success(data.msg)
-    }
-    // console.log(data);
-    return data
+  if(data && data.msg && !data.success) {
+    message.warning(data.msg)
+  } else if(data && data.msg && data.success) {
+    message.success(data.msg)
   }
-
-  if(data && data.errors) {
-    message.warning(data.errors)
-  } else if(data && data.info) {
-    message.success(data.info)
-  }
-  // console.log({ ...data, success: data.message == "Success" });
-  return { ...data, success: data.message == "Success" }
+  return data
+  // return { ...data.data, success: data.success, msg: data.msg }
 }
 
 function handleError(error) {
@@ -73,14 +62,14 @@ export function get(url, params) {
 }
 
 export function post(url, data) {
-  return axios.post(url, isMock ? parse(data) : stringify(data))
+  return axios.post(url, parse(data))
   .then(checkStatus)
   .then(handelData)
   .catch(handleError)
 }
 
 export function put(url, data) {
-  return axios.put(url,  isMock ? parse(data) : stringify(data))
+  return axios.put(url,  parse(data))
   .then(checkStatus)
   .then(handelData)
   .catch(handleError)

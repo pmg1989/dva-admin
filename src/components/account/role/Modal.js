@@ -17,7 +17,7 @@ const modal = ({
   visible,
   type,
   item = {},
-  currentPowerLst,
+  currentPowerList,
   onOk,
   onCancel,
   form: {
@@ -33,7 +33,8 @@ const modal = ({
       }
       const data = {
         ...getFieldsValue(),
-        key: item.key
+        key: item.key,
+        currentPowerList: currentPowerList
       }
       onOk(data)
     })
@@ -73,7 +74,7 @@ const modal = ({
           })(<Input disabled/>)}
         </FormItem>
         <FormItem >
-          <UserPower powerList={currentPowerLst}/>
+          <UserPower powerList={currentPowerList}/>
         </FormItem>
 
       </Form>

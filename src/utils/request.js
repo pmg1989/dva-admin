@@ -1,17 +1,23 @@
 import axios from 'axios'
 import { message } from 'antd'
 import { stringify, parse } from 'qs'
-import { baseURL } from './config'
+import Cookie from './cookie'
 
 //message 全局配置
 message.config({
   top: 50
 })
 
-axios.defaults.baseURL = baseURL
+axios.defaults.baseURL = newband.app.admin.API_HOST
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+//axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('Authorization')
+
+let config = {}
 
 export default function request(url, options) {
+  if(url !== '/oauth/token' && url !== '/admin/check') {
+    url = url + '?access_token=' + Cookie.get('access_token')
+  }
   switch (options.method.toLowerCase()) {
     case 'get':
       return get(url, options.data)
@@ -38,20 +44,13 @@ function checkStatus(res) {
 
 function handelData(res) {
   const data = res.data
-  // if(data && data.errors) {
-  //   message.warning(data.errors)
-  //   return null
-  // } else if(data && data.info) {
-  //   message.success(data.info)
-  // }
-  // return data
   if(data && data.errors) {
     message.warning(data.errors)
   } else if(data && data.info) {
     message.success(data.info)
   }
   // console.log({ ...data.data, success: data.message == "Success" });
-  return { ...data.data, success: data.message == "Success" }
+  return { ...data.data, success: data.success || data.message == "Success" }
 }
 
 function handleError(error) {

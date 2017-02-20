@@ -1,6 +1,8 @@
 import { parse } from 'qs'
 import { message } from 'antd'
+import { routerRedux } from 'dva/router'
 import { create, remove, update, query, get } from '../../services/account/user'
+import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountUser',
@@ -20,11 +22,15 @@ export default {
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === '/account/user') {
-          dispatch({
-            type: 'query',
-            payload: location.query
-          })
+        const pathname = location.pathname
+        if (pathname === '/account/user') {
+          const curPowers = getCurPowers(pathname)
+          if(curPowers) {
+            dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
+            dispatch({ type: 'query', payload: location.query })
+          } else {
+            dispatch(routerRedux.push({ pathname: '/no-power' }))
+          }
         }
       })
     }
@@ -32,15 +38,13 @@ export default {
 
   effects: {
     *query ({ payload }, { select, call, put }) {
-      // const initQuery = yield select(({ accountUser }) => ({ page: accountUser.pagination.current, pageSize: accountUser.pagination.pageSize }))
-      // console.log(payload, initQuery);
       yield put({ type: 'showLoading' })
       const data = yield call(query, parse(payload))
-      if (data) {
+      if (data.success) {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data.data,
+            list: data.list,
             pagination: data.page
           }
         })
