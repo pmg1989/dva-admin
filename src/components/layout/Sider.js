@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon, Switch } from 'antd'
 import styles from './main.less'
 import { config } from '../../utils'
-import Menus from './menu'
+import Menus from './Menu'
 
 function Sider ({ siderFold, darkTheme, location, changeTheme, navOpenKeys, userPower, changeOpenKeys }) {
   const menusProps = {

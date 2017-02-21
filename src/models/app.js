@@ -49,6 +49,13 @@ export default {
       window.onresize = function() {
         dispatch({type: 'changeNavbar'})
       }
+
+      if(!isLogin()) {
+        dispatch(routerRedux.push({
+          pathname: '/login',
+          state: { nextPathname: location.pathname !== '/login' ? location.pathname : '/', nextSearch: location.search }
+        }))
+      }
     }
   },
   effects : {

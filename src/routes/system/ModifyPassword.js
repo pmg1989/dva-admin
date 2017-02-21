@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'dva'
-import ModifyForm from '../../components/system/ModifyPassword/ModifyForm'
+import ModifyForm from '../../components/system/modifyPassword/ModifyForm'
 import { checkPower, checkQueryPower } from '../../utils'
 import { UPDATE } from '../../constants/options'
 

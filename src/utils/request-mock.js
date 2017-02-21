@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd'
 import { stringify, parse } from 'qs'
-import Ajax from 'robe-ajax'
 
 //message 全局配置
 message.config({
@@ -9,12 +8,6 @@ message.config({
 })
 
 export default function request(url, options) {
-  if (options.cross) {
-    return Ajax.getJSON('http://query.yahooapis.com/v1/public/yql', {
-      q: "select * from json where url='" + url + '?' + Ajax.param(options.data) + "'",
-      format: 'json'
-    })
-  }
   switch (options.method.toLowerCase()) {
     case 'get':
       return get(url, options.data)

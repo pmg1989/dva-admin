@@ -9,8 +9,8 @@ let dataKey = mockStorge('AdminUsers', [
     roleId: 3
   },
   {
-    username: '胡彦斌',
-    password: '123456',
+    username: 'admin',
+    password: 'admin',
     roleId: 1,
   },
   {
