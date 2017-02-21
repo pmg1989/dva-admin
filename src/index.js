@@ -10,19 +10,27 @@ const app = dva({
   }
 });
 
-// 2. Model
+if(newband.app.admin.IS_DYNAMIC_LOAD) {
+  // 2. Model
+  app.model(require('./models/app'))
 
-app.model(require('./models/app'))
-app.model(require('./models/dashboard'))
+  // 3. Router for browserHistory dynamic load
+  app.router(require('./router-dynamic'))
 
-app.model(require('./models/account/admin'))
-app.model(require('./models/account/user'))
-app.model(require('./models/account/role'))
+} else {
+  // 2. Model
+  app.model(require('./models/app'))
+  app.model(require('./models/dashboard'))
 
-app.model(require('./models/system/modifyPassword'))
+  app.model(require('./models/account/admin'))
+  app.model(require('./models/account/user'))
+  app.model(require('./models/account/role'))
 
-// 3. Router
-app.router(require('./router'))
+  app.model(require('./models/system/modifyPassword'))
+
+  // 3. Router for browserHistory
+  app.router(require('./router'))
+}
 
 // 4. Start
 app.start('#root')

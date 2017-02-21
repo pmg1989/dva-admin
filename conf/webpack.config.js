@@ -6,10 +6,11 @@ module.exports = function (webpackConfig, env) {
     libraryName: 'antd',
     style: true
   }])
+  
+  webpackConfig.devtool = '#eval'
 
   // Support hmr
   if (env === 'development') {
-    webpackConfig.devtool = '#eval'
     webpackConfig.babel.plugins.push(['dva-hmr', {
       entries: [
         './src/index.js'
@@ -21,10 +22,11 @@ module.exports = function (webpackConfig, env) {
   //mock data config
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'newband.app.admin.ISMOCK': true,
-    'newband.app.admin.API_HOST': '"http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2"',
-    'newband.app.admin.CLIENT_ID': '"7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck"',
-    'newband.app.admin.CLIENT_SECRET': '"4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc"',
-    'newband.app.admin.GRANT_TYPE': '"client_credentials"'
+    'newband.app.admin.IS_DYNAMIC_LOAD': false,
+    'newband.app.admin.API_HOST': JSON.stringify('http://192.168.2.202:8082/v2'),
+    'newband.app.admin.CLIENT_ID': JSON.stringify('7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck'),
+    'newband.app.admin.CLIENT_SECRET': JSON.stringify('4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc'),
+    'newband.app.admin.GRANT_TYPE': JSON.stringify('client_credentials')
   }))
 
   // Don't extract common.js and common.css

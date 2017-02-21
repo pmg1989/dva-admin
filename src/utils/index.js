@@ -4,6 +4,8 @@ export config from './config'
 export request from './request-mock'
 export { color } from './theme'
 
+let allPathPowers //缓存 localStorage.getItem('allPathPowers') 数据
+
 if(newband.app.admin.ISMOCK){
   require('./mock.js')
 }
@@ -57,7 +59,6 @@ const isLogin = () => {
 
 const userName = Cookie.get('user_name')
 
-let allPathPowers
 const setLoginIn = (userName, accessToken, power, allPathPowers) => {
   const now = new Date()
   now.setDate(now.getDate() + 1)
@@ -86,7 +87,7 @@ const getCurPowers = (curPath) => {
   if(!allPathPowers) {
     allPathPowers = JSON.parse(localStorage.getItem('allPathPowers'))
   }
-  const curPathPower = allPathPowers[curPath]
+  const curPathPower = allPathPowers && allPathPowers[curPath]
   if(!curPathPower || !curPathPower.curPowers || !curPathPower.curPowers.find(cur => cur === 1)) {
     return false
   }
