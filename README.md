@@ -47,7 +47,7 @@ git clone git@github.com:pmg1989/dva-admin.git
 进入目录安装依赖:
 
 ```
-npm i 或者 yarn 或者 yarn install
+npm install 或者 yarn 或者 yarn install
 ```
 
 开发：
