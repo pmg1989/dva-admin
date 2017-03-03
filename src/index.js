@@ -8,18 +8,16 @@ const app = dva({
   onError(error) {
     console.error("app onError -- ", error)
   }
-});
+})
+
+// 2. Model
+app.model(require('./models/app'))
+app.model(require('./models/modal'))
 
 if(newband.app.admin.IS_DYNAMIC_LOAD) {
-  // 2. Model
-  app.model(require('./models/app'))
-
   // 3. Router for browserHistory dynamic load
   app.router(require('./router-dynamic'))
-
 } else {
-  // 2. Model
-  app.model(require('./models/app'))
   app.model(require('./models/dashboard'))
 
   app.model(require('./models/account/admin'))
@@ -27,6 +25,9 @@ if(newband.app.admin.IS_DYNAMIC_LOAD) {
   app.model(require('./models/account/role'))
 
   app.model(require('./models/system/modifyPassword'))
+
+  app.model(require('./models/order/list'))
+  app.model(require('./models/order/flow'))
 
   // 3. Router for browserHistory
   app.router(require('./router'))

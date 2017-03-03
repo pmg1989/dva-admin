@@ -9,20 +9,14 @@ const initPower = Cookie.getJSON('user_power')
 function getAllPathPowers(menuArray, curPowers) {
   return menuArray.reduce((dir, item) => {
     if(item.children) {
-      dir[`/${item.key}`] = {
-        curPowers: curPowers[item.id]
-      }
+      dir[`/${item.key}`] = curPowers[item.id]
       item.children.reduce((cdir, cur) => {
-        dir[`/${cdir}/${cur.key}`] = {
-          curPowers: curPowers[cur.id]
-        }
+        dir[`/${cdir}/${cur.key}`] = curPowers[cur.id]
         return cdir
       },item.key)
       getAllPathPowers(item.children, curPowers)
     } else {
-      dir[`/${item.key}`] = {
-        curPowers: curPowers[item.id]
-      }
+      dir[`/${item.key}`] = curPowers[item.id]
     }
     return dir
   }, {})
@@ -68,17 +62,17 @@ export default {
           const params = { access_token: dataToken.access_token, mobile: payload.username, username: payload.username, password: payload.password }
           const data = yield call(login, params)
 
-          if (data.success) {
-            const allPathPowers = yield getAllPathPowers(menu, data.power)
+          if (data && data.success) {
+            const allPathPowers = yield getAllPathPowers(menu, data.role_power)
 
-            yield setLoginIn(payload.username, dataToken.access_token, data.power, allPathPowers)
+            yield setLoginIn(payload.username, dataToken.access_token, data.role_power, allPathPowers)
             yield put({
               type: 'loginSuccess',
               payload: {
                 user: {
                   name: payload.username
                 },
-                userPower: data.power
+                userPower: data.role_power
               }
             })
 
@@ -96,8 +90,8 @@ export default {
         payload
       }, {call, put}) {
         yield put({ type: 'showLoading' })
-        const data = yield call(logout, parse(payload))
-        if (data.success) {
+        const data = { success: true } //yield call(logout, parse(payload))
+        if (data && data.success) {
           yield setLoginOut()
           yield put({type: 'logoutSuccess'})
           yield put(routerRedux.push({

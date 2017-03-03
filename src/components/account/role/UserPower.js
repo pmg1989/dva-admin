@@ -22,7 +22,7 @@ const getPowerText = (item) => {
   return optionsPowerName
 }
 
-class Demo extends Component {
+class UserPower extends Component {
 
   static propTypes = {
     powerList: PropTypes.object.isRequired
@@ -33,7 +33,11 @@ class Demo extends Component {
   }
 
   onChangePower(checkedValues, item){
-    this.state.userPower[item.id] = checkedValues
+    if(!!checkedValues.length) {
+      this.state.userPower[item.id] = checkedValues
+    } else {
+      delete this.state.userPower[item.id]
+    }
     this.setState({ userPower: this.state.userPower })
   }
 
@@ -57,25 +61,27 @@ class Demo extends Component {
 
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-
       },
       onSelect: (record, selected, selectedRows) => {
         if(selected) {
           this.state.userPower[record.id] = record.power
         } else {
-          this.state.userPower[record.id] = []
+          delete this.state.userPower[record.id]
         }
         this.setState({ userPower: this.state.userPower })
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
         if(selected) {
-          let allPower = {}
-          selectedRows.reduce(function(power, item) {
-            return allPower[item.id] = item.power
+          const userPowerAll = selectedRows.reduce((power, item) => {
+            this.state.userPower[item.id] = item.power
+            return this.state.userPower
           }, {})
-          this.setState({ userPower: allPower })
+          this.setState({ userPower: userPowerAll })
         } else {
-          this.setState({ userPower: {} })
+          for(let key in this.state.userPower) {
+            delete this.state.userPower[key]
+          }
+          this.setState({ userPower: this.state.userPower })
         }
       },
       getCheckboxProps: record => ({
@@ -101,4 +107,4 @@ class Demo extends Component {
   }
 }
 
-export default Demo
+export default UserPower

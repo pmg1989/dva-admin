@@ -52,6 +52,28 @@ const menu = [
       }
     ]
   },
+  {
+    id: 8,
+    key: 'order',
+    name: '订单管理',
+    icon: 'bars',
+    clickable: false,
+    power: [1],
+    children: [
+      {
+        id: 9,
+        key: 'list',
+        name: '订单列表',
+        power: [1, 2]
+      },
+      {
+        id: 10,
+        key: 'flow',
+        name: '账户流水',
+        power: [1, 2]
+      }
+    ]
+  },
 ]
 
 export default menu

@@ -44,17 +44,26 @@ function checkStatus(res) {
 
 function handelData(res) {
   const data = res.data
-  if(data && data.errors) {
-    message.warning(data.errors)
-  } else if(data && data.info) {
-    message.success(data.info)
+  if(data && data.msg && !data.success) {
+    message.error(data.msg)
   }
+  // else if(data && data.msg && data.success) {
+  //   message.success(data.msg)
+  // }
   // console.log({ ...data.data, success: data.message == "Success" });
   return { ...data.data, success: data.success || data.message == "Success" }
 }
 
 function handleError(error) {
-  message.error("ajax errors: " + error.response.data.errors, 5)
+  const data = error.response.data
+  if(data.errors) {
+    message.error(`${data.message}：${data.errors}`, 5)
+  } else if(data.error) {
+    message.error(`${data.error}：${data.error_description}`, 5)
+  } else {
+    message.error('未知错误！', 5)
+  }
+  return { success: false }
 }
 
 export function get(url, params) {

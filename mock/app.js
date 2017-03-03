@@ -50,7 +50,7 @@ module.exports = {
 
         response.msg = '登录成功'
         response.success = true
-        response.power = power
+        response.role_power = power
       } else {
         response.msg = '密码不正确'
       }

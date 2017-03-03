@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Spin } from 'antd'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router'
+import QueueAnim from 'rc-queue-anim'
 import classnames from 'classnames'
 import Login from '../components/Login'
 import Header from '../components/layout/Header'
@@ -71,7 +72,9 @@ function App ({ children, location, dispatch, app }) {
             <Bread location={location} />
             <div className={styles.container}>
               <div className={styles.content}>
-                { children && React.cloneElement(children, { curPowers })}
+                <QueueAnim delay={[450, 0]} type={['right', 'left']} appear={false}>
+                { children && React.cloneElement(children, { curPowers, key: location.pathname })}
+                </QueueAnim>
               </div>
             </div>
             <Footer />
@@ -85,11 +88,7 @@ App.propTypes = {
   children: PropTypes.element,
   location: PropTypes.object,
   dispatch: PropTypes.func,
-  loading: PropTypes.bool,
-  login: PropTypes.bool,
-  user: PropTypes.object,
-  siderFold: PropTypes.bool,
-  darkTheme: PropTypes.bool
+  app: PropTypes.object
 }
 
 function mapStateToProps({ app }) {

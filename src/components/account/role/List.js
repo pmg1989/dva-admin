@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react'
-import { Table, Popconfirm, Icon, Tooltip  } from 'antd'
+import { Table, Popconfirm, Icon, Tooltip, Modal } from 'antd'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 import styles from './List.less'
+
+const confirm = Modal.confirm
 
 function List ({
   loading,
@@ -14,6 +16,16 @@ function List ({
   onDeleteItem,
   onEditItem
 }) {
+
+  const handleDeleteItem = (record) => {
+    confirm({
+      title: '删除角色可能会对管理员账号造成无法弥补的影响，您确定要删除这个角色吗?',
+      onOk () {
+        onDeleteItem(record.id)
+      }
+    })
+  }
+
   const columns = [
     {
       title: '角色编号',
@@ -21,12 +33,8 @@ function List ({
       key: 'id'
     }, {
       title: '角色名称',
-      dataIndex: 'roleName',
+      dataIndex: 'name',
       key: 'roleName'
-    }, {
-      title: '用户数量',
-      dataIndex: 'userCount',
-      key: 'userCount'
     }, {
       title: '操作',
       key: 'operation',
@@ -41,7 +49,7 @@ function List ({
           </Tooltip>}
           {deletePower &&
           <Tooltip placement="bottom" title='删除'>
-            <Popconfirm title='确定要删除吗？' onConfirm={() => onDeleteItem(record.id)}>
+            <Popconfirm title='确定要删除吗？' onConfirm={() => handleDeleteItem(record)}>
               <a><Icon type="close-circle-o" /></a>
             </Popconfirm>
           </Tooltip>}
@@ -52,8 +60,8 @@ function List ({
   ]
 
   const getBodyWrapperProps = {
-    page: location.query.page,
-    current: pagination.current
+    page: 1,
+    current: 1
   }
 
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
@@ -67,7 +75,7 @@ function List ({
       dataSource={dataSource}
       loading={loading}
       onChange={onPageChange}
-      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
+      pagination={false}
       simple
       rowKey={record => record.id}
       getBodyWrapper={getBodyWrapper}
@@ -80,8 +88,7 @@ List.propTypes = {
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
   dataSource: PropTypes.array,
-  loading: PropTypes.any,
-  pagination: PropTypes.any
+  loading: PropTypes.any
 }
 
 export default List

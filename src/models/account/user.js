@@ -9,12 +9,9 @@ export default {
   state: {
     list: [],
     loading: false,
-    currentItem: {},
-    modalVisible: false,
-    modalType: 'create',
     pagination: {
       current: 1,
-      pageSize: 20,
+      pageSize: 10,
       total: null
     }
   },
@@ -27,7 +24,7 @@ export default {
           const curPowers = getCurPowers(pathname)
           if(curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({ type: 'query', payload: location.query })
+            dispatch({ type: 'query' })
           } else {
             dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
@@ -39,7 +36,8 @@ export default {
   effects: {
     *query ({ payload }, { select, call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(query, parse(payload))
+      const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+      const data = yield call(query, pathQuery)
       if (data.success) {
         yield put({
           type: 'querySuccess',
@@ -54,92 +52,54 @@ export default {
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
       const data = yield call(remove, { id: payload })
-      if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-      }
       yield put({ type: 'hideLoading' })
+      if (data && data.success) {
+        yield put({ type: 'query' })
+      }
     },
-    *create ({ payload }, { call, put }) {
-      yield put({ type: 'hideModal' })
-      yield put({ type: 'showLoading' })
+    *create ({ payload }, { select, call, put }) {
+      yield put({ type: 'modal/showLoading' })
       const data = yield call(create, payload)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
+        yield put({ type: 'modal/hideModal' })
+        const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+        const { page } = pathQuery
+        yield put(routerRedux.push({
+          pathname: location.pathname,
+          query: !!page ? { ...pathQuery, page: 1 } : pathQuery
+        }))
       }
-      yield put({ type: 'hideLoading' })
     },
-    *update ({ payload }, { select, call, put }) {
-      yield put({ type: 'hideModal' })
-      yield put({ type: 'showLoading' })
-      const id = yield select(({ accountUser }) => accountUser.currentItem.id)
-      const newUser = { ...payload, id }
-      const data = yield call(update, newUser)
+    *update ({ payload }, { call, put }) {
+      yield put({ type: 'modal/showLoading' })
+      const data = yield call(update, payload)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
+        yield put({ type: 'modal/hideModal' })
+        yield put({ type: 'query' })
       }
-      yield put({ type: 'hideLoading' })
     },
     *updateStatus ({ payload }, { select, call, put }) {
       yield put({ type: 'showLoading' })
-      const { status } = payload
-      const newUser = { ...payload, status: !status }
-      const data = yield call(update, newUser)
-      if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-      }
+      const data = yield call(update, { ...payload, status: !payload.status })
       yield put({ type: 'hideLoading' })
+      if (data && data.success) {
+        yield put({ type: 'query' })
+      }
     },
     *showModal ({ payload }, { select, call, put }) {
-      const { modalType, id } = payload
-      let newData = { modalType }
+      const { type, curItem } = payload
+      let newData = {}
 
-      if(!!id) {
-        yield put({ type: 'showLoading' })
+      yield put({ type: 'modal/showModal', payload: { loading: true, type: type } })
 
-        const dataGet = yield call(get, { id })
-        if(dataGet) {
-          newData.currentItem = dataGet.data
-        }
-        newData.loading = false
+      const data = yield call(get, { id: curItem.id })
+      if(data && data.success) {
+        newData.curItem = data.data
       }
 
-      yield put({ type: 'showModalSuccess', payload: newData })
+      yield put({ type: 'modal/hideLoading', payload: newData })
     },
   },
 
@@ -152,12 +112,6 @@ export default {
     },
     querySuccess (state, action) {
       return { ...state, ...action.payload }
-    },
-    showModalSuccess (state, action) {
-      return { ...state, ...action.payload, modalVisible: true }
-    },
-    hideModal (state) {
-      return { ...state, modalVisible: false }
     }
   }
 

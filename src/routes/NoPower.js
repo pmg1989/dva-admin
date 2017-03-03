@@ -1,5 +1,6 @@
 import React from 'react'
 import {Icon} from 'antd'
+import {connect} from 'dva'
 import styles from './Error.less'
 
 const NoPower = () =>
@@ -10,4 +11,4 @@ const NoPower = () =>
   </div>
 </div>
 
-export default NoPower
+export default connect()(NoPower)

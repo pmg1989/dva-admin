@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react'
-import { Table, Popconfirm, Icon, Tooltip } from 'antd'
+import { Table, Popconfirm, Icon, Tooltip, Modal } from 'antd'
 import styles from './List.less'
+import TableBodyWrapper from '../../common/TableBodyWrapper'
+
+const confirm = Modal.confirm
 
 function List ({
   loading,
@@ -11,8 +14,19 @@ function List ({
   onPageChange,
   onDeleteItem,
   onEditItem,
-  onStatusItem
+  onStatusItem,
+  location
 }) {
+
+  const handleDeleteItem = (record) => {
+    confirm({
+      title: '您确定要删除这条记录吗?',
+      onOk () {
+        onDeleteItem(record.id)
+      }
+    })
+  }
+
   const columns = [
     {
       title: '头像',
@@ -55,7 +69,7 @@ function List ({
     }, {
       title: '操作',
       key: 'operation',
-      width: 100,
+      // width: 100,
       render: (text, record) => (
         <p>
           {updatePower &&
@@ -78,15 +92,20 @@ function List ({
           </Tooltip>}
           {deletePower &&
           <Tooltip placement="bottom" title='删除'>
-            <Popconfirm title='确定要删除吗？' onConfirm={() => onDeleteItem(record.id)}>
-              <a><Icon type="close-circle-o" className={styles.danger}/></a>
-            </Popconfirm>
+            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className={styles.danger}/></a>
           </Tooltip>}
         </p>
       ),
-      fixed: 'right'
+      // fixed: 'right'
     }
   ]
+
+  const getBodyWrapperProps = {
+    page: location.query.page,
+    current: pagination.current
+  }
+
+  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
 
   return (
     <div>
@@ -101,6 +120,7 @@ function List ({
         pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
         simple
         rowKey={record => record.id}
+        getBodyWrapper={getBodyWrapper}
       />
     </div>
   )

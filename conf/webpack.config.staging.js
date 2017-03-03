@@ -1,4 +1,5 @@
 const webpack = require('atool-build/lib/webpack')
+const path = require('path')
 
 module.exports = function (webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime')
@@ -7,7 +8,7 @@ module.exports = function (webpackConfig, env) {
     style: true
   }])
 
-  webpackConfig.devtool = '#eval'
+  webpackConfig.devtool = 'inline-source-map'
 
   // Support hmr
   if (env === 'development') {

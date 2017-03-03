@@ -32,6 +32,10 @@ export default function ({history, app}) {
         <Route path="system">
           <Route path="modify-password" component={require("./routes/system/ModifyPassword")}></Route>
         </Route>
+        <Route path="order">
+          <Route path="list" component={require("./routes/order/OrderList")}></Route>
+          <Route path="flow" component={require("./routes/order/Flow")}></Route>
+        </Route>
         <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>

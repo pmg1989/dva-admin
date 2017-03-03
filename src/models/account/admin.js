@@ -9,16 +9,12 @@ export default {
   namespace: 'accountAdmin',
   state: {
     list: [],
-    currentItem: {},
-    modalVisible: false,
-    modalType: 'create',
+    loading: false,
     pagination: {
       current: 1,
-      pageSize: 20,
+      pageSize: 10,
       total: null
-    },
-    roleList: [],
-    loading: false
+    }
   },
 
   subscriptions: {
@@ -29,7 +25,7 @@ export default {
           const curPowers = getCurPowers(pathname)
           if(curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({ type: 'query', payload: location.query })
+            dispatch({ type: 'query' })
           } else {
             dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
@@ -39,10 +35,11 @@ export default {
   },
 
   effects: {
-    *query ({ payload }, { call, put }) {
+    *query ({ payload }, { select, call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(query, parse(payload))
-      if (data) {
+      const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+      const data = yield call(query, pathQuery)
+      if (data && data.success) {
         yield put({
           type: 'querySuccess',
           payload: {
@@ -56,110 +53,66 @@ export default {
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
       const data = yield call(remove, { id: payload })
-      if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success("管理员删除成功！")
-      }
       yield put({ type: 'hideLoading' })
+      if (data && data.success) {
+        yield put({ type: 'query' })
+      }
     },
-    *create ({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' })
-      yield put({ type: 'hideModal' })
+    *create ({ payload }, { select, call, put }) {
+      yield put({ type: 'modal/showLoading' })
       const data = yield call(create, payload)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success("管理员新增成功！")
+        yield put({ type: 'modal/hideModal' })
+        const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+        const { page } = pathQuery
+        yield put(routerRedux.push({
+          pathname: location.pathname,
+          query: !!page ? { ...pathQuery, page: 1 } : pathQuery
+        }))
       }
-      yield put({ type: 'hideLoading' })
     },
-    *update ({ payload }, { select, call, put }) {
-      yield put({ type: 'showLoading' })
-      yield put({ type: 'hideModal' })
-      const id = yield select(({ accountAdmin }) => accountAdmin.currentItem.id)
-      const newAdmin = { ...payload, id }
-      const data = yield call(update, newAdmin)
+    *update ({ payload }, { call, put }) {
+      yield put({ type: 'modal/showLoading' })
+      const data = yield call(update, payload)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success("管理员修改成功！")
+        yield put({ type: 'modal/hideModal' })
+        yield put({ type: 'query' })
       }
-      yield put({ type: 'hideLoading' })
     },
-    *updateStatus ({ payload }, { select, call, put }) {
+    *updateStatus ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const newAdmin = { ...payload, status: !payload.status }
-      const data = yield call(update, newAdmin)
+      const data = yield call(update, { ...payload, status: !payload.status })
+      yield put({ type: 'hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success(`此管理员已${status ? '禁用' : '启用'}！`)
+        yield put({ type: 'query' })
       }
-      yield put({ type: 'hideLoading' })
     },
-    *showModal ({ payload }, { select, call, put }) {
+    *showModal ({ payload }, { call, put }) {
+      const { type, curItem } = payload
+      let newData = {}
 
-      const { modalType, id } = payload
+      yield put({ type: 'modal/showModal', payload: { loading: true, type: type } })
 
-      let newData = { modalVisible: true, modalType, loading: false }
-
-      yield put({ type: 'showLoading' })
-
-      if(!!id) {
-        const dataGet = yield call(get, { id })
-        if(dataGet) {
-          newData.currentItem = dataGet.data
+      if(!!curItem) {
+        const dataGet = yield call(get, { id: curItem.id })
+        if(dataGet && dataGet.success) {
+          newData.curItem = dataGet.data
         }
       }
 
       const dataRole = yield call(queryRole)
-      if(dataRole) {
-        newData.roleList = dataRole.data
+      if(dataRole && dataRole.success) {
+        newData.otherItem = dataRole.list
       }
-
-      yield put({ type: 'querySuccess', payload: newData })
+      yield put({ type: 'modal/hideLoading', payload: newData })
     },
   },
 
   reducers: {
     querySuccess (state, action) {
       return { ...state, ...action.payload }
-    },
-    hideModal (state) {
-      return { ...state, modalVisible: false }
     },
     showLoading (state) {
       return { ...state, loading: true }
@@ -168,5 +121,4 @@ export default {
       return { ...state, loading: false }
     }
   }
-
 }

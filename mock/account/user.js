@@ -66,8 +66,8 @@ module.exports = {
 
   'POST /api/user' (req, res) {
     const newData = getBody(req)
-    newData.createTime = Mock.mock('@now')
-    newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
+    newData.created_at = Mock.mock('@integer(1487000000000, 1487999999999)')
+    newData.image = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
     newData.id = userListData.data.length + 1
     userListData.data.unshift(newData)
@@ -99,8 +99,8 @@ module.exports = {
 
   'PUT /api/user' (req, res) {
     const editItem = getBody(req)
-    editItem.createTime = Mock.mock('@now')
-    editItem.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
+    editItem.created_at = Mock.mock('@integer(1487000000000, 1487999999999)')
+    editItem.image = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
 
     userListData.data = userListData.data.map(function (item) {
       if (item.id === editItem.id) {

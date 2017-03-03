@@ -3,68 +3,35 @@ import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
 import RoleList from '../../components/account/role/List'
 import RoleSearch from '../../components/account/role/Search'
-import RoleModal from '../../components/account/role/Modal'
+import RoleModal from '../../components/account/role/ModalForm'
 import { checkPower } from '../../utils'
 import { ADD, UPDATE, DELETE } from '../../constants/options'
 
 function Role({ location, curPowers, dispatch, accountRole }) {
-  const {
-    list,
-    pagination,
-    currentItem,
-    modalVisible,
-    modalType,
-    loading,
-    currentPowerList
-  } = accountRole
+
+  const { list, loading } = accountRole
+
   const {field, keyword} = location.query
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
 
-  const roleModalProps = {
-    item: modalType === 'create'
-      ? {}
-      : currentItem,
-    type: modalType,
-    visible: modalVisible,
-    currentPowerList,
-    onOk(data) {
-      dispatch({type: `accountRole/${modalType}`, payload: data})
-    },
-    onCancel() {
-      dispatch({type: 'accountRole/hideModal'})
-    }
-  }
-
   const roleListProps = {
     dataSource: list,
     loading,
-    pagination: pagination,
     location,
     updatePower,
     deletePower,
-    onPageChange(page) {
-      const {query, pathname} = location
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...query,
-          page: page.current,
-          pageSize: page.pageSize
-        }
-      }))
-    },
     onDeleteItem(id) {
       dispatch({type: 'accountRole/delete', payload: id})
     },
     onEditItem(item) {
       dispatch({
-        type: 'accountRole/showModal',
+        type: 'modal/showModal',
         payload: {
-          modalType: 'update',
-          currentItem: item
+          type: 'update',
+          curItem: item
         }
       })
     }
@@ -74,28 +41,17 @@ function Role({ location, curPowers, dispatch, accountRole }) {
     field,
     keyword,
     addPower,
-    onSearch(fieldsValue) {
-      !!fieldsValue.keyword.length
-        ? dispatch(routerRedux.push({
-          pathname: location.pathname,
-          query: {
-            field: fieldsValue.field,
-            keyword: fieldsValue.keyword
-          }
-        }))
-        : dispatch(routerRedux.push({pathname: location.pathname}))
-    },
     onAdd() {
       dispatch({
-        type: 'accountRole/showModal',
+        type: 'modal/showModal',
         payload: {
-          modalType: 'create'
+          type: 'create'
         }
       })
     }
   }
 
-  const RoleModalGen = () => <RoleModal {...roleModalProps}/>
+  const RoleModalGen = () => <RoleModal/>
 
   return (
     <div className='content-inner'>

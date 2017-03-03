@@ -1,6 +1,7 @@
 import React from 'react'
 import { Menu, Icon } from 'antd'
 import { Link } from 'dva/router'
+import QueueAnim from 'rc-queue-anim'
 import { menu, getMenu, Cookie } from '../../utils'
 
 function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, navOpenKeys, userPower, changeOpenKeys }) {
@@ -81,14 +82,17 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
   } : {}
 
   return (
-    <Menu
-      {...menuProps}
-      mode={siderFold ? 'vertical' : 'inline'}
-      theme={darkTheme ? 'dark' : 'light'}
-      onClick={handleClickNavMenu}
-      defaultSelectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'dashboard']}>
-      {menuItems}
-    </Menu>
+    <QueueAnim delay={400} type='left'>
+      <Menu
+        key='1'
+        {...menuProps}
+        mode={siderFold ? 'vertical' : 'inline'}
+        theme={darkTheme ? 'dark' : 'light'}
+        onClick={handleClickNavMenu}
+        defaultSelectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'dashboard']}>
+        {menuItems}
+      </Menu>
+    </QueueAnim>
   )
 }
 

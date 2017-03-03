@@ -1,4 +1,5 @@
 const webpack = require('atool-build/lib/webpack')
+const path = require('path')
 
 module.exports = function (webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime')
@@ -6,8 +7,8 @@ module.exports = function (webpackConfig, env) {
     libraryName: 'antd',
     style: true
   }])
-  
-  webpackConfig.devtool = '#eval'
+
+  webpackConfig.devtool = 'inline-source-map' //#eval
 
   // Support hmr
   if (env === 'development') {
@@ -22,7 +23,7 @@ module.exports = function (webpackConfig, env) {
   //mock data config
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'newband.app.admin.ISMOCK': true,
-    'newband.app.admin.IS_DYNAMIC_LOAD': false,
+    'newband.app.admin.IS_DYNAMIC_LOAD': true,
     'newband.app.admin.API_HOST': JSON.stringify('http://192.168.2.202:8082/v2'),
     'newband.app.admin.CLIENT_ID': JSON.stringify('7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck'),
     'newband.app.admin.CLIENT_SECRET': JSON.stringify('4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc'),

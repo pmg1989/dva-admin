@@ -3,12 +3,40 @@ const Mock = require('mockjs')
 import mockStorge from '../../src/utils/mockStorge'
 import { getBody } from '../utils'
 
+const dic = {
+  1: {
+    1: [1],
+    2: [1],
+    3: [1, 2, 3, 4, 5],
+    4: [1, 2, 3, 4, 5],
+    5: [1, 2, 3, 4, 5],
+    6: [1],
+    7: [1, 4],
+    8: [1],
+    9: [1, 2]
+  },
+  2: {
+    1: [1],
+    2: [1],
+    3: [1],
+    4: [1, 3, 4],
+    5: [1, 2, 3, 4, 5],
+    6: [1],
+    7: [1, 4]
+  },
+  3: {
+    1: [1],
+    6: [1],
+    7: [1, 4]
+  }
+}
+
 let dataKey = mockStorge('AccountRoleList', Mock.mock({
   'data|3': [
     {
       'id|+1': 1,
-      'roleName|+1': ["管理员", "教师", "学生"],
-      'userCount|+1': [5, 100, 5000]
+      'name|+1': ["管理员", "教师", "学生"],
+      'power|+1':[dic[1], dic[2], dic[3]]
     }
   ],
   page: {
@@ -18,46 +46,17 @@ let dataKey = mockStorge('AccountRoleList', Mock.mock({
 }))
 
 let dataKeyPL = mockStorge('AccountPowerList', Mock.mock({
-  data: {
-    1: {
-      1: [1],
-      2: [1],
-      3: [1, 2, 3, 4, 5],
-      4: [1, 2, 3, 4, 5],
-      5: [1, 2, 3, 4, 5],
-      6: [1],
-      7: [1, 4]
-    },
-    2: {
-      1: [1],
-      2: [1],
-      3: [1],
-      4: [1, 3, 4],
-      5: [1, 2, 3, 4, 5],
-      6: [1],
-      7: [1, 4]
-    },
-    3: {
-      1: [1],
-      6: [1],
-      7: [1, 4]
-    }
-  }
+  data: dic
 }))
 
 let roleListData = global[dataKey]
 let powerList = global[dataKeyPL]
 
-const getPowerList = (id) => {
-  const powerListData = powerList.data
-  return powerListData[id] || powerListData[3]
-}
-
 module.exports = {
 
-  'GET /api/role' (req, res) {
+  'GET /dashboard-admin-role/list' (req, res) {
     const page = qs.parse(req.query)
-    const pageSize = page.pageSize || 20
+    const pageSize = page.pageSize || 10
     const currentPage = page.page || 1
 
     let data
@@ -81,24 +80,35 @@ module.exports = {
       roleListData.page.current = currentPage * 1
       newPage = roleListData.page
     }
-    res.json({success: true, data, page: {...newPage, pageSize: Number(pageSize)}})
+    res.json({success: true, list: data, page: {...newPage, pageSize: Number(pageSize)}})
   },
 
-  'POST /api/role' (req, res) {
-    const newData = getBody(req)
+  'POST /dashboard-admin-role/edit' (req, res) {
+    const curItem = getBody(req)
 
-    newData.id = roleListData.data.length + 1
-    roleListData.data.push(newData)
+    if(curItem.id) {
+      roleListData.data = roleListData.data.map(function (item) {
+        if (item.id === curItem.id) {
+          return {...curItem, power: JSON.parse(curItem.power)}
+        }
+        return item
+      })
 
-    roleListData.page.total = roleListData.data.length
-    roleListData.page.current = 1
+      global[dataKeyPL].data[curItem.id] = JSON.parse(curItem.power)
+    } else {
+      curItem.id = roleListData.data.length + 1
+      roleListData.data.push({...curItem, power: JSON.parse(curItem.power)})
+
+      roleListData.page.total = roleListData.data.length
+      roleListData.page.current = 1
+    }
 
     global[dataKey] = roleListData
 
     res.json({success: true, data: roleListData.data, page: roleListData.page})
   },
 
-  'DELETE /api/role' (req, res) {
+  'POST /dashboard-admin-role/del' (req, res) {
     const deleteItem = getBody(req)
 
     roleListData.data = roleListData.data.filter(function (item) {
@@ -111,31 +121,5 @@ module.exports = {
 
     res.json({success: true, data: roleListData.data, page: roleListData.page})
   },
-
-  'PUT /api/role' (req, res) {
-    const editItem = getBody(req)
-
-    roleListData.data = roleListData.data.map(function (item) {
-      if (item.id === editItem.id) {
-        return editItem
-      }
-      return item
-    })
-
-    global[dataKeyPL].data[editItem.id] = editItem.currentPowerList
-    // global[dataKeyPL] = global[dataKeyPL]
-
-    global[dataKey] = roleListData
-    res.json({success: true, data: roleListData.data, page: roleListData.page})
-  },
-
-  'GET /api/powerList' (req, res) {
-    const query = qs.parse(req.query)
-    const id = +query.id
-    // const roleListData = global[dataKey].data
-    // const currentItem = roleListData.find((item) => (item.id === id))
-    const powerList = getPowerList(id)
-    res.json({success: true, data: powerList})
-  }
 
 }

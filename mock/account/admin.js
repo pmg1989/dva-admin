@@ -44,7 +44,7 @@ module.exports = {
 
   'GET /api/admin' (req, res) {
     const page = qs.parse(req.query)
-    const pageSize = page.pageSize || 20
+    const pageSize = page.pageSize || 10
     const currentPage = page.page || 1
 
     let data
@@ -75,6 +75,12 @@ module.exports = {
     const newData = getBody(req)
     newData.createTime = Mock.mock('@now')
     newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
+
+    const roleListData = global['AccountRoleList'].data
+    const roleList = roleListData.map(item => {
+      return item.name
+    })
+    newData.roleName = roleList[newData.roleId - 1]
 
     newData.id = AdminListData.data.length + 1
     AdminListData.data.unshift(newData)
@@ -108,7 +114,7 @@ module.exports = {
 
     const roleListData = global['AccountRoleList'].data
     const roleList = roleListData.map(item => {
-      return item.roleName
+      return item.name
     })
 
     editItem.createTime = Mock.mock('@now')

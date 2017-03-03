@@ -1,97 +1,43 @@
-import React, { PropTypes, Component } from 'react'
-import { Table, Icon, Checkbox } from 'antd'
-import { menu, equalSet } from '../../utils'
+import React, {Component} from 'react'
+import UploadFile from '../../components/common/UploadFile'
+import {Form, Button} from 'antd'
 
-const CheckboxGroup = Checkbox.Group
+const FormItem = Form.Item
 
-const getPowerText = (item) => {
-  const powerName = ["菜单查看", "内容查看", "新增", "修改", "删除"]
-  const optionsPowerName = item.power.map((cur) => {
-    return { label: powerName[cur], value: cur }
-  })
-
-  return optionsPowerName
+const formItemLayout = {
+  labelCol: {
+    span: 6
+  },
+  wrapperCol: {
+    span: 14
+  }
 }
 
 class Demo extends Component {
 
-  state = {
-    userPower: {
-      1: [0],
-      2: [0],
-      3: [0, 1, 2, 3, 4],
-      4: [0, 1, 2, 3, 4],
-      5: [0, 1, 2, 3, 4],
-      6: [0],
-      7: [0, 2]
-    }
+  handleUpload(files) {
   }
 
-  onChangePower(checkedValues, item){
-    this.state.userPower[item.id] = checkedValues
-    this.setState({ userPower: this.state.userPower })
+  handleOk(e) {
+    e.preventDefault()
   }
 
   render() {
-    const columns = [{
-      title: '菜单项',
-      dataIndex: 'name',
-      width: '30%',
-      render: (text, record) => record.icon ?
-             <span>
-               <Icon type={record.icon} /> {text}
-             </span> :
-             text
-    }, {
-      title: '操作',
-      width: '70%',
-      render: (text, record) => (
-        <CheckboxGroup ref={record.key} options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={(checkedValues) => this.onChangePower(checkedValues, record)}/>
-      )
-    }]
 
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-
-      },
-      onSelect: (record, selected, selectedRows) => {
-        if(selected) {
-          this.state.userPower[record.id] = record.power
-        } else {
-          this.state.userPower[record.id] = []
-        }
-        this.setState({ userPower: this.state.userPower })
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        if(selected) {
-          let allPower = {}
-          selectedRows.reduce(function(power, item) {
-            return allPower[item.id] = item.power
-          }, {})
-          this.setState({ userPower: allPower })
-        } else {
-          this.setState({ userPower: {} })
-        }
-      },
-      getCheckboxProps: record => ({
-        disabled: false,
-        defaultChecked: equalSet(record.power, this.state.userPower[record.id])
-      })
-    }
+    // const files = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    const files = ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png']
 
     return (
-      <Table
-        columns={columns}
-        dataSource={menu}
-        bordered
-        scroll={{ x: 1000 }}
-        simple
-        defaultExpandAllRows
-        rowSelection={rowSelection}
-        rowKey={record => record.key}
-        />
+      <Form horizontal onSubmit={::this.handleOk}>
+        <FormItem label='用户名：' hasFeedback {...formItemLayout}>
+          <UploadFile fileList={files} onUpload={::this.handleUpload} multiple></UploadFile>
+        </FormItem>
+        <FormItem {...formItemLayout}>
+            <Button type="primary" htmlType="submit" size="large">确认提交</Button>
+        </FormItem>
+      </Form>
     )
   }
 }
 
-export default Demo
+export default Form.create()(Demo)

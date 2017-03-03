@@ -3,34 +3,19 @@ import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import UserList from '../../components/account/user/List'
 import UserSearch from '../../components/account/user/Search'
-import UserModal from '../../components/account/user/Modal'
+import UserModal from '../../components/account/user/ModalForm'
 import { checkPower } from '../../utils'
 import { ADD, UPDATE, DELETE } from '../../constants/options'
 
 function User ({ location, curPowers, dispatch, accountUser }) {
-  const { list, pagination, currentItem, modalVisible, modalType, loading } = accountUser
+
+  const { list, pagination, loading } = accountUser
+
   const { field, keyword } = location.query
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
-
-  const userModalProps = {
-    item: modalType === 'create' ? {} : currentItem,
-    type: modalType,
-    visible: modalVisible,
-    onOk (data) {
-      dispatch({
-        type: `accountUser/${modalType}`,
-        payload: data
-      })
-    },
-    onCancel () {
-      dispatch({
-        type: 'accountUser/hideModal'
-      })
-    }
-  }
 
   const userListProps = {
     dataSource: list,
@@ -60,8 +45,8 @@ function User ({ location, curPowers, dispatch, accountUser }) {
       dispatch({
         type: 'accountUser/showModal',
         payload: {
-          modalType: 'update',
-          id: item.id
+          type: 'update',
+          curItem: item
         }
       })
     },
@@ -78,30 +63,28 @@ function User ({ location, curPowers, dispatch, accountUser }) {
     keyword,
     addPower,
     onSearch (fieldsValue) {
-      !!fieldsValue.keyword.length ?
+      const { pathname } = location
+      !!fieldsValue.keyword2.length ?
       dispatch(routerRedux.push({
-        pathname: location.pathname,
+        pathname: pathname,
         query: {
-          field: fieldsValue.field,
-          keyword: fieldsValue.keyword
+          ...fieldsValue
         }
-      })) :
-      dispatch(routerRedux.push({
-        pathname:  location.pathname
+      })) : dispatch(routerRedux.push({
+        pathname: pathname
       }))
     },
     onAdd () {
       dispatch({
-        type: 'accountUser/showModal',
+        type: 'modal/showModal',
         payload: {
-          modalType: 'create'
+          type: 'create'
         }
       })
     }
   }
 
-  const UserModalGen = () =>
-    <UserModal {...userModalProps} />
+  const UserModalGen = () => <UserModal/>
 
   return (
     <div className='content-inner'>

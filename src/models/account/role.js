@@ -8,16 +8,7 @@ export default {
   namespace: 'accountRole',
   state: {
     list: [],
-    loading: false,
-    currentItem: {},
-    currentPowerList: {},
-    modalVisible: false,
-    modalType: 'create',
-    pagination: {
-      current: 1,
-      pageSize: 20,
-      total: null
-    }
+    loading: false
   },
 
   subscriptions: {
@@ -45,8 +36,7 @@ export default {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data.data,
-            pagination: data.page
+            list: data.list
           }
         })
       }
@@ -55,78 +45,33 @@ export default {
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
       const data = yield call(remove, { id: payload })
-      if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success("角色删除成功！")
-      }
       yield put({ type: 'hideLoading' })
+      if (data && data.success) {
+        yield put({ type: 'modal/hideModal' })
+        yield put({ type: 'query' })
+      }
     },
     *create ({ payload }, { call, put }) {
-      yield put({ type: 'hideModal' })
-      yield put({ type: 'hideLoading' })
-      const data = yield call(create, payload)
+      yield put({ type: 'modal/showLoading' })
+      const params = { ...payload, power: JSON.stringify(payload.power) }
+      const data = yield call(create, params)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
-        message.success("角色新增成功！")
+        yield put({ type: 'modal/hideModal' })
+        yield put({ type: 'query' })
       }
-      yield put({ type: 'hideLoading' })
     },
-    *update ({ payload }, { select, call, put }) {
-      yield put({ type: 'hideModal' })
-      yield put({ type: 'showLoading' })
-      const id = yield select(({ accountRole }) => accountRole.currentItem.id)
-      const newRole = { ...payload, id }
+    *update ({ payload }, { call, put }) {
+      yield put({ type: 'modal/showLoading' })
+      const newRole = { ...payload, power: JSON.stringify(payload.power) }
       const data = yield call(update, newRole)
+      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            pagination: {
-              total: data.page.total,
-              current: data.page.current
-            }
-          }
-        })
+        yield put({ type: 'modal/hideModal' })
+        yield put({ type: 'query' })
         message.success("角色修改成功, 注销登录后重新登录即可生效！")
       }
-      yield put({ type: 'hideLoading' })
-    },
-    *showModal ({ payload }, { call, put }) {
-      const { modalType, currentItem } = payload
-      let newData = { modalType, currentPowerList: {} }
-
-      if(!!currentItem) {
-        yield put({ type: 'showLoading' })
-
-        const data = yield call(queryPowerList, { id: currentItem.id })
-        if(data.success) {
-          newData.currentPowerList = data.data
-        }
-        newData.currentItem = currentItem
-        newData.loading = false
-      }
-
-      yield put({ type: 'showModalSuccess', payload: newData })
-    },
+    }
   },
 
   reducers: {
@@ -138,12 +83,6 @@ export default {
     },
     querySuccess (state, action) {
       return { ...state, ...action.payload }
-    },
-    showModalSuccess (state, action) {
-      return { ...state, ...action.payload, modalVisible: true }
-    },
-    hideModal (state) {
-      return { ...state, modalVisible: false }
     }
   }
 

@@ -88,10 +88,10 @@ const getCurPowers = (curPath) => {
     allPathPowers = JSON.parse(localStorage.getItem('allPathPowers'))
   }
   const curPathPower = allPathPowers && allPathPowers[curPath]
-  if(!curPathPower || !curPathPower.curPowers || !curPathPower.curPowers.find(cur => cur === 1)) {
+  if(!curPathPower || !curPathPower.find(cur => cur === 1)) {
     return false
   }
-  return curPathPower.curPowers //返回curPower，是为方便页面跳转验证权限后，dispatch当然权限
+  return curPathPower //返回curPathPower，是为方便页面跳转验证权限后，dispatch当然权限
 }
 
 localStorage.setItem('menu', JSON.stringify(menu))

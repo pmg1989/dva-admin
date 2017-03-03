@@ -1,36 +1,29 @@
 import { request } from '../../utils'
 
 export async function query (params) {
-  return request('/api/role', {
+  return request('/dashboard-admin-role/list', {
     method: 'get',
     data: params
   })
 }
 
 export async function create (params) {
-  return request('/api/role', {
+  return request('/dashboard-admin-role/edit', {
+    method: 'post',
+    data: params
+  })
+}
+
+export async function update (params) {
+  return request('/dashboard-admin-role/edit', {
     method: 'post',
     data: params
   })
 }
 
 export async function remove (params) {
-  return request('/api/role', {
-    method: 'delete',
-    data: params
-  })
-}
-
-export async function update (params) {
-  return request('/api/role', {
-    method: 'put',
-    data: params
-  })
-}
-
-export async function queryPowerList (params) {
-  return request('/api/powerList', {
-    method: 'get',
+  return request('/dashboard-admin-role/del', {
+    method: 'post',
     data: params
   })
 }

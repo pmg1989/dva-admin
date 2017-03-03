@@ -1,7 +1,5 @@
 .table {
   td.avatar {
-    line-height: 1;
-    height: 59px;
 
     img {
       border-radius: 50%;
@@ -14,5 +12,80 @@
 
   .danger {
     color: #F04134;
+  }
+
+  :global {
+    .ant-table-tbody > tr > td,
+    .ant-table-thead > tr > th {
+      height: 60px;
+
+      &:nth-child(1) {
+        width: 10%;
+      }
+
+      &:nth-child(2) {
+        width: 10%;
+      }
+
+      &:nth-child(3) {
+        width: 10%;
+      }
+
+      &:nth-child(4) {
+        width: 10%;
+      }
+
+      &:nth-child(5) {
+        width: 15%;
+      }
+
+      &:nth-child(6) {
+        width: 10%;
+      }
+
+      &:nth-child(7) {
+        width: 10%;
+      }
+
+      &:nth-child(8) {
+        width: 15%;
+      }
+
+      &:nth-child(9) {
+        width: 10%;
+      }
+    }
+
+    .ant-table-thead {
+      & > tr {
+        transition: none;
+        display: block;
+
+        & > th {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .ant-table-tbody {
+      & > tr {
+        transition: none;
+        display: block;
+        border-bottom: 1px solid #f5f5f5;
+
+        & > td {
+          border-bottom: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &.ant-table-expanded-row-level-1 > td {
+          height: auto;
+        }
+      }
+    }
   }
 }

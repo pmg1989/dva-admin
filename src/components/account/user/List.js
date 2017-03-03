@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react'
-import { Table, Popconfirm, Icon, Tooltip, Button  } from 'antd'
+import { Table, Popconfirm, Icon, Tooltip, Button, Modal } from 'antd'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
+
+const confirm = Modal.confirm
 
 function List ({
   loading,
@@ -15,6 +17,15 @@ function List ({
   onStatusItem,
   location
 }) {
+
+  const handleDeleteItem = (record) => {
+    confirm({
+      title: '您确定要删除这条记录吗?',
+      onOk () {
+        onDeleteItem(record.id)
+      }
+    })
+  }
 
   const columns = [
     {
@@ -67,9 +78,7 @@ function List ({
           </Tooltip>}
           {deletePower &&
           <Tooltip placement="bottom" title='删除'>
-            <Popconfirm title='确定要删除吗？' onConfirm={() => onDeleteItem(record.id)}>
-              <a><Icon type="close-circle-o" className={styles.danger}/></a>
-            </Popconfirm>
+            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className={styles.danger}/></a>
           </Tooltip>}
         </p>
       ),

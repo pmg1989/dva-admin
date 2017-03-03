@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Route, IndexRoute} from 'dva/router'
-import App from './routes/app'
+import App from './routes/App'
 import {isLogin} from './utils'
 
 function redirectToLogin(nextState, replace) {
@@ -37,8 +37,9 @@ export default function({history, app}) {
       onEnter: redirectToLogin,
       getIndexRoute(nextState, cb) {
         require.ensure([], require => {
-          cb(null, {component: require('./routes/dashboard')})
-        })
+          registerModel(app, require('./models/dashboard'))
+          cb(null, {component: require('./routes/Dashboard')})
+        }, 'dashboard')
       },
       childRoutes: [
         {
@@ -47,10 +48,11 @@ export default function({history, app}) {
           getComponent(nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/dashboard'))
-              cb(null, require('./routes/dashboard'))
-            })
+              cb(null, require('./routes/Dashboard'))
+            }, 'dashboard')
           }
-        }, {
+        },
+        {
           path: 'account',
           name: 'account',
           childRoutes: [
@@ -61,7 +63,7 @@ export default function({history, app}) {
                 require.ensure([], require => {
                   registerModel(app, require('./models/account/admin'))
                   cb(null, require('./routes/account/Admin'))
-                })
+                }, 'account-admin')
               }
             }, {
               path: 'user',
@@ -70,7 +72,7 @@ export default function({history, app}) {
                 require.ensure([], require => {
                   registerModel(app, require('./models/account/user'))
                   cb(null, require('./routes/account/User'))
-                })
+                }, 'account-user')
               }
             }, {
               path: 'role',
@@ -79,11 +81,12 @@ export default function({history, app}) {
                 require.ensure([], require => {
                   registerModel(app, require('./models/account/role'))
                   cb(null, require('./routes/account/Role'))
-                })
+                }, 'account-role')
               }
             }
           ]
-        }, {
+        },
+        {
           path: 'system',
           name: 'system',
           childRoutes: [
@@ -94,44 +97,73 @@ export default function({history, app}) {
                 require.ensure([], require => {
                   registerModel(app, require('./models/system/modifyPassword'))
                   cb(null, require('./routes/system/ModifyPassword'))
-                })
+                }, 'modify-password')
               }
             }
           ]
-        }, {
+        },
+        {
+          path: 'order',
+          name: 'order',
+          childRoutes: [
+            {
+              path: 'list',
+              name: 'list',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  registerModel(app, require('./models/order/list'))
+                  cb(null, require('./routes/order/OrderList'))
+                }, 'order-list')
+              }
+            }, {
+              path: 'flow',
+              name: 'flow',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  registerModel(app, require('./models/order/flow'))
+                  cb(null, require('./routes/order/Flow'))
+                }, 'order-flow')
+              }
+            }
+          ]
+        },
+        {
           path: 'no-power',
           name: 'no-power',
           getComponent(nextState, cb) {
             require.ensure([], require => {
               cb(null, require('./routes/NoPower'))
-            })
+            }, 'no-power')
           }
         }
       ]
-    }, {
+    },
+    {
       path: 'login',
       name: 'login',
       onEnter: redirectToDashboard,
       getComponent(nextState, cb) {
         require.ensure([], require => {
           cb(null, require('./routes/Login'))
-        })
+        }, 'login')
       }
-    }, {
+    },
+    {
       path: 'demo',
       name: 'demo',
       getComponent(nextState, cb) {
         require.ensure([], require => {
           cb(null, require('./routes/demo/Demo'))
-        })
+        }, 'demo')
       }
-    }, {
+    },
+    {
       path: '*',
       name: 'error',
       getComponent(nextState, cb) {
         require.ensure([], require => {
           cb(null, require('./routes/Error'))
-        })
+        }, 'error')
       }
     }
   ]
