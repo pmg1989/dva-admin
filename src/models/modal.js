@@ -1,25 +1,34 @@
+import Immutable, { List, Map } from 'immutable'
 
 export default {
   namespace: 'modal',
-  state: {
+  state: Immutable.fromJS({
     loading: false,
     visible: false,
     type: 'create',
     curItem: {},
     otherItem: [] //其他对象
-  },
+  }),
   reducers: {
     showLoading (state) {
-      return { ...state, loading: true }
+      return state.set('loading', true)
     },
     hideLoading (state, action) {
-      return { ...state, loading: false, ...action.payload }
+      if(action.payload) {
+        const { curItem, otherItem } = action.payload
+        return state.set('loading', false).set('curItem', Map(curItem)).set('otherItem', List(otherItem))
+      }
+      return state.set('loading', false)
     },
     showModal (state, action) {
-      return { ...state, visible: true, ...action.payload }
+      const { type, loading } = action.payload
+      if(loading) {
+        return state.set('visible', true).set('type', type).set('loading', true)
+      }
+      return state.set('visible', true).set('type', type)
     },
     hideModal (state) {
-      return { ...state, visible: false, loading: false, curItem: {} }
+      return state.set('visible', false).set('loading', false).set('curItem', Map({}))
     }
   }
 }

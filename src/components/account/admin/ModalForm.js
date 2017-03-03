@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, InputNumber, Radio, Modal, Icon, Select } from 'antd'
 import { connect } from 'dva'
+import Immutable from 'immutable'
 import { validPhone } from '../../../utils/utilsValid'
 
 // import InputEmailComplete from '../../common/InputEmailComplete'
@@ -20,7 +21,7 @@ const formItemLayout = {
 
 const ModalForm = ({
   dispatch,
-  modal: { loading, curItem, otherItem, type, visible },
+  modal,
   form: {
     getFieldDecorator,
     validateFields,
@@ -40,6 +41,8 @@ const ModalForm = ({
     })
   }
 
+  const { loading, curItem, otherItem, type, visible } = modal.toJS()
+
   const modalFormOpts = {
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
     visible,
@@ -51,7 +54,7 @@ const ModalForm = ({
     wrapClassName: 'vertical-center-modal',
     confirmLoading: loading
   }
-
+  console.log(modal.toJS());
   return (
     <Modal {...modalFormOpts}>
       <Form horizontal>
@@ -141,7 +144,7 @@ const ModalForm = ({
 }
 
 ModalForm.propTypes = {
-  modal: PropTypes.object,
+  modal: PropTypes.instanceOf(Immutable.Map).isRequired,
   form: PropTypes.object
 }
 

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
+import Immutable from 'immutable'
 import AdminList from '../../components/account/admin/List'
 import AdminSearch from '../../components/account/admin/Search'
 import AdminModal from '../../components/account/admin/ModalForm'
@@ -9,7 +10,7 @@ import { ADD, UPDATE, DELETE } from '../../constants/options'
 
 function Admin({location, curPowers, dispatch, accountAdmin}) {
 
-  const { list, pagination, loading } = accountAdmin
+  // const { list, pagination, loading } = accountAdmin.toJS()
 
   const {field, keyword} = location.query
 
@@ -18,9 +19,9 @@ function Admin({location, curPowers, dispatch, accountAdmin}) {
   const deletePower = checkPower(DELETE, curPowers)
 
   const adminListProps = {
-    dataSource: list,
-    loading,
-    pagination: pagination,
+    dataSource: accountAdmin.get('list'),
+    loading: accountAdmin.get('loading'),
+    pagination: accountAdmin.get('pagination'),
     updatePower,
     deletePower,
     location,
@@ -93,9 +94,7 @@ function Admin({location, curPowers, dispatch, accountAdmin}) {
 }
 
 Admin.propTypes = {
-  accountAdmin: PropTypes.object,
-  location: PropTypes.object,
-  dispatch: PropTypes.func
+  accountAdmin: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 function mapStateToProps({ accountAdmin }) {

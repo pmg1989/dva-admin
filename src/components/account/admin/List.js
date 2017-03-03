@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm, Icon, Tooltip, Modal } from 'antd'
+import Immutable from 'immutable'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
@@ -102,7 +103,7 @@ function List ({
 
   const getBodyWrapperProps = {
     page: location.query.page,
-    current: pagination.current
+    current: pagination.get('current')
   }
 
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
@@ -114,10 +115,10 @@ function List ({
         bordered
         scroll={{ x: 1200 }}
         columns={columns}
-        dataSource={dataSource}
+        dataSource={dataSource.toJS()}
         loading={loading}
         onChange={onPageChange}
-        pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
+        pagination={{...pagination.toJS(), showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
         simple
         rowKey={record => record.id}
         getBodyWrapper={getBodyWrapper}
@@ -130,9 +131,9 @@ List.propTypes = {
   onPageChange: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
-  dataSource: PropTypes.array,
-  loading: PropTypes.any,
-  pagination: PropTypes.any
+  dataSource: PropTypes.instanceOf(Immutable.List).isRequired,
+  loading: PropTypes.bool.isRequired,
+  pagination: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
 export default List

@@ -1,13 +1,14 @@
 import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
+import Immutable, { List, Map } from 'immutable'
 import { create, remove, update, query, get } from '../../services/account/admin'
 import { query as queryRole } from '../../services/account/role'
 import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountAdmin',
-  state: {
+  state: Immutable.fromJS({
     list: [],
     loading: false,
     pagination: {
@@ -15,7 +16,7 @@ export default {
       pageSize: 10,
       total: null
     }
-  },
+  }),
 
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -44,11 +45,12 @@ export default {
           type: 'querySuccess',
           payload: {
             list: data.data,
-            pagination: data.page
+            pagination: data.page,
+            loading: false
           }
         })
       }
-      yield put({ type: 'hideLoading' })
+      // yield put({ type: 'hideLoading' })
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
@@ -112,13 +114,14 @@ export default {
 
   reducers: {
     querySuccess (state, action) {
-      return { ...state, ...action.payload }
+      const { list, pagination, loading } = action.payload
+      return state.set('list', List(list)).set('pagination', Map(pagination)).set('loading', false)
     },
     showLoading (state) {
-      return { ...state, loading: true }
+      return state.set('loading', true)
     },
     hideLoading (state) {
-      return { ...state, loading: false }
+      return state.set('loading', false)
     }
   }
 }
