@@ -20,8 +20,9 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  dispatch,
   modal,
+  onOk,
+  onCancel,
   form: {
     getFieldDecorator,
     validateFields,
@@ -37,7 +38,7 @@ const ModalForm = ({
         ...values,
         id: curItem.id
       }
-      dispatch({ type: !!data.id ? 'accountAdmin/update' : 'accountAdmin/create', payload: { curItem: data } })
+      onOk(data)
     })
   }
 
@@ -51,7 +52,7 @@ const ModalForm = ({
     visible,
     onOk: handleOk,
     onCancel() {
-      dispatch({type: 'modal/hideModal'})
+      onCancel()
       resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
     },
     wrapClassName: 'vertical-center-modal',

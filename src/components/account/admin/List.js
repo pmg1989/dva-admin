@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Table, Popconfirm, Icon, Tooltip, Modal } from 'antd'
+import { connect } from 'dva'
 import Immutable from 'immutable'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
@@ -7,9 +8,7 @@ import TableBodyWrapper from '../../common/TableBodyWrapper'
 const confirm = Modal.confirm
 
 function List ({
-  loading,
-  dataSource,
-  pagination,
+  accountAdmin,
   updatePower,
   deletePower,
   onPageChange,
@@ -18,6 +17,10 @@ function List ({
   onStatusItem,
   location
 }) {
+
+  const dataSource = accountAdmin.get('list').toJS()
+  const loading = accountAdmin.get('loading')
+  const pagination = accountAdmin.get('pagination').toJS()
 
   const handleDeleteItem = (record) => {
     confirm({
@@ -103,7 +106,7 @@ function List ({
 
   const getBodyWrapperProps = {
     page: location.query.page,
-    current: pagination.get('current')
+    current: pagination.current
   }
 
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
@@ -115,10 +118,10 @@ function List ({
         bordered
         scroll={{ x: 1200 }}
         columns={columns}
-        dataSource={dataSource.toJS()}
+        dataSource={dataSource}
         loading={loading}
         onChange={onPageChange}
-        pagination={{...pagination.toJS(), showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
+        pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
         simple
         rowKey={record => record.id}
         getBodyWrapper={getBodyWrapper}
@@ -128,12 +131,11 @@ function List ({
 }
 
 List.propTypes = {
-  onPageChange: PropTypes.func,
-  onDeleteItem: PropTypes.func,
-  onEditItem: PropTypes.func,
-  dataSource: PropTypes.instanceOf(Immutable.List).isRequired,
-  loading: PropTypes.bool.isRequired,
-  pagination: PropTypes.instanceOf(Immutable.Map).isRequired
+  accountAdmin: PropTypes.instanceOf(Immutable.Map).isRequired
 }
 
-export default List
+function mapStateToProps({ accountAdmin }) {
+  return { accountAdmin }
+}
+
+export default connect(mapStateToProps)(List)
