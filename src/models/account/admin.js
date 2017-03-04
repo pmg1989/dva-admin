@@ -45,12 +45,11 @@ export default {
           type: 'querySuccess',
           payload: {
             list: data.data,
-            pagination: data.page,
-            loading: false
+            pagination: data.page
           }
         })
       }
-      // yield put({ type: 'hideLoading' })
+      yield put({ type: 'hideLoading' })
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
@@ -118,8 +117,8 @@ export default {
 
   reducers: {
     querySuccess (state, action) {
-      const { list, pagination, loading } = action.payload
-      return state.set('list', List(list)).set('pagination', Map(pagination)).set('loading', false)
+      const { list, pagination } = action.payload
+      return state.set('list', List(list)).set('pagination', Map(pagination))
     },
     updateSuccess (state, action) {
       const { curItem } = action.payload
