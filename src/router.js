@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Route, IndexRoute } from 'dva/router'
+import { Router, Route, IndexRoute, Redirect } from 'dva/router'
 import { isLogin } from './utils'
 
 export default function ({history, app}) {
