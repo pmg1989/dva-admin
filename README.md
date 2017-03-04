@@ -8,12 +8,21 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/pulls)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
+## 演示地址
+
+https://pmg1989.github.io
+
+- 登录账号 用户名：admin，密码：admin
+- 由于gitpage是静态服务器，刷新后会出现404是正常现象，部署正式服务器即可，具体服务端配置可参见[dva issues 180](https://github.com/dvajs/dva/issues/180)
+
 ## 特性
 
 - 基于[react](https://github.com/facebook/react)，[ant-design](https://github.com/ant-design/ant-design)，[dva](https://github.com/dvajs/dva)，[Mock](https://github.com/nuysoft/Mock) 企业级后台管理系统最佳实践
 - 基于[Mock](https://github.com/nuysoft/Mock)实现脱离后端独立开发
 - 基于Antd UI 设计语言，提供后台管理系统常见使用场景
 - 浅度响应式设计
+- webpack打包处理路由时，实现Javascript模块化按需动态dynamic加载
+- 已实现基本完善的权限管理功能
 
 ## 开发及构建
 
@@ -78,16 +87,8 @@ npm run build
 
 ## 参考
 
+antd-admin：https://github.com/zuiidea/antd-admin
+
 用户列表：https://github.com/dvajs/dva-example-user-dashboard
 
 dashboard设计稿：https://dribbble.com/shots/3108122-Dashboard-Admin
-
-## 截屏
-
-web
-
-![](assets/demo4.gif)
-
-移动
-
-![](assets/demo3.gif)
