@@ -50,7 +50,7 @@
     "dev": "dora --plugins \"webpack?config=conf/webpack.config.js&publicPath=/,webpack-hmr,browser-history?index=/src/index.html\"",
     "build-dev": "atool-build --config conf/webpack.config.js --publicPath /",
     "build-staging": "atool-build --config conf/webpack.config.staging.js --publicPath /",
-    "build-release": "atool-build --config conf/webpack.config.release.js --publicPath /",
+    "build-release": "atool-build --config conf/webpack.config.release.js --publicPath /dva-admin/",
     "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
     "lint": "eslint --fix --ext .js,.jsx src/components/layout"
   },
