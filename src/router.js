@@ -40,6 +40,7 @@ export default function ({history, app}) {
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>
       <Route path="demo" component={require("./routes/demo/Demo")}/>
+      <Redirect from="dva-admin" to="/" />
       <Route path="*" component={require("./routes/Error")}/>
     </Router>
   )
