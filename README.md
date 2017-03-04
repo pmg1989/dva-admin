@@ -87,8 +87,6 @@ npm run build
 
 ## 参考
 
-antd-admin：https://github.com/zuiidea/antd-admin
-
 用户列表：https://github.com/dvajs/dva-example-user-dashboard
 
 dashboard设计稿：https://dribbble.com/shots/3108122-Dashboard-Admin
