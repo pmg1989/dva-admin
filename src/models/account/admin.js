@@ -93,7 +93,7 @@ export default {
     },
     *showModal ({ payload }, { call, put }) {
       const { type, curItem } = payload
-      let newData = {}
+      let newData = { curItem: {} }
 
       yield put({ type: 'modal/showModal', payload: { loading: true, type: type } })
 
@@ -106,7 +106,7 @@ export default {
 
       const dataRole = yield call(queryRole)
       if(dataRole && dataRole.success) {
-        newData.otherItem = dataRole.list
+        newData.curItem.roleList = dataRole.list
       }
       yield put({ type: 'modal/hideLoading', payload: newData })
     },

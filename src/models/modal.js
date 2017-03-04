@@ -6,8 +6,7 @@ export default {
     loading: false,
     visible: false,
     type: 'create',
-    curItem: {},
-    otherItem: [] //其他对象
+    curItem: {}
   }),
   reducers: {
     showLoading (state) {
@@ -16,7 +15,7 @@ export default {
     hideLoading (state, action) {
       if(action.payload) {
         const { curItem, otherItem } = action.payload
-        return state.set('loading', false).set('curItem', Map(curItem)).set('otherItem', List(otherItem))
+        return state.set('loading', false).set('curItem', Map(curItem))
       }
       return state.set('loading', false)
     },

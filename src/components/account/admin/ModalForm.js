@@ -41,7 +41,10 @@ const ModalForm = ({
     })
   }
 
-  const { loading, curItem, otherItem, type, visible } = modal.toJS()
+  const { loading, curItem, type, visible } = modal.toJS()
+  if(!curItem.roleList) {
+    curItem.roleList = []
+  }
 
   const modalFormOpts = {
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
@@ -49,12 +52,12 @@ const ModalForm = ({
     onOk: handleOk,
     onCancel() {
       dispatch({type: 'modal/hideModal'})
-      resetFields() //非常重要，关闭后必须重置数据
+      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
     },
     wrapClassName: 'vertical-center-modal',
     confirmLoading: loading
   }
-  console.log(modal.toJS());
+
   return (
     <Modal {...modalFormOpts}>
       <Form horizontal>
@@ -125,7 +128,7 @@ const ModalForm = ({
                 message: '角色不能为空'
               }
             ]
-          })(<Select placeholder='--请选择角色--'>{otherItem.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
+          })(<Select placeholder='--请选择角色--'>{curItem.roleList.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
         </FormItem>
         <FormItem label='地区：' hasFeedback {...formItemLayout}>
           {getFieldDecorator('address', {
