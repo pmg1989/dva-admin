@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Route, IndexRoute, Redirect } from 'dva/router'
+import { Router, Route, IndexRoute } from 'dva/router'
 import { isLogin } from './utils'
 
 export default function ({history, app}) {
@@ -40,7 +40,6 @@ export default function ({history, app}) {
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>
       <Route path="demo" component={require("./routes/demo/Demo")}/>
-      <Redirect from="dva-admin" to="/" />
       <Route path="*" component={require("./routes/Error")}/>
     </Router>
   )
