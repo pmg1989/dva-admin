@@ -14,7 +14,7 @@ export default {
     },
     hideLoading (state, action) {
       if(action.payload) {
-        const { curItem, otherItem } = action.payload
+        const { curItem } = action.payload
         return state.set('loading', false).set('curItem', Map(curItem))
       }
       return state.set('loading', false)

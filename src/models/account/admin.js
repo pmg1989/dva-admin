@@ -76,19 +76,23 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(update, payload)
+      const { curItem } = payload
+      const data = yield call(update, curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
+        // yield put({ type: 'updateSuccess', payload: { curItem } })
         yield put({ type: 'query' })
       }
     },
     *updateStatus ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(update, { ...payload, status: !payload.status })
+      const { curItem } = payload
+      const updateItem = { ...curItem, status: !curItem.status }
+      const data = yield call(update, updateItem)
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
-        yield put({ type: 'query' })
+        yield put({ type: 'updateSuccess', payload: { curItem: updateItem } })
       }
     },
     *showModal ({ payload }, { call, put }) {
@@ -116,6 +120,11 @@ export default {
     querySuccess (state, action) {
       const { list, pagination, loading } = action.payload
       return state.set('list', List(list)).set('pagination', Map(pagination)).set('loading', false)
+    },
+    updateSuccess (state, action) {
+      const { curItem } = action.payload
+      const index = state.get('list').findIndex((item) => item.id === curItem.id)
+      return state.setIn(["list", index], curItem)
     },
     showLoading (state) {
       return state.set('loading', true)

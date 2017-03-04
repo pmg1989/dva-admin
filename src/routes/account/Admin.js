@@ -51,7 +51,9 @@ function Admin({location, curPowers, dispatch, accountAdmin}) {
     onStatusItem(item) {
       dispatch({
         type: 'accountAdmin/updateStatus',
-        payload: item
+        payload: {
+          curItem: item
+        }
       })
     }
   }

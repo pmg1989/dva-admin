@@ -37,7 +37,7 @@ const ModalForm = ({
         ...values,
         id: curItem.id
       }
-      dispatch({ type: !!data.id ? 'accountAdmin/update' : 'accountAdmin/create', payload: data })
+      dispatch({ type: !!data.id ? 'accountAdmin/update' : 'accountAdmin/create', payload: { curItem: data } })
     })
   }
 
