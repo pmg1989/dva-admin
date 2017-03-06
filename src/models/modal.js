@@ -20,11 +20,11 @@ export default {
       return state.set('loading', false)
     },
     showModal (state, action) {
-      const { type, loading } = action.payload
+      const { type, loading, curItem } = action.payload
       if(loading) {
         return state.set('visible', true).set('type', type).set('loading', true)
       }
-      return state.set('visible', true).set('type', type)
+      return state.set('visible', true).set('type', type).set('curItem', Map(curItem))
     },
     hideModal (state) {
       return state.set('visible', false).set('loading', false).set('curItem', Map({}))

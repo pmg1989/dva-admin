@@ -1,15 +1,16 @@
 import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
+import Immutable, { List, Map } from 'immutable'
 import { create, remove, update, query, queryPowerList } from '../../services/account/role'
 import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountRole',
-  state: {
+  state: Immutable.fromJS({
     list: [],
     loading: false
-  },
+  }),
 
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -47,13 +48,13 @@ export default {
       const data = yield call(remove, { id: payload })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
-        yield put({ type: 'modal/hideModal' })
         yield put({ type: 'query' })
       }
     },
     *create ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const params = { ...payload, power: JSON.stringify(payload.power) }
+      const { curItem } = payload
+      const params = { ...curItem, power: JSON.stringify(curItem.power) }
       const data = yield call(create, params)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
@@ -63,8 +64,9 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const newRole = { ...payload, power: JSON.stringify(payload.power) }
-      const data = yield call(update, newRole)
+      const { curItem } = payload
+      const params = { ...curItem, power: JSON.stringify(curItem.power) }
+      const data = yield call(update, params)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -76,13 +78,14 @@ export default {
 
   reducers: {
     showLoading (state) {
-      return { ...state, loading: true }
+      return state.set('loading', true)
     },
     hideLoading (state) {
-      return { ...state, loading: false }
+      return state.set('loading', false)
     },
     querySuccess (state, action) {
-      return { ...state, ...action.payload }
+      const { list } = action.payload
+      return state.set('list', List(list))
     }
   }
 

@@ -11,11 +11,11 @@ function List ({
   accountAdmin,
   updatePower,
   deletePower,
+  location,
   onPageChange,
   onDeleteItem,
   onEditItem,
-  onStatusItem,
-  location
+  onStatusItem
 }) {
 
   const dataSource = accountAdmin.get('list').toJS()
