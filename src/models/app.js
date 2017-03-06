@@ -112,7 +112,7 @@ export default {
     },
     loginSuccess(state, action) {
       const { user, userPower } = action.payload
-      return state.set('login', true).set('curPowers', userPower).setIn(['user', 'name'], user.name)
+      return state.set('login', true).set('userPower', userPower).setIn(['user', 'name'], user.name)
     },
     logoutSuccess(state) {
       // return {
@@ -162,7 +162,7 @@ export default {
     },
     changeCurPowers(state, action) {
       const { curPowers } = action.payload
-      return state.set('userPower', List(curPowers))
+      return state.set('curPowers', List(curPowers))
     }
   }
 }

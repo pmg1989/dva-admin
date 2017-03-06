@@ -8,7 +8,7 @@ module.exports = function (webpackConfig, env) {
     style: true
   }])
 
-  webpackConfig.devtool = 'inline-source-map' //#eval
+  webpackConfig.devtool = 'eval' //#inline-source-map
 
   // Support hmr
   if (env === 'development') {
