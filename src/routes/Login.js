@@ -23,7 +23,7 @@ LoginApp.propTypes = {
 }
 
 function mapStateToProps({ app }) {
-  return { loading: app.loading }
+  return { loading: app.get('loading') }
 }
 
 export default connect(mapStateToProps)(LoginApp)

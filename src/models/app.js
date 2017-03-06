@@ -1,5 +1,6 @@
 import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
+import Immutable, { List, Map } from 'immutable'
 import { isLogin, userName, setLoginIn, setLoginOut, menu } from '../utils'
 import { getToken, login, userInfo, logout } from '../services/app'
 import Cookie from '../utils/cookie'
@@ -24,7 +25,7 @@ function getAllPathPowers(menuArray, curPowers) {
 
 export default {
   namespace : 'app',
-  state : {
+  state : Immutable.fromJS({
     login: !!isLogin(),
     loading: false,
     user: {
@@ -37,7 +38,7 @@ export default {
     navOpenKeys: JSON.parse(localStorage.getItem('navOpenKeys') || '[]'), //侧边栏菜单打开的keys,
     userPower: initPower,
     curPowers: []
-  },
+  }),
   subscriptions : {
     setup({ dispatch, history }) {
       window.onresize = function() {
@@ -104,63 +105,64 @@ export default {
   },
   reducers : {
     showLoading (state) {
-      return { ...state, loading: true }
+      return state.set('loading', true)
     },
     hideLoading (state) {
-      return { ...state, loading: false }
+      return state.set('loading', false)
     },
     loginSuccess(state, action) {
-      return {
-        ...state,
-        ...action.payload,
-        login: true
-      }
+      const { user, userPower } = action.payload
+      return state.set('login', true).set('curPowers', userPower).setIn(['user', 'name'], user.name)
     },
     logoutSuccess(state) {
-      return {
-        ...state,
-        login: false,
-        userPower: {},
-        curPowers: []
-      }
+      // return {
+      //   ...state,
+      //   login: false,
+      //   userPower: {},
+      //   curPowers: []
+      // }
+      return state
     },
     switchSider(state) {
-      localStorage.setItem('antdAdminSiderFold', !state.siderFold)
-      return {
-        ...state,
-        siderFold: !state.siderFold
-      }
+      // localStorage.setItem('antdAdminSiderFold', !state.siderFold)
+      // return {
+      //   ...state,
+      //   siderFold: !state.siderFold
+      // }
+      return state
     },
     changeTheme(state) {
-      localStorage.setItem('antdAdminDarkTheme', !state.darkTheme)
-      return {
-        ...state,
-        darkTheme: !state.darkTheme
-      }
+      // localStorage.setItem('antdAdminDarkTheme', !state.darkTheme)
+      // return {
+      //   ...state,
+      //   darkTheme: !state.darkTheme
+      // }
+      return state
     },
     changeNavbar(state) {
-      return {
-        ...state,
-        isNavbar: document.body.clientWidth < 769
-      }
+      // return {
+      //   ...state,
+      //   isNavbar: document.body.clientWidth < 769
+      // }
+      return state
     },
     switchMenuPopver(state) {
-      return {
-        ...state,
-        menuPopoverVisible: !state.menuPopoverVisible
-      }
+      // return {
+      //   ...state,
+      //   menuPopoverVisible: !state.menuPopoverVisible
+      // }
+      return state
     },
     handleNavOpenKeys(state, action) {
-      return {
-        ...state,
-        ...action.payload
-      }
+      // return {
+      //   ...state,
+      //   ...action.payload
+      // }
+      return state
     },
     changeCurPowers(state, action) {
-      return {
-        ...state,
-        ...action.payload
-      }
+      const { curPowers } = action.payload
+      return state.set('userPower', List(curPowers))
     }
   }
 }
