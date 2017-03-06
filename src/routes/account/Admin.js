@@ -89,13 +89,11 @@ function Admin({location, curPowers, dispatch}) {
     }
   }
 
-  const AdminModalGen = () => <AdminModal {...modalProps}/>
-
   return (
     <div className='content-inner'>
       <AdminSearch {...searchProps}/>
       <AdminList {...listProps}/>
-      <AdminModalGen/>
+      <AdminModal {...modalProps}/>
     </div>
   )
 }

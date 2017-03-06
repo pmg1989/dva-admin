@@ -61,7 +61,7 @@ export default {
     },
     *create ({ payload }, { select, call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(create, payload)
+      const data = yield call(create, payload.curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })

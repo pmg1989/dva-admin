@@ -48,15 +48,15 @@ const ModalForm = ({
   }
 
   const modalFormOpts = {
-    title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
     visible,
-    onOk: handleOk,
-    onCancel() {
-      onCancel()
-      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
-    },
+    title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
     wrapClassName: 'vertical-center-modal',
-    confirmLoading: loading
+    confirmLoading: loading,
+    onOk: handleOk,
+    onCancel,
+    afterClose() {
+      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
+    }
   }
 
   return (
