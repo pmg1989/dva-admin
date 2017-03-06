@@ -98,7 +98,8 @@ export default {
       const { type, curItem } = payload
       let newData = { curItem: {} }
 
-      yield put({ type: 'modal/showModal', payload: { loading: true, type: type } })
+      yield put({ type: 'modal/showLoading' })
+      yield put({ type: 'modal/showModal', payload: { type: type } })
 
       if(!!curItem) {
         const dataGet = yield call(get, { id: curItem.id })
