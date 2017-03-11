@@ -17,6 +17,15 @@ panner.panningModel = 'equalpower'
 panner.connect(audioContext.destination)
 
 class AudioPlayer extends Component {
+
+  static propTypes = {
+    src: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    autoPlay: true
+  }
+
   componentDidMount() {
     const source = audioContext.createMediaElementSource(this._player.instance)
     source.connect(panner)
@@ -35,6 +44,7 @@ class AudioPlayer extends Component {
       <Media>
         <div>
           <Player
+            autoPlay={this.props.autoPlay}
             ref={c => this._player = c}
             src={this.props.src}
             useAudioObject

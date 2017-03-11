@@ -21,7 +21,7 @@ class Demo extends Component {
     return (
       <Row>
         <Col span={16} offset={4}>
-          <Tabs defaultActiveKey="2">
+          <Tabs defaultActiveKey="3">
             <TabPane tab="MediaListPlayer" key="1">
               <MediaListPlayer playlist={playlist} autoPlay={false} />
             </TabPane>
@@ -29,7 +29,7 @@ class Demo extends Component {
               <VideoPlayer src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" autoPlay={false}/>
             </TabPane>
             <TabPane tab="AudioPlayer" key="3">
-              <AudioPlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8"/>
+              <AudioPlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8" autoPlay={false}/>
             </TabPane>
             <TabPane tab="CirclePlayer" key="4">
               <CirclePlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8"/>
