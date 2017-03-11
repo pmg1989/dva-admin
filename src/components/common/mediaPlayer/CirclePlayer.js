@@ -4,6 +4,15 @@ import CircleProgress from './CircleProgress'
 import styles from './MediaPlayer.less'
 
 class CircleMediaPlayer extends Component {
+
+  static propTypes = {
+    src: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    autoPlay: true
+  }
+
   componentDidMount() {
     this._circle = new CircleProgress(this._svg)
   }
@@ -36,6 +45,7 @@ class CircleMediaPlayer extends Component {
         {({ isPlaying, playPause }) =>
           <button className={styles["circle-media-player"]} onClick={() => playPause()}>
             <Player
+              autoPlay={this.props.autoPlay}
               src={this.props.src}
               vendor="audio"
               onTimeUpdate={this._handleTimeUpdate}
