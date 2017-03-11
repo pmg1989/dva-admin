@@ -14,8 +14,8 @@ import '../components/layout/common.less'
 import { getCurPowers } from '../utils'
 
 function App ({ children, location, dispatch, app }) {
-  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading, userPower, curPowers } = app.toJS()
-  
+  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading, userPower, curPowers } = app
+
   const loginProps = {
     loading,
     onOk (data) {

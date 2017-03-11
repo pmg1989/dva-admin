@@ -25,7 +25,7 @@ const ModalForm = ({
   onOk,
   onCancel
 }) => {
-
+  
   if(!curItem.roleList) {
     curItem.roleList = []
   }

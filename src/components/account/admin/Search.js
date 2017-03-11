@@ -14,7 +14,6 @@ const Search = ({
     getFieldsValue
   }
 }) => {
-
   const searchGroupProps = {
     field,
     keyword,
@@ -43,12 +42,11 @@ const Search = ({
 }
 
 Search.propTypes = {
-  field: PropTypes.string,
-  keyword: PropTypes.string,
-  addPower: PropTypes.bool.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  onSearch: PropTypes.func,
+  onAdd: PropTypes.func,
+  field: PropTypes.string,
+  keyword: PropTypes.string
 }
 
 export default Form.create()(Search)

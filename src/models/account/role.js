@@ -1,15 +1,14 @@
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
-import Immutable, { List, Map } from 'immutable'
 import { create, remove, update, query, queryPowerList } from '../../services/account/role'
 import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountRole',
-  state: Immutable.fromJS({
+  state: {
     list: [],
     loading: false
-  }),
+  },
 
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -77,14 +76,13 @@ export default {
 
   reducers: {
     showLoading (state) {
-      return state.set('loading', true)
+      return { ...state, loading: true }
     },
     hideLoading (state) {
-      return state.set('loading', false)
+      return { ...state, loading: false }
     },
     querySuccess (state, action) {
-      const { list } = action.payload
-      return state.set('list', List(list))
+      return { ...state, ...action.payload }
     }
   }
 
