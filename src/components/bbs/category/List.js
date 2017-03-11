@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
+import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
@@ -98,7 +99,7 @@ function List({
     simple: true,
     columns,
     loading,
-    className: styles.table,
+    className: classnames(styles.table, "table-motion"),
     scroll: { x: 1200 },
     onChange: onPageChange,
     pagination: {

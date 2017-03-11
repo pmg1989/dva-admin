@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Table, Popconfirm, Icon, Tooltip} from 'antd'
+import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
@@ -68,14 +69,26 @@ function List({
 
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
 
-  return (<Table className={styles.table} bordered scroll={{
-    x: 1200
-  }} columns={columns} dataSource={list} loading={loading} onChange={onPageChange} pagination={{
-    ...pagination,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: total => `共 ${total} 条`
-  }} simple rowKey={record => record.id} getBodyWrapper={getBodyWrapper}/>)
+  return (
+    <Table
+      className={classnames(styles.table, "table-motion")}
+      bordered
+      scroll={{ x: 1200 }}
+      columns={columns}
+      dataSource={list}
+      loading={loading}
+      onChange={onPageChange}
+      pagination={{
+        ...pagination,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: total => `共 ${total} 条`
+      }}
+      simple
+      rowKey={record => record.id}
+      getBodyWrapper={getBodyWrapper}
+    />
+  )
 }
 
 List.propTypes = {

@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
+import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
@@ -67,7 +68,7 @@ function List({
 
   return (
     <Table
-      className={styles.table}
+      className={classnames(styles.table, "table-motion")}
       bordered scroll={{ x: 1000 }}
       columns={columns}
       dataSource={list}
