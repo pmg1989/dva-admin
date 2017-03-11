@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Row, Col, Tabs} from 'antd'
 import MediaPlayer from '../../components/common/mediaPlayer'
 import VideoPlayer from '../../components/common/mediaPlayer/VideoPlayer'
-import AudioListPlayer from '../../components/common/mediaPlayer/AudioListPlayer'
 import AudioPlayer from '../../components/common/mediaPlayer/AudioPlayer'
 import CirclePlayer from '../../components/common/mediaPlayer/CirclePlayer'
 
@@ -22,26 +21,23 @@ const playAudioList = [
   { src: 'https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8', label: 'mp3-preview-last' }
 ]
 
-class Demo extends Component {
+class MediaPlayerIndex extends Component {
 
   render() {
     return (
       <Row>
         <Col span={16} offset={4}>
-          <Tabs defaultActiveKey="3">
+          <Tabs defaultActiveKey="1">
             <TabPane tab="MediaPlayer" key="1">
-              <MediaPlayer playlist={playMediaList} autoPlay={false} />
+              <MediaPlayer playlist={playMediaList} />
             </TabPane>
             <TabPane tab="VideoPlayer" key="2">
               <VideoPlayer src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" autoPlay={false}/>
             </TabPane>
-            <TabPane tab="AudioListPlayer" key="3">
-              <AudioListPlayer playlist={playAudioList} autoPlay={false} curPlay={0}/>
+            <TabPane tab="AudioPlayer" key="3">
+              <AudioPlayer src="http://www.noiseaddicts.com/samples_1w72b820/3890.mp3" autoPlay={false} />
             </TabPane>
-            <TabPane tab="AudioPlayer" key="4">
-              <AudioPlayer src="http://www.noiseaddicts.com/samples_1w72b820/3890.mp3" autoPlay={false}/>
-            </TabPane>
-            <TabPane tab="CirclePlayer" key="5">
+            <TabPane tab="CirclePlayer" key="4">
               <CirclePlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8" autoPlay={false}/>
             </TabPane>
           </Tabs>
@@ -51,4 +47,4 @@ class Demo extends Component {
   }
 }
 
-export default Demo
+export default MediaPlayerIndex
