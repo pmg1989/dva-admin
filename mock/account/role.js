@@ -54,7 +54,7 @@ let powerList = global[dataKeyPL]
 
 module.exports = {
 
-  'GET /dashboard-admin-role/list' (req, res) {
+  'GET /api/role' (req, res) {
     const page = qs.parse(req.query)
     const pageSize = page.pageSize || 10
     const currentPage = page.page || 1
@@ -83,7 +83,7 @@ module.exports = {
     res.json({success: true, list: data, page: {...newPage, pageSize: Number(pageSize)}})
   },
 
-  'POST /dashboard-admin-role/edit' (req, res) {
+  'POST /api/role' (req, res) {
     const curItem = getBody(req)
 
     if(curItem.id) {
@@ -108,7 +108,7 @@ module.exports = {
     res.json({success: true, data: roleListData.data, page: roleListData.page})
   },
 
-  'POST /dashboard-admin-role/del' (req, res) {
+  'DELETE /api/role' (req, res) {
     const deleteItem = getBody(req)
 
     roleListData.data = roleListData.data.filter(function (item) {
