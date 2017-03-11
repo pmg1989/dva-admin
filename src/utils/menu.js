@@ -91,6 +91,29 @@ const menu = [
       }
     ]
   },
+  //UI组件
+  {
+    id: _.uniqueId(),
+    key: 'ui',
+    name: 'UI组件',
+    icon: 'setting',
+    clickable: false,
+    power: [1],
+    children: [
+      {
+        id: _.uniqueId(),
+        key: 'upload',
+        name: '文件上传',
+        power: [1, 2]
+      },
+      {
+        id: _.uniqueId(),
+        key: 'media-player',
+        name: '音频视频',
+        power: [1, 2]
+      }
+    ]
+  }
 ]
 
 export default menu

@@ -148,6 +148,30 @@ export default function({history, app}) {
             }
           ]
         },
+        //ui
+        {
+          path: 'ui',
+          name: 'ui',
+          childRoutes: [
+            {
+              path: 'upload',
+              name: 'upload',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  cb(null, require('./routes/ui/Upload'))
+                }, 'upload')
+              }
+            }, {
+              path: 'media-player',
+              name: 'media-player',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  cb(null, require('./routes/ui/MediaPlayer'))
+                }, 'media-player')
+              }
+            }
+          ]
+        },
         //no-power
         {
           path: 'no-power',

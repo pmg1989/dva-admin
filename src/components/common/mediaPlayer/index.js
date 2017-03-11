@@ -13,7 +13,7 @@ class Playlist extends Component {
     return (
       <aside className={styles["media-playlist"]}>
         <header className={styles["media-playlist-header"]}>
-          <h3 className={styles["media-playlist-title"]}>Playlist</h3>
+          <h3 className={styles["media-playlist-title"]}>播放列表</h3>
         </header>
         <ul className={styles["media-playlist-tracks"]}>
           {tracks.map(track =>
@@ -43,7 +43,7 @@ class Index extends Component {
   }
 
   state = {
-    currentTrack: { src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", label: 'No media loaded' },
+    currentTrack: this.props.playlist[0],
     showMediaPlayer: true,
     repeatTrack: false,
     autoPlay: true

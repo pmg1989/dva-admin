@@ -26,8 +26,8 @@ class Demo extends Component {
   render() {
     return (
       <div className={styles['media-player-wrapper']}>
-        <VideoPlayer src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"/>
-        {/*<MediaListPlayer playlist={playlist}/>
+        <MediaListPlayer playlist={playlist}/>
+        {/*<VideoPlayer src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"/>
         <AudioPlayer src="http://om81a8oz0.bkt.clouddn.com/lms/recording/student/jl/22-8.mp3?e=1489044283&token=fl6A1F9KHk0raN9TIv9kr4mZRnd1KovppmqGTET_:XTh1gUXeZlaJ_NIqNWbM6hN0zuw="/>
         <CirclePlayer src="http://om81a8oz0.bkt.clouddn.com/lms/recording/student/jl/22-8.mp3?e=1489044283&token=fl6A1F9KHk0raN9TIv9kr4mZRnd1KovppmqGTET_:XTh1gUXeZlaJ_NIqNWbM6hN0zuw="/>
         */}

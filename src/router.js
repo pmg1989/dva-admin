@@ -39,6 +39,10 @@ export default function ({history, app}) {
         <Route path="bbs">
           <Route path="category" component={require("./routes/bbs/Category")}></Route>
         </Route>
+        <Route path="ui">
+          <Route path="upload" component={require("./routes/ui/Upload")}></Route>
+          <Route path="media-player" component={require("./routes/ui/MediaPlayer")}></Route>
+        </Route>
         <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>
