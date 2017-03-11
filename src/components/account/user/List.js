@@ -1,14 +1,16 @@
-import React, { PropTypes } from 'react'
-import { Table, Popconfirm, Icon, Tooltip, Button, Modal } from 'antd'
+import React, {PropTypes} from 'react'
+import {Table, Popconfirm, Icon, Tooltip, Button, Modal} from 'antd'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
 const confirm = Modal.confirm
 
 function List ({
-  loading,
-  dataSource,
-  pagination,
+  accountUser: {
+    loading,
+    list,
+    pagination
+  },
   updatePower,
   deletePower,
   onPageChange,
@@ -73,12 +75,12 @@ function List ({
               </a>
             </Popconfirm> :
             <a onClick={() => onStatusItem(record)} style={{ marginRight: 10 }}>
-              <Icon type="lock" className={styles.warning}/>
+              <Icon type="lock" className="warning"/>
             </a>}
           </Tooltip>}
           {deletePower &&
           <Tooltip placement="bottom" title='删除'>
-            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className={styles.danger}/></a>
+            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className="danger"/></a>
           </Tooltip>}
         </p>
       ),
@@ -100,7 +102,7 @@ function List ({
         bordered
         scroll={{ x: 1200 }}
         columns={columns}
-        dataSource={dataSource}
+        dataSource={list}
         loading={loading}
         onChange={onPageChange}
         pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
@@ -113,12 +115,10 @@ function List ({
 }
 
 List.propTypes = {
-  onPageChange: PropTypes.func,
-  onDeleteItem: PropTypes.func,
-  onEditItem: PropTypes.func,
-  dataSource: PropTypes.array,
-  loading: PropTypes.any,
-  pagination: PropTypes.any
+  accountUser: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  onDeleteItem: PropTypes.func.isRequired,
+  onEditItem: PropTypes.func.isRequired
 }
 
 export default List

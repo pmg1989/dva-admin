@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import { create, remove, update, query, queryPowerList } from '../../services/account/role'
@@ -19,7 +18,7 @@ export default {
           const curPowers = getCurPowers(pathname)
           if(curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({ type: 'query', payload: location.query })
+            dispatch({ type: 'query' })
           } else {
             dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
@@ -31,7 +30,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(query, parse(payload))
+      const data = yield call(query)
       if (data.success) {
         yield put({
           type: 'querySuccess',
@@ -44,16 +43,16 @@ export default {
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(remove, { id: payload })
+      const data = yield call(remove, { id: payload.id })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
-        yield put({ type: 'modal/hideModal' })
         yield put({ type: 'query' })
       }
     },
     *create ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const params = { ...payload, power: JSON.stringify(payload.power) }
+      const { curItem } = payload
+      const params = { ...curItem, power: JSON.stringify(curItem.power) }
       const data = yield call(create, params)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
@@ -63,8 +62,9 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const newRole = { ...payload, power: JSON.stringify(payload.power) }
-      const data = yield call(update, newRole)
+      const { curItem } = payload
+      const params = { ...curItem, power: JSON.stringify(curItem.power) }
+      const data = yield call(update, params)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })

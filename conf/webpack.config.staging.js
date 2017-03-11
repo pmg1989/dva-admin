@@ -8,7 +8,7 @@ module.exports = function (webpackConfig, env) {
     style: true
   }])
 
-  webpackConfig.devtool = 'inline-source-map'
+  webpackConfig.devtool = 'eval' //#inline-source-map
 
   // Support hmr
   if (env === 'development') {
@@ -19,21 +19,25 @@ module.exports = function (webpackConfig, env) {
     }])
   } else {
     webpackConfig.babel.plugins.push('dev-expression')
+    webpackConfig.entry = {
+      index: './src/index.js',
+      common: [ 'react', 'react-dom', 'classnames', 'antd', 'dva', 'qs', 'js-cookie', 'moment', 'rc-queue-anim', 'rc-tween-one']
+    }
   }
   //mock data config
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'newband.app.admin.ISMOCK': false,
     'newband.app.admin.IS_DYNAMIC_LOAD': true,
     'newband.app.admin.API_HOST': JSON.stringify('http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2'),
-    'newband.app.admin.CLIENT_ID': JSON.stringify('7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck'),
-    'newband.app.admin.CLIENT_SECRET': JSON.stringify('4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc'),
+    'newband.app.admin.CLIENT_ID': JSON.stringify('8_458xy3o1w2g4cgwkk0ksgs0kkkw8o4soc000g004csoo840og4'),
+    'newband.app.admin.CLIENT_SECRET': JSON.stringify('2iwh0zfunzswgss8s0ks4scoo4w080sskcowgkoc0s8swg8goo'),
     'newband.app.admin.GRANT_TYPE': JSON.stringify('client_credentials')
   }))
 
   // Don't extract common.js and common.css
-  webpackConfig.plugins = webpackConfig.plugins.filter(function (plugin) {
-    return !(plugin instanceof webpack.optimize.CommonsChunkPlugin)
-  })
+  // webpackConfig.plugins = webpackConfig.plugins.filter(function (plugin) {
+  //   return !(plugin instanceof webpack.optimize.CommonsChunkPlugin)
+  // })
 
   // Support CSS Modules
   // Parse all less files as css module.

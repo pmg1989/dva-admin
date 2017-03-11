@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import { create, remove, update, query, get } from '../../services/account/admin'
@@ -52,7 +51,7 @@ export default {
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(remove, { id: payload })
+      const data = yield call(remove, { id: payload.id })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'query' })
@@ -60,7 +59,7 @@ export default {
     },
     *create ({ payload }, { select, call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(create, payload)
+      const data = yield call(create, payload.curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -74,7 +73,7 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(update, payload)
+      const data = yield call(update, payload.curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -83,7 +82,8 @@ export default {
     },
     *updateStatus ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(update, { ...payload, status: !payload.status })
+      const { curItem } = payload
+      const data = yield call(update, { ...curItem, status: !curItem.status })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'query' })
@@ -91,7 +91,7 @@ export default {
     },
     *showModal ({ payload }, { call, put }) {
       const { type, curItem } = payload
-      let newData = {}
+      let newData = { curItem: {} }
 
       yield put({ type: 'modal/showModal', payload: { loading: true, type: type } })
 
@@ -104,7 +104,7 @@ export default {
 
       const dataRole = yield call(queryRole)
       if(dataRole && dataRole.success) {
-        newData.otherItem = dataRole.list
+        newData.curItem.roleList = dataRole.list
       }
       yield put({ type: 'modal/hideLoading', payload: newData })
     },

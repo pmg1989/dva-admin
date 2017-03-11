@@ -1,9 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, InputNumber, Radio, Modal, Icon, Select } from 'antd'
-import { connect } from 'dva'
 import { validPhone } from '../../../utils/utilsValid'
-
-// import InputEmailComplete from '../../common/InputEmailComplete'
 
 const FormItem = Form.Item
 
@@ -19,15 +16,21 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  dispatch,
-  modal: { loading, curItem, otherItem, type, visible },
+  modal: { loading, curItem, type, visible },
   form: {
     getFieldDecorator,
     validateFields,
     resetFields
-  }
+  },
+  onOk,
+  onCancel
 }) => {
-  function handleOk () {
+  
+  if(!curItem.roleList) {
+    curItem.roleList = []
+  }
+
+  const handleOk = () => {
     validateFields((errors, values) => {
       if (errors) {
         return
@@ -36,20 +39,20 @@ const ModalForm = ({
         ...values,
         id: curItem.id
       }
-      dispatch({ type: !!data.id ? 'accountAdmin/update' : 'accountAdmin/create', payload: data })
+      onOk(data)
     })
   }
 
   const modalFormOpts = {
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
     visible,
-    onOk: handleOk,
-    onCancel() {
-      dispatch({type: 'modal/hideModal'})
-      resetFields() //非常重要，关闭后必须重置数据
-    },
     wrapClassName: 'vertical-center-modal',
-    confirmLoading: loading
+    confirmLoading: loading,
+    onOk: handleOk,
+    onCancel,
+    afterClose() {
+      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
+    }
   }
 
   return (
@@ -122,7 +125,7 @@ const ModalForm = ({
                 message: '角色不能为空'
               }
             ]
-          })(<Select placeholder='--请选择角色--'>{otherItem.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
+          })(<Select placeholder='--请选择角色--'>{curItem.roleList.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
         </FormItem>
         <FormItem label='地区：' hasFeedback {...formItemLayout}>
           {getFieldDecorator('address', {
@@ -141,12 +144,8 @@ const ModalForm = ({
 }
 
 ModalForm.propTypes = {
-  modal: PropTypes.object,
-  form: PropTypes.object
+  modal: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired
 }
 
-function mapStateToProps({ modal }) {
-  return { modal }
-}
-
-export default connect(mapStateToProps)(Form.create()(ModalForm))
+export default Form.create()(ModalForm)

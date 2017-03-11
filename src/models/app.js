@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
 import { isLogin, userName, setLoginIn, setLoginOut, menu } from '../utils'
 import { getToken, login, userInfo, logout } from '../services/app'

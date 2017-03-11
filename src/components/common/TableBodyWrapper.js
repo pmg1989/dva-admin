@@ -60,8 +60,14 @@ const TableBodyWrapper = ({ body, page = 1, current }) => {
 }
 
 TableBodyWrapper.propTypes = {
-  page: PropTypes.any,
-  current: PropTypes.number.isRequired
+  page: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
+  current: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired
 }
 
 export default TableBodyWrapper

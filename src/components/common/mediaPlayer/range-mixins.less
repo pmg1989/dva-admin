@@ -1,0 +1,14 @@
+.range-track ( $browserList... ) {
+  @if( length($browserList) == 0 ){ $browserList: $defaultBrowserList}
+
+  @if ( _contains($browserList, webkit)){
+    &::-webkit-slider-runnable-track {        @content; }
+  }
+  @if ( _contains($browserList, moz)){
+    &::-moz-range-track {                     @content; }
+  }
+  @if ( _contains($browserList, ms)){
+    &::-ms-track {                            @content; }
+  }
+
+}

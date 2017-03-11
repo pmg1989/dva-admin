@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import { create, remove, update, query, get } from '../../services/account/user'
@@ -51,7 +50,7 @@ export default {
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(remove, { id: payload })
+      const data = yield call(remove, { id: payload.id })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'query' })
@@ -59,7 +58,7 @@ export default {
     },
     *create ({ payload }, { select, call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(create, payload)
+      const data = yield call(create, payload.curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -73,7 +72,7 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       yield put({ type: 'modal/showLoading' })
-      const data = yield call(update, payload)
+      const data = yield call(update, payload.curItem)
       yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -82,7 +81,8 @@ export default {
     },
     *updateStatus ({ payload }, { select, call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(update, { ...payload, status: !payload.status })
+      const { curItem } = payload
+      const data = yield call(update, { ...curItem, status: !curItem.status })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'query' })

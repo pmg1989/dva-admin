@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import { query } from '../../services/order/list'

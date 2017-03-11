@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
 import { update } from '../../services/system/modifyPassword'
 import { getCurPowers } from '../../utils'
@@ -28,7 +27,7 @@ export default {
   effects: {
     *update ({ payload }, { select, call, put }) {
       yield put({ type: 'showLoading' })
-      yield call(update, parse(payload))
+      yield call(update, payload)
       yield put({ type: 'hideLoading' })
     }
   },

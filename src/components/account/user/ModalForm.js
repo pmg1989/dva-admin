@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, InputNumber, Radio, Modal, Icon } from 'antd'
-import { connect } from 'dva'
 import { validPhone } from '../../../utils/utilsValid'
 
 const FormItem = Form.Item
@@ -15,13 +14,14 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  dispatch,
   modal: { loading, curItem, type, visible },
   form: {
     getFieldDecorator,
     validateFields,
     resetFields
-  }
+  },
+  onOk,
+  onCancel
 }) => {
   function handleOk () {
     validateFields((errors, values) => {
@@ -32,20 +32,20 @@ const ModalForm = ({
         ...values,
         id: curItem.id
       }
-      dispatch({ type: !!data.id ? 'accountUser/update' : 'accountUser/create', payload: data })
+      onOk(data)
     })
   }
 
   const modalFormOpts = {
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建用户</div> : <div><Icon type="edit" /> 修改用户</div>,
     visible,
-    onOk: handleOk,
-    onCancel() {
-      dispatch({type: 'modal/hideModal'})
-      resetFields() //非常重要，关闭后必须重置数据
-    },
     wrapClassName: 'vertical-center-modal',
-    confirmLoading: loading
+    confirmLoading: loading,
+    onOk: handleOk,
+    onCancel,
+    afterClose() {
+      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
+    }
   }
 
   return (
@@ -97,12 +97,8 @@ const ModalForm = ({
 }
 
 ModalForm.propTypes = {
-  modal: PropTypes.object,
-  form: PropTypes.object
+  modal: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired
 }
 
-function mapStateToProps({ modal }) {
-  return { modal }
-}
-
-export default connect(mapStateToProps)(Form.create()(ModalForm))
+export default Form.create()(ModalForm)

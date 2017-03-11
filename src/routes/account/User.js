@@ -1,31 +1,52 @@
-import React, { PropTypes } from 'react'
-import { routerRedux } from 'dva/router'
-import { connect } from 'dva'
+import React, {PropTypes} from 'react'
+import {routerRedux} from 'dva/router'
+import {connect} from 'dva'
 import UserList from '../../components/account/user/List'
 import UserSearch from '../../components/account/user/Search'
 import UserModal from '../../components/account/user/ModalForm'
-import { checkPower } from '../../utils'
-import { ADD, UPDATE, DELETE } from '../../constants/options'
+import {checkPower} from '../../utils'
+import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function User ({ location, curPowers, dispatch, accountUser }) {
-
-  const { list, pagination, loading } = accountUser
-
-  const { field, keyword } = location.query
+function User({location, curPowers, dispatch, accountUser, modal}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
 
-  const userListProps = {
-    dataSource: list,
-    loading,
-    pagination: pagination,
-    location,
+  const {field, keyword} = location.query
+
+  const searchProps = {
+    field,
+    keyword,
+    addPower,
+    onSearch(fieldsValue) {
+      const {pathname} = location
+      !!fieldsValue.keyword.length
+        ? dispatch(routerRedux.push({
+          pathname: pathname,
+          query: {
+            ...fieldsValue
+          }
+        }))
+        : dispatch(routerRedux.push({pathname: pathname}))
+    },
+    onAdd() {
+      dispatch({
+        type: 'modal/showModal',
+        payload: {
+          type: 'create'
+        }
+      })
+    }
+  }
+
+  const listProps = {
+    accountUser,
     updatePower,
     deletePower,
-    onPageChange (page) {
-      const { query, pathname } = location
+    location,
+    onPageChange(page) {
+      const {query, pathname} = location
       dispatch(routerRedux.push({
         pathname: pathname,
         query: {
@@ -35,13 +56,10 @@ function User ({ location, curPowers, dispatch, accountUser }) {
         }
       }))
     },
-    onDeleteItem (id) {
-      dispatch({
-        type: 'accountUser/delete',
-        payload: id
-      })
+    onDeleteItem(id) {
+      dispatch({type: 'accountUser/delete', payload: {id}})
     },
-    onEditItem (item) {
+    onEditItem(item) {
       dispatch({
         type: 'accountUser/showModal',
         payload: {
@@ -53,44 +71,35 @@ function User ({ location, curPowers, dispatch, accountUser }) {
     onStatusItem(item) {
       dispatch({
         type: 'accountUser/updateStatus',
-        payload: item
-      })
-    }
-  }
-
-  const userSearchProps = {
-    field,
-    keyword,
-    addPower,
-    onSearch (fieldsValue) {
-      const { pathname } = location
-      !!fieldsValue.keyword2.length ?
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...fieldsValue
-        }
-      })) : dispatch(routerRedux.push({
-        pathname: pathname
-      }))
-    },
-    onAdd () {
-      dispatch({
-        type: 'modal/showModal',
         payload: {
-          type: 'create'
+          curItem: item
         }
       })
     }
   }
 
-  const UserModalGen = () => <UserModal/>
+  const modalProps = {
+    modal,
+    onOk(data) {
+      dispatch({
+        type: !!data.id
+          ? 'accountUser/update'
+          : 'accountUser/create',
+        payload: {
+          curItem: data
+        }
+      })
+    },
+    onCancel() {
+      dispatch({type: 'modal/hideModal'})
+    }
+  }
 
   return (
     <div className='content-inner'>
-      <UserSearch {...userSearchProps} />
-      <UserList {...userListProps} />
-      <UserModalGen />
+      <UserSearch {...searchProps}/>
+      <UserList {...listProps}/>
+      <UserModal {...modalProps}/>
     </div>
   )
 }
@@ -101,8 +110,8 @@ User.propTypes = {
   dispatch: PropTypes.func
 }
 
-function mapStateToProps({ accountUser }) {
-  return { accountUser }
+function mapStateToProps({ accountUser, modal }) {
+  return { accountUser, modal }
 }
 
 export default connect(mapStateToProps)(User)

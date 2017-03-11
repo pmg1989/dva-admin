@@ -4,23 +4,44 @@ import {connect} from 'dva'
 import AdminList from '../../components/account/admin/List'
 import AdminSearch from '../../components/account/admin/Search'
 import AdminModal from '../../components/account/admin/ModalForm'
-import { checkPower } from '../../utils'
-import { ADD, UPDATE, DELETE } from '../../constants/options'
+import {checkPower} from '../../utils'
+import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function Admin({location, curPowers, dispatch, accountAdmin}) {
-
-  const { list, pagination, loading } = accountAdmin
-
-  const {field, keyword} = location.query
+function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
 
-  const adminListProps = {
-    dataSource: list,
-    loading,
-    pagination: pagination,
+  const {field, keyword} = location.query
+
+  const searchProps = {
+    field,
+    keyword,
+    addPower,
+    onSearch(fieldsValue) {
+      const {pathname} = location
+      !!fieldsValue.keyword.length
+        ? dispatch(routerRedux.push({
+          pathname: pathname,
+          query: {
+            ...fieldsValue
+          }
+        }))
+        : dispatch(routerRedux.push({pathname: pathname}))
+    },
+    onAdd() {
+      dispatch({
+        type: 'accountAdmin/showModal',
+        payload: {
+          type: 'create'
+        }
+      })
+    }
+  }
+
+  const listProps = {
+    accountAdmin,
     updatePower,
     deletePower,
     location,
@@ -36,7 +57,7 @@ function Admin({location, curPowers, dispatch, accountAdmin}) {
       }))
     },
     onDeleteItem(id) {
-      dispatch({type: 'accountAdmin/delete', payload: id})
+      dispatch({type: 'accountAdmin/delete', payload: {id}})
     },
     onEditItem(item) {
       dispatch({
@@ -50,56 +71,41 @@ function Admin({location, curPowers, dispatch, accountAdmin}) {
     onStatusItem(item) {
       dispatch({
         type: 'accountAdmin/updateStatus',
-        payload: item
-      })
-    }
-  }
-
-  const adminSearchProps = {
-    field,
-    keyword,
-    addPower,
-    onSearch(fieldsValue) {
-      const { pathname } = location
-      !!fieldsValue.keyword.length ?
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...fieldsValue
-        }
-      })) : dispatch(routerRedux.push({
-        pathname: pathname
-      }))
-    },
-    onAdd() {
-      dispatch({
-        type: 'accountAdmin/showModal',
         payload: {
-          type: 'create'
+          curItem: item
         }
       })
     }
   }
 
-  const AdminModalGen = () => <AdminModal/>
+  const modalProps = {
+    modal,
+    onOk(data) {
+      dispatch({
+        type: !!data.id
+          ? 'accountAdmin/update'
+          : 'accountAdmin/create',
+        payload: {
+          curItem: data
+        }
+      })
+    },
+    onCancel() {
+      dispatch({type: 'modal/hideModal'})
+    }
+  }
 
   return (
     <div className='content-inner'>
-      <AdminSearch {...adminSearchProps}/>
-      <AdminList {...adminListProps}/>
-      <AdminModalGen/>
+      <AdminSearch {...searchProps}/>
+      <AdminList {...listProps}/>
+      <AdminModal {...modalProps}/>
     </div>
   )
 }
 
-Admin.propTypes = {
-  accountAdmin: PropTypes.object,
-  location: PropTypes.object,
-  dispatch: PropTypes.func
-}
-
-function mapStateToProps({ accountAdmin }) {
-  return { accountAdmin }
+function mapStateToProps({ accountAdmin, modal }) {
+  return { accountAdmin, modal }
 }
 
 export default connect(mapStateToProps)(Admin)

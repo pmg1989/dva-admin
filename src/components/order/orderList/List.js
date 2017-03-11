@@ -4,12 +4,15 @@ import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
 function List ({
+  orderList: {
+    loading,
+    list,
+    pagination
+  },
   location,
-  loading,
-  dataSource,
-  pagination,
   onPageChange
 }) {
+
   const columns = [
     {
       title: '订单号',
@@ -34,7 +37,16 @@ function List ({
     }, {
       title: '支付方式',
       dataIndex: 'pay_type',
-      key: 'pay_type'
+      key: 'pay_type',
+      render: (value, record) => {
+        const isUserCoupon = !!record.coupon.coupon_id || !value
+        return (
+          <span>
+            {!!value && isUserCoupon ? `${value} + ` : value}
+            {isUserCoupon ? 'coupon' : ''}
+          </span>
+        )
+      }
     }, {
       title: '订单状态',
       dataIndex: 'status',
@@ -86,7 +98,7 @@ function List ({
       bordered
       scroll={{ x: 1200 }}
       columns={columns}
-      dataSource={dataSource}
+      dataSource={list}
       loading={loading}
       onChange={onPageChange}
       pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
@@ -98,10 +110,8 @@ function List ({
 }
 
 List.propTypes = {
-  onPageChange: PropTypes.func,
-  dataSource: PropTypes.array,
-  loading: PropTypes.any,
-  pagination: PropTypes.any
+  orderList: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired
 }
 
 export default List

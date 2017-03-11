@@ -5,8 +5,7 @@ export default {
     loading: false,
     visible: false,
     type: 'create',
-    curItem: {},
-    otherItem: [] //其他对象
+    curItem: {}
   },
   reducers: {
     showLoading (state) {

@@ -75,7 +75,7 @@ function Search({
             </Select>)
           }
         </FormItem>
-        <FormItem label="订单类型" style={{marginBottom: 20, marginRight: 40}}>
+        <FormItem label="支付方式" style={{marginBottom: 20, marginRight: 40}}>
           {getFieldDecorator('pay_type', {
             initialValue: pay_type,
             })

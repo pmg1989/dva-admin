@@ -101,7 +101,7 @@ class UserPower extends Component {
         size="small"
         defaultExpandAllRows
         rowSelection={rowSelection}
-        rowKey={record => record.key}
+        rowKey={record => record.id}
         />
     )
   }
