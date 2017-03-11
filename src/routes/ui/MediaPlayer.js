@@ -35,7 +35,7 @@ class MediaPlayerIndex extends Component {
               <VideoPlayer src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" autoPlay={false}/>
             </TabPane>
             <TabPane tab="AudioPlayer" key="3">
-              <AudioPlayer src="http://www.noiseaddicts.com/samples_1w72b820/3890.mp3" autoPlay={false} />
+              <AudioPlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8" autoPlay={false} />
             </TabPane>
             <TabPane tab="CirclePlayer" key="4">
               <CirclePlayer src="https://p.scdn.co/mp3-preview/f83458d6611ae9589420f71c447ac9d2e3047cb8" autoPlay={false}/>
