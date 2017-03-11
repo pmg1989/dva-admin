@@ -49,6 +49,7 @@ class CircleMediaPlayer extends Component {
               src={this.props.src}
               vendor="audio"
               onTimeUpdate={this._handleTimeUpdate}
+              crossOrigin="anonymous"
             />
             <svg width="32px" height="32px" viewBox="0 0 32 32">
               <circle cx="16" cy="16" r="14.5" className={styles["circle-media-player__background"]}/>
