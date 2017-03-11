@@ -35,7 +35,7 @@ module.exports = {
     res.json({success: true, data: userItem})
   },
 
-  'GET /dashboard-user/list' (req, res) {
+  'GET /api/user' (req, res) {
     const page = qs.parse(req.query)
     const pageSize = page.pageSize || 10
     const currentPage = page.current || 1

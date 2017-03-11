@@ -1,7 +1,7 @@
 import { request } from '../../utils'
 
 export async function query (params) {
-  return request('/dashboard-user/list', {
+  return request('/api/user', {
     method: 'get',
     data: params
   })
