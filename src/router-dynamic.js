@@ -42,6 +42,7 @@ export default function({history, app}) {
         }, 'dashboard')
       },
       childRoutes: [
+        //dashboard
         {
           path: 'dashboard',
           name: 'dashboard',
@@ -52,6 +53,7 @@ export default function({history, app}) {
             }, 'dashboard')
           }
         },
+        //account
         {
           path: 'account',
           name: 'account',
@@ -86,6 +88,7 @@ export default function({history, app}) {
             }
           ]
         },
+        //system
         {
           path: 'system',
           name: 'system',
@@ -102,6 +105,7 @@ export default function({history, app}) {
             }
           ]
         },
+        //order
         {
           path: 'order',
           name: 'order',
@@ -127,6 +131,24 @@ export default function({history, app}) {
             }
           ]
         },
+        //bbs
+        {
+          path: 'bbs',
+          name: 'bbs',
+          childRoutes: [
+            {
+              path: 'category',
+              name: 'category',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  registerModel(app, require('./models/bbs/category'))
+                  cb(null, require('./routes/bbs/Category'))
+                }, 'category')
+              }
+            }
+          ]
+        },
+        //no-power
         {
           path: 'no-power',
           name: 'no-power',
@@ -138,6 +160,7 @@ export default function({history, app}) {
         }
       ]
     },
+    //login
     {
       path: 'login',
       name: 'login',
@@ -148,6 +171,7 @@ export default function({history, app}) {
         }, 'login')
       }
     },
+    //demo
     {
       path: 'demo',
       name: 'demo',
@@ -157,6 +181,7 @@ export default function({history, app}) {
         }, 'demo')
       }
     },
+    //*
     {
       path: '*',
       name: 'error',

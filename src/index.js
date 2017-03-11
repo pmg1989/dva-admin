@@ -29,6 +29,8 @@ if(newband.app.admin.IS_DYNAMIC_LOAD) {
   app.model(require('./models/order/list'))
   app.model(require('./models/order/flow'))
 
+  app.model(require('./models/bbs/category'))
+
   // 3. Router for browserHistory
   app.router(require('./router'))
 }

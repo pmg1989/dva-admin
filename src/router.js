@@ -36,6 +36,9 @@ export default function ({history, app}) {
           <Route path="list" component={require("./routes/order/OrderList")}></Route>
           <Route path="flow" component={require("./routes/order/Flow")}></Route>
         </Route>
+        <Route path="bbs">
+          <Route path="category" component={require("./routes/bbs/Category")}></Route>
+        </Route>
         <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>

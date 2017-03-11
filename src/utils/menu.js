@@ -73,7 +73,24 @@ const menu = [
         power: [1, 2]
       }
     ]
-  }
+  },
+  //bbs
+  {
+    id: _.uniqueId(),
+    key: 'bbs',
+    name: '论坛管理',
+    icon: 'message',
+    clickable: false,
+    power: [1],
+    children: [
+      {
+        id: _.uniqueId(),
+        key: 'category',
+        name: '分类管理(前端分页)',
+        power: [1, 2, 3, 4, 5]
+      }
+    ]
+  },
 ]
 
 export default menu
