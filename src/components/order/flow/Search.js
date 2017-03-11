@@ -53,20 +53,15 @@ function Search({
     }
   }
 
-  const formItemLayout = {
-    labelCol: { span: 12 },
-    wrapperCol: { span: 12 }
-  }
-
   return (
     <Row>
       <Form inline>
-        <FormItem label="日期查询" style={{marginBottom: 20}}>
+        <FormItem label="日期查询" style={{marginBottom: 20, marginRight: 50}}>
           {getFieldDecorator('date', {
             initialValue: start_date && end_date ? [moment(start_date), moment(end_date)] : ''
           })(<RangePicker style={{width: 200}}/>)}
         </FormItem>
-        <FormItem {...formItemLayout} label="操作系统" style={{marginBottom: 20, width: 130, marginRight: 50}}>
+        <FormItem label="操作系统" style={{marginBottom: 20, marginRight: 50}}>
           {getFieldDecorator('os', {
             initialValue: os,
             })
@@ -77,7 +72,7 @@ function Search({
             </Select>)
           }
         </FormItem>
-        <FormItem {...formItemLayout} label="订单类型" style={{marginBottom: 20, width: 130, marginRight: 50}}>
+        <FormItem label="订单类型" style={{marginBottom: 20, marginRight: 50}}>
           {getFieldDecorator('type', {
             initialValue: type,
             })

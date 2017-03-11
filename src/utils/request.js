@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd'
-import { stringify, parse } from 'qs'
+import { stringify } from 'qs'
 import Cookie from './cookie'
 
 //message 全局配置

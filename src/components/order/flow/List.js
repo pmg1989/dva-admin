@@ -1,15 +1,18 @@
-import React, { PropTypes } from 'react'
-import { Table, Popconfirm, Icon, Tooltip } from 'antd'
+import React, {PropTypes} from 'react'
+import {Table, Popconfirm, Icon, Tooltip} from 'antd'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
 
-function List ({
+function List({
+  orderFlow: {
+    loading,
+    list,
+    pagination
+  },
   location,
-  loading,
-  dataSource,
-  pagination,
   onPageChange
 }) {
+
   const columns = [
     {
       title: '订单号',
@@ -27,8 +30,14 @@ function List ({
       dataIndex: 'os',
       key: 'os',
       render: (text) => <span>{text == '1'
-            ? <span><Icon type="apple-o" style={{ color: 'rgb(160, 160, 160)' }}/> IOS</span>
-            : <span><Icon type="android" style={{ color: 'rgb(171, 205, 5)' }}/> Android</span>}</span>
+            ? <span><Icon type="apple-o" style={{
+                color: 'rgb(160, 160, 160)'
+              }}/>
+                IOS</span>
+            : <span><Icon type="android" style={{
+              color: 'rgb(171, 205, 5)'
+            }}/>
+              Android</span>}</span>
     }, {
       title: '金额',
       dataIndex: 'change',
@@ -57,30 +66,21 @@ function List ({
     current: pagination.current
   }
 
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
+  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
 
-  return (
-    <Table
-      className={styles.table}
-      bordered
-      scroll={{ x: 1200 }}
-      columns={columns}
-      dataSource={dataSource}
-      loading={loading}
-      onChange={onPageChange}
-      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-      simple
-      rowKey={record => record.id}
-      getBodyWrapper={getBodyWrapper}
-    />
-  )
+  return (<Table className={styles.table} bordered scroll={{
+    x: 1200
+  }} columns={columns} dataSource={list} loading={loading} onChange={onPageChange} pagination={{
+    ...pagination,
+    showSizeChanger: true,
+    showQuickJumper: true,
+    showTotal: total => `共 ${total} 条`
+  }} simple rowKey={record => record.id} getBodyWrapper={getBodyWrapper}/>)
 }
 
 List.propTypes = {
-  onPageChange: PropTypes.func,
-  dataSource: PropTypes.array,
-  loading: PropTypes.any,
-  pagination: PropTypes.any
+  orderFlow: PropTypes.object.isRequired,
+  onPageChange: PropTypes.func.isRequired
 }
 
 export default List

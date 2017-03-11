@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
 import Immutable, { List, Map } from 'immutable'
 import { isLogin, userName, setLoginIn, setLoginOut, menu } from '../utils'

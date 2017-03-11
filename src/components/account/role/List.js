@@ -1,23 +1,22 @@
 import React, {PropTypes} from 'react'
 import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
-import {connect} from 'dva'
-import Immutable from 'immutable'
-import TableBodyWrapper from '../../common/TableBodyWrapper'
 import styles from './List.less'
+import TableBodyWrapper from '../../common/TableBodyWrapper'
 
 const confirm = Modal.confirm
 
 function List({
-  accountRole,
+  accountRole: {
+    loading,
+    list
+  },
   location,
   updatePower,
   deletePower,
+  onPageChange,
   onDeleteItem,
   onEditItem
 }) {
-
-  const dataSource = accountRole.get('list').toJS()
-  const loading = accountRole.get('loading')
 
   const handleDeleteItem = (record) => {
     confirm({
@@ -50,7 +49,7 @@ function List({
           </Tooltip>}
           {deletePower && <Tooltip placement="bottom" title='删除'>
             <Popconfirm title='确定要删除吗？' onConfirm={() => handleDeleteItem(record)}>
-              <a><Icon type="close-circle-o"/></a>
+              <a><Icon type="close-circle-o" className="danger"/></a>
             </Popconfirm>
           </Tooltip>}
         </p>
@@ -71,8 +70,9 @@ function List({
       className={styles.table}
       bordered scroll={{ x: 1000 }}
       columns={columns}
-      dataSource={dataSource}
+      dataSource={list}
       loading={loading}
+      onChange={onPageChange}
       pagination={false}
       simple
       rowKey={record => record.id}
@@ -82,13 +82,9 @@ function List({
 }
 
 List.propTypes = {
-  accountRole: PropTypes.instanceOf(Immutable.Map).isRequired,
+  accountRole: PropTypes.object.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired
 }
 
-function mapStateToProps({ accountRole }) {
-  return { accountRole }
-}
-
-export default connect(mapStateToProps)(List)
+export default List

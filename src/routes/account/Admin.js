@@ -1,37 +1,36 @@
-import React, { PropTypes } from 'react'
-import { connect } from 'dva'
-import { routerRedux } from 'dva/router'
+import React, {PropTypes} from 'react'
+import {routerRedux} from 'dva/router'
+import {connect} from 'dva'
 import AdminList from '../../components/account/admin/List'
 import AdminSearch from '../../components/account/admin/Search'
 import AdminModal from '../../components/account/admin/ModalForm'
-import { checkPower } from '../../utils'
-import { ADD, UPDATE, DELETE } from '../../constants/options'
+import {checkPower} from '../../utils'
+import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function Admin({location, curPowers, dispatch}) {
+function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
 
-  const { field, keyword } = location.query
+  const {field, keyword} = location.query
 
   const searchProps = {
     field,
     keyword,
     addPower,
-    onSearch (fieldsValue) {
-      const { pathname } = location
-      !!fieldsValue.keyword.length ?
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...fieldsValue
-        }
-      })) : dispatch(routerRedux.push({
-        pathname: pathname
-      }))
+    onSearch(fieldsValue) {
+      const {pathname} = location
+      !!fieldsValue.keyword.length
+        ? dispatch(routerRedux.push({
+          pathname: pathname,
+          query: {
+            ...fieldsValue
+          }
+        }))
+        : dispatch(routerRedux.push({pathname: pathname}))
     },
-    onAdd () {
+    onAdd() {
       dispatch({
         type: 'accountAdmin/showModal',
         payload: {
@@ -42,6 +41,7 @@ function Admin({location, curPowers, dispatch}) {
   }
 
   const listProps = {
+    accountAdmin,
     updatePower,
     deletePower,
     location,
@@ -57,7 +57,7 @@ function Admin({location, curPowers, dispatch}) {
       }))
     },
     onDeleteItem(id) {
-      dispatch({type: 'accountAdmin/delete', payload: id})
+      dispatch({type: 'accountAdmin/delete', payload: {id}})
     },
     onEditItem(item) {
       dispatch({
@@ -79,13 +79,19 @@ function Admin({location, curPowers, dispatch}) {
   }
 
   const modalProps = {
-    onOk (data) {
-      dispatch({ type: !!data.id ? 'accountAdmin/update' : 'accountAdmin/create', payload: { curItem: data } })
-    },
-    onCancel () {
+    modal,
+    onOk(data) {
       dispatch({
-        type: 'modal/hideModal'
+        type: !!data.id
+          ? 'accountAdmin/update'
+          : 'accountAdmin/create',
+        payload: {
+          curItem: data
+        }
       })
+    },
+    onCancel() {
+      dispatch({type: 'modal/hideModal'})
     }
   }
 
@@ -98,4 +104,8 @@ function Admin({location, curPowers, dispatch}) {
   )
 }
 
-export default connect()(Admin)
+function mapStateToProps({ accountAdmin, modal }) {
+  return { accountAdmin, modal }
+}
+
+export default connect(mapStateToProps)(Admin)

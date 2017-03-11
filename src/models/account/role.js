@@ -1,4 +1,3 @@
-import { parse } from 'qs'
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import Immutable, { List, Map } from 'immutable'
@@ -20,7 +19,7 @@ export default {
           const curPowers = getCurPowers(pathname)
           if(curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({ type: 'query', payload: location.query })
+            dispatch({ type: 'query' })
           } else {
             dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
@@ -32,7 +31,7 @@ export default {
   effects: {
     *query ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(query, parse(payload))
+      const data = yield call(query)
       if (data.success) {
         yield put({
           type: 'querySuccess',
@@ -45,7 +44,7 @@ export default {
     },
     *delete ({ payload }, { call, put }) {
       yield put({ type: 'showLoading' })
-      const data = yield call(remove, { id: payload })
+      const data = yield call(remove, { id: payload.id })
       yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'query' })

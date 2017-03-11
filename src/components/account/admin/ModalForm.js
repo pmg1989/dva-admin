@@ -1,10 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, Input, InputNumber, Radio, Modal, Icon, Select } from 'antd'
-import { connect } from 'dva'
-import Immutable from 'immutable'
 import { validPhone } from '../../../utils/utilsValid'
-
-// import InputEmailComplete from '../../common/InputEmailComplete'
 
 const FormItem = Form.Item
 
@@ -20,16 +16,21 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  modal,
-  onOk,
-  onCancel,
+  modal: { loading, curItem, type, visible },
   form: {
     getFieldDecorator,
     validateFields,
     resetFields
-  }
+  },
+  onOk,
+  onCancel
 }) => {
-  function handleOk () {
+
+  if(!curItem.roleList) {
+    curItem.roleList = []
+  }
+
+  const handleOk = () => {
     validateFields((errors, values) => {
       if (errors) {
         return
@@ -42,14 +43,9 @@ const ModalForm = ({
     })
   }
 
-  const { loading, curItem, type, visible } = modal.toJS()
-  if(!curItem.roleList) {
-    curItem.roleList = []
-  }
-
   const modalFormOpts = {
-    visible,
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
+    visible,
     wrapClassName: 'vertical-center-modal',
     confirmLoading: loading,
     onOk: handleOk,
@@ -148,12 +144,8 @@ const ModalForm = ({
 }
 
 ModalForm.propTypes = {
-  modal: PropTypes.instanceOf(Immutable.Map).isRequired,
-  form: PropTypes.object
+  modal: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired
 }
 
-function mapStateToProps({ modal }) {
-  return { modal }
-}
-
-export default connect(mapStateToProps)(Form.create()(ModalForm))
+export default Form.create()(ModalForm)

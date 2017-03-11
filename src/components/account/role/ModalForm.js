@@ -1,7 +1,5 @@
-import React, {PropTypes} from 'react'
-import {Form, Input, Modal, Icon} from 'antd'
-import {connect} from 'dva'
-import Immutable from 'immutable'
+import React, { PropTypes } from 'react'
+import { Form, Input, Modal, Icon } from 'antd'
 import UserPower from './UserPower'
 import styles from './ModalForm.less'
 
@@ -17,16 +15,21 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  modal,
-  onOk,
-  onCancel,
+  modal: { loading, curItem, type, visible },
   form: {
     getFieldDecorator,
     validateFields,
     resetFields
-  }
+  },
+  onOk,
+  onCancel
 }) => {
-  function handleOk() {
+
+  if(!curItem.power) {
+    curItem.power = {}
+  }
+
+  function handleOk () {
     validateFields((errors, values) => {
       if (errors) {
         return
@@ -39,18 +42,8 @@ const ModalForm = ({
       onOk(data)
     })
   }
-
-  const { loading, curItem, type, visible } = modal.toJS()
-  if (!curItem.power) {
-    curItem.power = {}
-  }
-
   const modalFormOpts = {
-    title: type === 'create'
-      ? <div><Icon type="plus-circle-o"/>
-          新建角色</div>
-      : <div><Icon type="edit"/>
-        修改角色</div>,
+    title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建角色</div> : <div><Icon type="edit" /> 修改角色</div>,
     visible,
     wrapClassName: 'vertical-center-modal',
     className: styles.modalWidth,
@@ -76,7 +69,7 @@ const ModalForm = ({
                 message: '角色名称不能为空'
               }
             ]
-          })(<Input/>)}
+          })(<Input />)}
         </FormItem>
         <FormItem>
           <UserPowerGen/>
@@ -91,8 +84,4 @@ ModalForm.propTypes = {
   form: PropTypes.object
 }
 
-function mapStateToProps({modal}) {
-  return {modal}
-}
-
-export default connect(mapStateToProps)(Form.create()(ModalForm))
+export default Form.create()(ModalForm)

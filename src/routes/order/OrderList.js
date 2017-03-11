@@ -2,18 +2,21 @@ import React, { PropTypes } from 'react'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import List from '../../components/order/orderList/List'
-import Search from '../../components/order/orderList/Search'
+import OrderSearch from '../../components/order/orderList/Search'
 import { checkPower } from '../../utils'
 import { ADD, DETAIL } from '../../constants/options'
 
 function OrderList({ location, curPowers, dispatch, orderList }) {
 
-  const { list, pagination, loading } = orderList
-
   const { phone, start_date, end_date, os, pay_type, status } = location.query
 
   const searchProps = {
-    phone, start_date, end_date, os, pay_type, status,
+    phone,
+    start_date,
+    end_date,
+    os,
+    pay_type,
+    status,
     onSearch(fieldsValue) {
       dispatch(routerRedux.push({
         pathname: location.pathname,
@@ -25,10 +28,8 @@ function OrderList({ location, curPowers, dispatch, orderList }) {
   }
 
   const listProps = {
+    orderList,
     location,
-    dataSource: list,
-    loading,
-    pagination: pagination,
     onPageChange(page) {
       const {query, pathname} = location
       dispatch(routerRedux.push({
@@ -44,7 +45,7 @@ function OrderList({ location, curPowers, dispatch, orderList }) {
 
   return (
     <div className='content-inner'>
-      <Search {...searchProps} />
+      <OrderSearch {...searchProps} />
       <List {...listProps} />
     </div>
   )
