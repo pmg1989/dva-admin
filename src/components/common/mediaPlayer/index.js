@@ -39,14 +39,21 @@ class Index extends Component {
     playlist: PropTypes.arrayOf(PropTypes.shape({
       src: React.PropTypes.string.isRequired,
       label: React.PropTypes.string.isRequired
-    })).isRequired
+    })).isRequired,
+    repeat: PropTypes.bool,
+    autoPlay: PropTypes.bool,
+    curPlay: PropTypes.number
+  }
+
+  static defaultProps = {
+    autoPlay: true,
+    curPlay: 0
   }
 
   state = {
-    currentTrack: this.props.playlist[0],
-    showMediaPlayer: true,
-    repeatTrack: false,
-    autoPlay: true
+    currentTrack: this.props.playlist[this.props.curPlay || 0],
+    repeatTrack: !!this.props.repeat,
+    autoPlay: !!this.props.autoPlay
   }
 
   _handleTrackClick = (track) => {
@@ -60,7 +67,7 @@ class Index extends Component {
   }
 
   render() {
-    const { showMediaPlayer, currentTrack, repeatTrack, autoPlay } = this.state
+    const { currentTrack, repeatTrack, autoPlay } = this.state
     const { playlist } = this.props
 
     return (

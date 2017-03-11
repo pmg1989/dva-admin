@@ -8,7 +8,7 @@ import styles from './MediaPlayer.less'
 
 const { CurrentTime, Progress, SeekBar, Duration, Volume } = controls
 
-export default function VideoPlayer({ src }) {
+function VideoPlayer({ src, autoPlay }) {
   return (
     <Media>
       {({ isFullscreen, playPause }) =>
@@ -17,6 +17,7 @@ export default function VideoPlayer({ src }) {
           tabIndex="0"
         >
           <Player
+            autoPlay={autoPlay}
             src={src}
             onClick={() => playPause()}
           />
@@ -43,3 +44,13 @@ export default function VideoPlayer({ src }) {
     </Media>
   )
 }
+
+VideoPlayer.propTypes = {
+  src: PropTypes.string.isRequired
+}
+
+VideoPlayer.defaultProps = {
+  autoPlay: true
+}
+
+export default VideoPlayer
