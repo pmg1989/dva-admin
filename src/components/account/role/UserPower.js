@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import { Table, Icon, Checkbox } from 'antd'
 import { menu, equalSet } from '../../../utils'
 import { MENU, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
+import styles from './UserPower.less'
 
 const CheckboxGroup = Checkbox.Group
 
@@ -54,6 +55,7 @@ class UserPower extends Component {
     }, {
       title: '操作权限',
       width: '60%',
+      className: styles["text-left"],
       render: (text, record) => (
         <CheckboxGroup options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={(checkedValues) => this.onChangePower(checkedValues, record)}/>
       )
