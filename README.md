@@ -12,8 +12,10 @@
 
 https://pmg1989.github.io
 
-- 登录账号 管理员账号：admin，密码：admin
--         游客账号：guest, 密码：guest
+#### 登录账号
+
+-  管理员账号：admin，密码：admin
+-  游客账号：guest, 密码：guest
 - 由于gitpage是静态服务器，刷新后会出现404是正常现象，部署正式服务器即可，具体服务端配置可参见[dva issues 180](https://github.com/dvajs/dva/issues/180)
 
 ## 特性
