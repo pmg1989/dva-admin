@@ -14,11 +14,16 @@ class Upload extends Component {
   }
 
   handleSigleUpload(file) {
-    console.log(file);
+    this.setState({file: file})
   }
 
-  handleUpload(files) {
+  handleInfiniteUpload(files) {
     console.log(files);
+    this.setState({files1: files})
+  }
+
+  handleLimiteUpload(files) {
+    this.setState({files2: files})
   }
 
   handleOk(e) {
@@ -36,28 +41,28 @@ class Upload extends Component {
                 <FormItem label='文件上传' hasFeedback>
                   <UploadFile fileList={file} onUpload={::this.handleSigleUpload}></UploadFile>
                 </FormItem>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" size="large">确认提交</Button>
+                <FormItem label='文件名' >
+                  {file}
                 </FormItem>
               </Form>
             </TabPane>
             <TabPane tab="多文件无限制上传" key="2">
               <Form horizontal onSubmit={::this.handleOk}>
                 <FormItem label='文件上传' hasFeedback>
-                  <UploadFile fileList={files1} onUpload={::this.handleUpload} multiple></UploadFile>
+                  <UploadFile fileList={files1} onUpload={::this.handleInfiniteUpload} multiple></UploadFile>
                 </FormItem>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" size="large">确认提交</Button>
+                <FormItem label='文件列表' >
+                  {JSON.stringify(files1)}
                 </FormItem>
               </Form>
             </TabPane>
             <TabPane tab="多文件限制数量上传" key="3">
               <Form horizontal onSubmit={::this.handleOk}>
                 <FormItem label='文件上传' hasFeedback>
-                  <UploadFile fileList={files2} onUpload={::this.handleUpload} multiple></UploadFile>
+                  <UploadFile fileList={files2} onUpload={::this.handleLimiteUpload} multiple={3} ></UploadFile>
                 </FormItem>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" size="large">确认提交</Button>
+                <FormItem label='文件列表' >
+                  {JSON.stringify(files2)}
                 </FormItem>
               </Form>
             </TabPane>

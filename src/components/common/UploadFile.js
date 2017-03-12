@@ -43,9 +43,8 @@ class UploadFiles extends React.Component {
 
     const renderFiles = (files) => {
       const fileList = files.map(file => {
-        return file.url || file.thumbUrl
+        return file.name
       })
-
       if(multiple === 1) {
         return fileList[0]
       }
@@ -66,6 +65,7 @@ class UploadFiles extends React.Component {
         })
       },
       beforeUpload: (file) => {
+
         return true
       },
       onChange: ({ file, fileList, e }) => {
