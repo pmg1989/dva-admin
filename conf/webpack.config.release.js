@@ -25,7 +25,7 @@ module.exports = function (webpackConfig, env) {
   }
   //mock data config
   webpackConfig.plugins.push(new webpack.DefinePlugin({
-    'newband.app.admin.ISMOCK': false,
+    'newband.app.admin.ISMOCK': true,
     'newband.app.admin.IS_DYNAMIC_LOAD': true,
     'newband.app.admin.API_HOST': JSON.stringify('https://api.students.newband.com/v2'),
     'newband.app.admin.CLIENT_ID': JSON.stringify('8_1gpoabwdk19ccow0o0wog4kogwsswkksoo4wg8o8so08w40cs8'),
