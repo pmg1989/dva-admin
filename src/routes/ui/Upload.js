@@ -18,7 +18,6 @@ class Upload extends Component {
   }
 
   handleInfiniteUpload(files) {
-    console.log(files);
     this.setState({files1: files})
   }
 
