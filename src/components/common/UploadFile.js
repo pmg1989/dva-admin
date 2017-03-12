@@ -14,13 +14,24 @@ class UploadFiles extends React.Component {
   constructor(props) {
     super(props)
 
+    const getFileList = (fileList) => {
+      if(Array.isArray(fileList)) {
+        return fileList.map((url, key) => {
+          const urlArr = url.split('/')
+          return { url: url, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
+        })
+      }
+      if(fileList && !!fileList.lengh) {
+        const filesArr = fileList.split('/')
+        return [{ uid: -1, url: fileList, name: filesArr[filesArr.length - 1], status: 'done' }]
+      }
+      return ''
+    }
+
     this.state = {
       previewVisible: false,
       previewImage: '',
-      fileList: Array.isArray(props.fileList) ? props.fileList.map((url, key) => {
-        const urlArr = url.split('/')
-        return { url: url, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
-      }) : [{ uid: -1, url: props.fileList, name: props.fileList.split('/')[props.fileList.split('/').length - 1], status: 'done' }]
+      fileList: getFileList(props.fileList)
     }
   }
 
