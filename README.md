@@ -38,6 +38,7 @@ https://pmg1989.github.io
 ├── /dist/           # 项目输出目录
 ├── /src/            # 项目源码目录
 │ ├── /components/   # 项目组件
+  │ ├── /common/     # 项目公共组件
 │ ├── /routes/       # 路由组件
 │ ├── /models/       # 数据模型
 │ ├── /services/     # 数据接口
