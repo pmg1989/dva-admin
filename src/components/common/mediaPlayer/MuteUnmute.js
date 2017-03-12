@@ -1,12 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { withMediaProps } from 'react-media-player'
+import Transition from 'react-motion-ui-pack'
 
 class Scale extends Component {
   render() {
     return (
-      <g>
+      <Transition
+        component="g"
+        enter={{ scale: 1 }}
+        leave={{ scale: 0 }}>
         {this.props.children}
-      </g>
+      </Transition>
     )
   }
 }

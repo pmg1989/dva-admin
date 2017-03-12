@@ -1,13 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import { withMediaProps } from 'react-media-player'
+import Transition from 'react-motion-ui-pack'
 import styles from './MediaPlayer.less'
 
 class ScaleX extends Component {
   render() {
     return (
-      <g>
+      <Transition
+        component="g"
+        enter={{ scaleX: 1 }}
+        leave={{ scaleX: 0 }}>
         {this.props.children}
-      </g>
+      </Transition>
     )
   }
 }
