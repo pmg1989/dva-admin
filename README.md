@@ -84,7 +84,8 @@ npm run build
 
 ### 注意事项
 
-- 生产环境中，已有数据接口，请将`webpack.config.js`中的 `webpackConfig.plugins.push(new webpack.DefinePlugin({ 'newband.admin.isMock': true }))`改为false，以及 `src/utils/index.js`中的`export request from './request-mock'`改为`export request from './request'`
+- 生产环境中，如已有数据接口，请将`webpack.config.js`中的 `webpackConfig.plugins 'newband.admin.isMock': true`改为false，以及 `src/utils/index.js`中的`export request from './request-mock'`改为`export request from './request'`
+- 切换`webpack.config.js`中的`'newband.app.admin.IS_DYNAMIC_LOAD': true`,可以调整JavaScript是否动态按需加载
 - 开发环境中，如再mock目录新增文件，请在`src/utils/mock.js`第二行的`mockData`数组中添加
 - 如需重写antd样式配置，请修改`src/theme.js`
 - 项目配置文件在`src/utils/config.js`
