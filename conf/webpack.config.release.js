@@ -27,9 +27,9 @@ module.exports = function (webpackConfig, env) {
   webpackConfig.plugins.push(new webpack.DefinePlugin({
     'newband.app.admin.ISMOCK': true,
     'newband.app.admin.IS_DYNAMIC_LOAD': true,
-    'newband.app.admin.API_HOST': JSON.stringify('https://api.students.newband.com/v2'),
-    'newband.app.admin.CLIENT_ID': JSON.stringify('8_1gpoabwdk19ccow0o0wog4kogwsswkksoo4wg8o8so08w40cs8'),
-    'newband.app.admin.CLIENT_SECRET': JSON.stringify('672j6lg4eakgks0wo8ggkg0ssko8gkk8808g0cs8oco4gcoo40'),
+    'newband.app.admin.API_HOST': JSON.stringify('http://192.168.2.202:8082/v2'),
+    'newband.app.admin.CLIENT_ID': JSON.stringify('7_3couvjpeukmc4wc88ww00s8c0cc4wcswc8404oow8ogwksgcck'),
+    'newband.app.admin.CLIENT_SECRET': JSON.stringify('4kztndqf54sgowkcs8kw404c0kc04c0gsgwog8gogwwc8kk8kc'),
     'newband.app.admin.GRANT_TYPE': JSON.stringify('client_credentials')
   }))
 
