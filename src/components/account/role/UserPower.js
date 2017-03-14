@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Table, Icon, Checkbox } from 'antd'
 import { menu, equalSet } from '../../../utils'
-import { MENU, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
+import { MENU, CONTENT, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
 import styles from './UserPower.less'
 
 const CheckboxGroup = Checkbox.Group
@@ -9,7 +9,8 @@ const CheckboxGroup = Checkbox.Group
 const getPowerText = (item) => {
   const powerName = {
     [MENU]: "查看菜单",
-    [DETAIL]: "查看详情",
+    [CONTENT]: "查看页面",
+    [DETAIL]: "详情",
     [ADD]: "新增",
     [UPDATE]: "修改",
     [DELETE]: "删除",

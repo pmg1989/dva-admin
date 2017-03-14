@@ -9,7 +9,7 @@ const menu = [
     key: 'dashboard',
     name: '管理平台',
     icon: 'laptop',
-    power: [1]
+    power: [1, 2]
   },
   //account
   {
@@ -53,7 +53,7 @@ const menu = [
         id: _.uniqueId(),
         key: 'modify-password',
         name: '修改密码',
-        power: [1, 4]
+        power: [1, 2, 4]
       }
     ]
   },
