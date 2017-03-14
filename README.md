@@ -8,15 +8,15 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/pulls)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
-## 演示地址
-
-https://pmg1989.github.io
-
 ## dva-admin 是什么？
 
 - 期望打造一套基于[react](https://github.com/facebook/react)，[ant-design](https://github.com/ant-design/ant-design)，[dva](https://github.com/dvajs/dva)于一体的、企业级后台管理系统
 - 期望可以单纯由前端来解决用户权限，后端提供权限数据支持的一套完善的权限管理功能后台管理系统
 - 期望可以在antd与dva的基础上，再次封装简单且可复用的基类组件，方便使用者简单调用，简单使用，简单拓展
+
+## 演示地址
+
+https://pmg1989.github.io
 
 #### 登录账号
 
