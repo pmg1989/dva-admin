@@ -4,19 +4,19 @@ import Cookie from '../src/utils/cookie'
 
 let dataKey = mockStorge('AdminUsers', [
   {
-    username: 'guest',
-    password: 'guest',
-    roleId: 3
-  },
-  {
     username: 'admin',
     password: 'admin',
     roleId: 1,
   },
   {
-    username: '13918909224',
+    username: 'teacher',
     password: '123456',
     roleId: 2
+  },
+  {
+    username: 'guest',
+    password: 'guest',
+    roleId: 3
   }
 ])
 
