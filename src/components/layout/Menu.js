@@ -8,20 +8,20 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
 
   const topMenus = menu.map(item => item.key)
 
-  const getMenus = (menuArray, siderFold, parentPath) => {
+  const getMenus = (menuArray, siderFold, parentPath = '/') => {
 
-    parentPath = parentPath || '/'
     return menuArray.map(item => {
+      const linkTo = parentPath +item.key
       if (item.children) {
         return (
-          <Menu.SubMenu key={item.key} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}>
-            {getMenus(item.children, siderFold, parentPath + item.key + '/')}
+          <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}>
+            {getMenus(item.children, siderFold, linkTo + '/')}
           </Menu.SubMenu>
         )
       } else {
         return (
-          <Menu.Item key={item.key}>
-            <Link to={parentPath + item.key}>
+          <Menu.Item key={linkTo}>
+            <Link to={linkTo}>
               {item.icon ? <Icon type={item.icon} /> : ''}
               {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
             </Link>
@@ -89,7 +89,7 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
         mode={siderFold ? 'vertical' : 'inline'}
         theme={darkTheme ? 'dark' : 'light'}
         onClick={handleClickNavMenu}
-        defaultSelectedKeys={[location.pathname.split('/')[location.pathname.split('/').length - 1] || 'dashboard']}>
+        defaultSelectedKeys={[location.pathname !== "/" ? location.pathname : '/dashboard']}>
         {menuItems}
       </Menu>
     </QueueAnim>
