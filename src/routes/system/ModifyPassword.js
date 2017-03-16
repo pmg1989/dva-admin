@@ -6,8 +6,7 @@ import { UPDATE } from '../../constants/options'
 
 import { Link } from 'dva/router'
 
-function ModifyPassword({ dispatch, curPowers, systemModifyPassword }) {
-  const { loading } = systemModifyPassword
+function ModifyPassword({ dispatch, curPowers, systemModifyPassword, loading }) {
 
   const updatePower = checkPower(UPDATE, curPowers)
 
@@ -31,8 +30,8 @@ ModifyPassword.propTypes = {
   dispatch: PropTypes.func
 }
 
-function mapStateToProps({ systemModifyPassword }) {
-  return { systemModifyPassword }
+function mapStateToProps({ systemModifyPassword, loading }) {
+  return { systemModifyPassword, loading: loading.models.systemModifyPassword }
 }
 
 export default connect(mapStateToProps)(ModifyPassword)

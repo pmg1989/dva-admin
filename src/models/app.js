@@ -25,7 +25,6 @@ export default {
   namespace : 'app',
   state : {
     login: !!isLogin(),
-    loading: false,
     user: {
       name: userName || ''
     },
@@ -55,7 +54,6 @@ export default {
     *login({
         payload
       }, {call, put, select}) {
-        yield put({ type: 'showLoading' })
         const dataToken = yield call(getToken)
         if(dataToken.success) {
           const params = { access_token: dataToken.access_token, mobile: payload.username, username: payload.username, password: payload.password }
@@ -83,12 +81,10 @@ export default {
             }))
           }
         }
-        yield put({ type: 'hideLoading' })
     },
     *logout({
         payload
       }, {call, put}) {
-        yield put({ type: 'showLoading' })
         const data = { success: true } //yield call(logout, parse(payload))
         if (data && data.success) {
           yield setLoginOut()
@@ -98,16 +94,9 @@ export default {
             state: { nextPathname: location.pathname, nextSearch: location.search }
           }))
         }
-        yield put({ type: 'hideLoading' })
     }
   },
   reducers : {
-    showLoading (state) {
-      return { ...state, loading: true }
-    },
-    hideLoading (state) {
-      return { ...state, loading: false }
-    },
     loginSuccess(state, action) {
       return { ...state, ...action.payload, login: true }
     },

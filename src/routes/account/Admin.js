@@ -7,7 +7,7 @@ import AdminModal from '../../components/account/admin/ModalForm'
 import {checkPower} from '../../utils'
 import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
+function Admin({location, curPowers, dispatch, accountAdmin, modal, loading}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -42,6 +42,7 @@ function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
 
   const listProps = {
     accountAdmin,
+    loading,
     updatePower,
     deletePower,
     location,
@@ -80,6 +81,7 @@ function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
 
   const modalProps = {
     modal,
+    loading,
     onOk(data) {
       dispatch({
         type: !!data.id
@@ -104,8 +106,8 @@ function Admin({location, curPowers, dispatch, accountAdmin, modal}) {
   )
 }
 
-function mapStateToProps({ accountAdmin, modal }) {
-  return { accountAdmin, modal }
+function mapStateToProps({ accountAdmin, modal, loading }) {
+  return { accountAdmin, modal, loading: loading.models.accountAdmin }
 }
 
 export default connect(mapStateToProps)(Admin)

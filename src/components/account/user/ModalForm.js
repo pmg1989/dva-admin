@@ -14,7 +14,8 @@ const formItemLayout = {
 }
 
 const ModalForm = ({
-  modal: { loading, curItem, type, visible },
+  modal: { curItem, type, visible },
+  loading,
   form: {
     getFieldDecorator,
     validateFields,

@@ -22,8 +22,8 @@ LoginApp.propTypes = {
   loading: PropTypes.bool
 }
 
-function mapStateToProps({ app }) {
-  return { loading: app.loading }
+function mapStateToProps({ loading }) {
+  return { loading: loading.models.app }
 }
 
 export default connect(mapStateToProps)(LoginApp)

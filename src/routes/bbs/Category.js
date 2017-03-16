@@ -7,7 +7,7 @@ import CategoryModal from '../../components/bbs/category/ModalForm'
 import {checkPower} from '../../utils'
 import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function Category({location, curPowers, dispatch, bbsCategory, modal}) {
+function Category({location, curPowers, dispatch, bbsCategory, modal, loading}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -42,6 +42,7 @@ function Category({location, curPowers, dispatch, bbsCategory, modal}) {
 
   const listProps = {
     bbsCategory,
+    loading,
     updatePower,
     deletePower,
     location,
@@ -72,6 +73,7 @@ function Category({location, curPowers, dispatch, bbsCategory, modal}) {
 
   const modalProps = {
     modal,
+    loading,
     onOk(data) {
       dispatch({
         type: !!data.cid
@@ -102,8 +104,8 @@ Category.propTypes = {
   dispatch: PropTypes.func
 }
 
-function mapStateToProps({ bbsCategory, modal }) {
-  return { bbsCategory, modal }
+function mapStateToProps({ bbsCategory, modal, loading }) {
+  return { bbsCategory, modal, loading: loading.models.bbsCategory }
 }
 
 export default connect(mapStateToProps)(Category)

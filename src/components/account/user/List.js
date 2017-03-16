@@ -8,10 +8,10 @@ const confirm = Modal.confirm
 
 function List ({
   accountUser: {
-    loading,
     list,
     pagination
   },
+  loading,
   updatePower,
   deletePower,
   onPageChange,

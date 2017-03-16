@@ -24,7 +24,7 @@ const tailFormItemLayout = {
 class ModifyForm extends Component {
 
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
+    loading: PropTypes.bool,
     onOk: PropTypes.func.isRequired
   }
 

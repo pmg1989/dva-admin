@@ -7,7 +7,7 @@ import RoleModal from '../../components/account/role/ModalForm'
 import {checkPower} from '../../utils'
 import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function Role({location, curPowers, dispatch, accountRole, modal}) {
+function Role({location, curPowers, dispatch, accountRole, modal, loading}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -31,6 +31,7 @@ function Role({location, curPowers, dispatch, accountRole, modal}) {
 
   const listProps = {
     accountRole,
+    loading,
     updatePower,
     deletePower,
     location,
@@ -50,6 +51,7 @@ function Role({location, curPowers, dispatch, accountRole, modal}) {
 
   const modalProps = {
     modal,
+    loading,
     onOk(data) {
       dispatch({
         type: !!data.id
@@ -80,8 +82,8 @@ Role.propTypes = {
   dispatch: PropTypes.func
 }
 
-function mapStateToProps({ accountRole, modal }) {
-  return { accountRole, modal }
+function mapStateToProps({ accountRole, modal, loading }) {
+  return { accountRole, modal, loading: loading.models.accountRole }
 }
 
 export default connect(mapStateToProps)(Role)

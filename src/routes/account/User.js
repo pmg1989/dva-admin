@@ -7,7 +7,7 @@ import UserModal from '../../components/account/user/ModalForm'
 import {checkPower} from '../../utils'
 import {ADD, UPDATE, DELETE} from '../../constants/options'
 
-function User({location, curPowers, dispatch, accountUser, modal}) {
+function User({location, curPowers, dispatch, accountUser, modal, loading}) {
 
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -42,6 +42,7 @@ function User({location, curPowers, dispatch, accountUser, modal}) {
 
   const listProps = {
     accountUser,
+    loading,
     updatePower,
     deletePower,
     location,
@@ -80,6 +81,7 @@ function User({location, curPowers, dispatch, accountUser, modal}) {
 
   const modalProps = {
     modal,
+    loading,
     onOk(data) {
       dispatch({
         type: !!data.id
@@ -110,8 +112,8 @@ User.propTypes = {
   dispatch: PropTypes.func
 }
 
-function mapStateToProps({ accountUser, modal }) {
-  return { accountUser, modal }
+function mapStateToProps({ accountUser, modal, loading }) {
+  return { accountUser, modal, loading: loading.models.accountUser }
 }
 
 export default connect(mapStateToProps)(User)

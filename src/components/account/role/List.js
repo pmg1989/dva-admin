@@ -8,9 +8,9 @@ const confirm = Modal.confirm
 
 function List({
   accountRole: {
-    loading,
     list
   },
+  loading,
   location,
   updatePower,
   deletePower,

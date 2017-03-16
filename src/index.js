@@ -1,6 +1,7 @@
 import './index.html'
 import dva from 'dva'
 import { browserHistory } from 'dva/router'
+import createLoading from 'dva-loading'
 
 // 1. Initialize
 const app = dva({
@@ -10,12 +11,15 @@ const app = dva({
   }
 })
 
-// 2. Model
+// 2. Plugins
+app.use(createLoading())
+
+// 3. Model
 app.model(require('./models/app'))
 app.model(require('./models/modal'))
 
 if(newband.app.admin.IS_DYNAMIC_LOAD) {
-  // 3. Router for browserHistory dynamic load
+  // 4. Router for browserHistory dynamic load
   app.router(require('./router-dynamic'))
 } else {
   app.model(require('./models/dashboard'))
@@ -31,9 +35,9 @@ if(newband.app.admin.IS_DYNAMIC_LOAD) {
 
   app.model(require('./models/bbs/category'))
 
-  // 3. Router for browserHistory
+  // 4. Router for browserHistory
   app.router(require('./router'))
 }
 
-// 4. Start
+// 5. Start
 app.start('#root')

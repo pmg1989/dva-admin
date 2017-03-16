@@ -13,7 +13,6 @@ export default {
   state: {
     isPostBack: true, //判断是否是首次加载页面，作为前端分页判断标识符
     list: [],
-    loading: false,
     pagination: {
       ...page,
       total: null
@@ -39,8 +38,6 @@ export default {
 
   effects: {
     *query ({ payload }, { select, call, put }) {
-      yield put({ type: 'showLoading' })
-
       const isPostBack = yield select(({ bbsCategory }) => bbsCategory.isPostBack)
       const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
 
@@ -71,21 +68,15 @@ export default {
           }
         })
       }
-
-      yield put({ type: 'hideLoading' })
     },
     *delete ({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' })
       const data = yield call(remove, { id: payload.id })
-      yield put({ type: 'hideLoading' })
       if (data && data.success) {
         yield put({ type: 'deleteSuccess', payload: { id: payload.id } })
       }
     },
     *create ({ payload }, { select, call, put }) {
-      yield put({ type: 'modal/showLoading' })
       const data = yield call(create, payload.curItem)
-      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
         yield put({ type: 'querySuccess', payload: { isPostBack: true } })
@@ -93,9 +84,7 @@ export default {
       }
     },
     *update ({ payload }, { call, put }) {
-      yield put({ type: 'modal/showLoading' })
       const data = yield call(update, payload.curItem)
-      yield put({ type: 'modal/hideLoading' })
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
         yield put({ type: 'updateSuccess', payload: { curItem: payload.curItem } })
@@ -104,12 +93,6 @@ export default {
   },
 
   reducers: {
-    showLoading (state) {
-      return { ...state, loading: true }
-    },
-    hideLoading (state) {
-      return { ...state, loading: false }
-    },
     querySuccess (state, action) {
       return { ...state, ...action.payload }
     },

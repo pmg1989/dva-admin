@@ -13,8 +13,8 @@ import styles from '../components/layout/main.less'
 import '../components/layout/common.less'
 import { getCurPowers } from '../utils'
 
-function App ({ children, location, dispatch, app }) {
-  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading, userPower, curPowers } = app
+function App ({ children, location, dispatch, app, loading }) {
+  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
 
   const loginProps = {
     loading,
@@ -91,8 +91,8 @@ App.propTypes = {
   app: PropTypes.object
 }
 
-function mapStateToProps({ app }) {
-  return { app }
+function mapStateToProps({ app, loading }) {
+  return { app, loading: loading.models.app }
 }
 
 export default connect(mapStateToProps)(App)

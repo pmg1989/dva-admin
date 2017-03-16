@@ -5,7 +5,6 @@ import { getCurPowers } from '../../utils'
 export default {
   namespace: 'systemModifyPassword',
   state: {
-    loading: false
   },
 
   subscriptions: {
@@ -26,19 +25,11 @@ export default {
 
   effects: {
     *update ({ payload }, { select, call, put }) {
-      yield put({ type: 'showLoading' })
       yield call(update, payload)
-      yield put({ type: 'hideLoading' })
     }
   },
 
   reducers: {
-    showLoading (state) {
-      return { ...state, loading: true }
-    },
-    hideLoading (state) {
-      return { ...state, loading: false }
-    }
   }
 
 }
