@@ -20,7 +20,7 @@ module.exports = function (webpackConfig, env) {
     webpackConfig.babel.plugins.push('dev-expression')
     webpackConfig.entry = {
       index: './src/index.js',
-      common: [ 'react', 'react-dom', 'classnames', 'antd', 'dva', 'qs', 'js-cookie', 'moment', 'rc-queue-anim', 'rc-tween-one']
+      common: [ 'react', 'react-dom', 'classnames', 'dva', 'qs', 'js-cookie', 'moment', 'rc-queue-anim', 'rc-tween-one']
     }
   }
   //mock data config
