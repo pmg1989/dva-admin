@@ -70,7 +70,7 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
   const getAncestorKeys = (key) => {
     const map = {
       // navChildParent: ['navParent'],
-      navigation2: ['navigation']
+      '/navigation/navigation2': ['/navigation']
     }
     return map[key] || []
   }

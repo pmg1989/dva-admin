@@ -74,6 +74,43 @@ const menu = [
       }
     ]
   },
+  //多级导航
+  {
+    id: _.uniqueId(),
+    key: 'navigation',
+    name: '测试导航',
+    icon: 'setting',
+    power: [1],
+    children: [
+      {
+        id: _.uniqueId(),
+        key: 'navigation1',
+        name: '二级导航1',
+        power: [1, 2]
+      },
+      {
+        id: _.uniqueId(),
+        key: 'navigation2',
+        name: '二级导航2',
+        clickable: false,
+        power: [1, 2],
+        children: [
+          {
+            id: _.uniqueId(),
+            key: 'navigation21',
+            name: '三级导航1',
+            power: [1, 2],
+          },
+          {
+            id: _.uniqueId(),
+            key: 'navigation22',
+            name: '三级导航2',
+            power: [1, 2],
+          }
+        ]
+      },
+    ],
+  },
   //UI组件
   {
     id: _.uniqueId(),

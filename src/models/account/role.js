@@ -55,6 +55,7 @@ export default {
     },
     *update ({ payload }, { call, put }) {
       const { curItem } = payload
+      console.log(JSON.stringify(curItem.power));
       const params = { ...curItem, power: JSON.stringify(curItem.power) }
       const data = yield call(update, params)
       if (data && data.success) {
