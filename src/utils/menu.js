@@ -78,7 +78,7 @@ const menu = [
   {
     id: _.uniqueId(),
     key: 'bbs',
-    name: '论坛管理',
+    name: '前端分页',
     icon: 'message',
     clickable: false,
     power: [1],
@@ -86,7 +86,7 @@ const menu = [
       {
         id: _.uniqueId(),
         key: 'category',
-        name: '分类管理(前端分页)',
+        name: '分类管理',
         power: [1, 2, 3, 4, 5]
       }
     ]

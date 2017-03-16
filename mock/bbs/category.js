@@ -8,9 +8,6 @@ let dataKey = mockStorge('BBSCategory', Mock.mock({
     {
       'cid|+1': 1,
       'name|+1': ["键盘", "吉他", "声乐", "贝斯", "爵士鼓", "其他"],
-      imgurl: function () {
-        return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.name.substr(0, 1))
-      },
       memo: '@cparagraph'
     }
   ]

@@ -37,7 +37,7 @@ const ModalForm = ({
   }
 
   const modalFormOpts = {
-    title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建用户</div> : <div><Icon type="edit" /> 修改用户</div>,
+    title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建分类</div> : <div><Icon type="edit" /> 修改分类</div>,
     visible,
     wrapClassName: 'vertical-center-modal',
     confirmLoading: loading,
@@ -62,21 +62,10 @@ const ModalForm = ({
             ]
           })(<Input />)}
         </FormItem>
-        <FormItem label='分类图片' hasFeedback {...formItemLayout}>
-          {getFieldDecorator('imgurl', {
-            initialValue: curItem.imgurl,
-            rules: [
-              {
-                required: true,
-                message: '分类图片不能为空'
-              }
-            ]
-          })(<Input />)}
-        </FormItem>
-        <FormItem label='备忘录' hasFeedback {...formItemLayout}>
+        <FormItem label='分类描述' hasFeedback {...formItemLayout}>
           {getFieldDecorator('memo', {
             initialValue: curItem.memo
-          })(<Input />)}
+          })(<Input type="textarea" rows={5}/>)}
         </FormItem>
       </Form>
     </Modal>

@@ -40,14 +40,7 @@ function List({
       dataIndex: 'name',
       key: 'name'
     }, {
-      title: '分类图片',
-      dataIndex: 'imgurl',
-      key: 'imgurl',
-      width: 64,
-      className: styles.avatar,
-      render: (text) => <img width={24} src={text}/>
-    }, {
-      title: '备忘录',
+      title: '分类描述',
       dataIndex: 'memo',
       key: 'memo'
     }, {
