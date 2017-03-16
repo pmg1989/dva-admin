@@ -105,32 +105,6 @@ export default function({history, app}) {
             }
           ]
         },
-        //order
-        {
-          path: 'order',
-          name: 'order',
-          childRoutes: [
-            {
-              path: 'list',
-              name: 'list',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
-                  registerModel(app, require('./models/order/list'))
-                  cb(null, require('./routes/order/OrderList'))
-                }, 'order-list')
-              }
-            }, {
-              path: 'flow',
-              name: 'flow',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
-                  registerModel(app, require('./models/order/flow'))
-                  cb(null, require('./routes/order/Flow'))
-                }, 'order-flow')
-              }
-            }
-          ]
-        },
         //bbs
         {
           path: 'bbs',

@@ -32,10 +32,6 @@ export default function ({history, app}) {
         <Route path="system">
           <Route path="modify-password" component={require("./routes/system/ModifyPassword")}></Route>
         </Route>
-        <Route path="order">
-          <Route path="list" component={require("./routes/order/OrderList")}></Route>
-          <Route path="flow" component={require("./routes/order/Flow")}></Route>
-        </Route>
         <Route path="bbs">
           <Route path="category" component={require("./routes/bbs/Category")}></Route>
         </Route>
