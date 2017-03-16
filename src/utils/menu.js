@@ -57,23 +57,6 @@ const menu = [
       }
     ]
   },
-  //order
-  {
-    id: _.uniqueId(),
-    key: 'order',
-    name: '订单管理',
-    icon: 'bars',
-    clickable: false,
-    power: [1],
-    children: [
-      {
-        id: _.uniqueId(),
-        key: 'flow',
-        name: '订单列表',
-        power: [1, 2]
-      }
-    ]
-  },
   //bbs
   {
     id: _.uniqueId(),

@@ -5,7 +5,7 @@ import styles from '../components/layout/main.less'
 import { Spin } from 'antd'
 import '../components/layout/common.less'
 
-function LoginApp ({ dispatch, loading }) {
+function LoginApp ({ dispatch, loading = false }) {
   const loginProps = {
     loading,
     onOk (data) {
