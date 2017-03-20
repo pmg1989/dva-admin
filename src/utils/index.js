@@ -95,16 +95,9 @@ const getCurPowers = (curPath) => {
   return curPathPower //返回curPathPower，是为方便页面跳转验证权限后，dispatch当然权限
 }
 
-localStorage.setItem('menu', JSON.stringify(menu))
-
-const getMenu = () => {
-  return JSON.parse(localStorage.getItem('menu'))
-}
-
 export {
   Cookie,
   menu,
-  getMenu,
   equalSet,
   isLogin,
   userName,

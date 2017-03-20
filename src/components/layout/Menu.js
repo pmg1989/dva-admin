@@ -3,6 +3,9 @@ import { Menu, Icon } from 'antd'
 import { Link } from 'dva/router'
 import QueueAnim from 'rc-queue-anim'
 import { menu, getMenu, Cookie } from '../../utils'
+import Immutable from 'immutable'
+
+const immutableMenu = Immutable.fromJS(menu)
 
 function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, navOpenKeys, userPower, changeOpenKeys }) {
 
@@ -49,7 +52,7 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
     },[])
   }
 
-  const menuPower = getMenusByPower(getMenu())
+  const menuPower = getMenusByPower(immutableMenu.toJS())
 
   const menuItems = getMenus(menuPower, siderFold)
 

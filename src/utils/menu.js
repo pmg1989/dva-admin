@@ -116,7 +116,7 @@ const menu = [
     id: _.uniqueId(),
     key: 'ui',
     name: 'UI组件',
-    icon: 'setting',
+    icon: 'like-o',
     clickable: false,
     power: [1],
     children: [
