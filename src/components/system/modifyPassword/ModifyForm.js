@@ -72,7 +72,7 @@ class ModifyForm extends Component {
     } = this.props
 
     return (
-      <Form horizontal className={styles.modifyForm} onSubmit={::this.handleSubmit}>
+      <Form className={styles.modifyForm} onSubmit={::this.handleSubmit}>
         <FormItem label='旧密码：' hasFeedback {...formItemLayout}>
           {getFieldDecorator('oldPassword', {
             rules: [

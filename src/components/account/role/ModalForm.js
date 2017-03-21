@@ -60,7 +60,7 @@ const ModalForm = ({
 
   return (
     <Modal {...modalFormOpts}>
-      <Form horizontal>
+      <Form>
         <FormItem label='角色名称：' hasFeedback {...formItemLayout}>
           {getFieldDecorator('name', {
             initialValue: curItem.name,

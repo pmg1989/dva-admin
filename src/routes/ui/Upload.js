@@ -36,7 +36,7 @@ class Upload extends Component {
         <Col span={16} offset={4}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="单文件上传" key="1">
-              <Form horizontal onSubmit={::this.handleOk}>
+              <Form onSubmit={::this.handleOk}>
                 <FormItem label='文件上传' hasFeedback>
                   <UploadFile fileList={file} onUpload={::this.handleSigleUpload}></UploadFile>
                 </FormItem>
