@@ -93,7 +93,7 @@ const menu = [
         key: 'navigation2',
         name: '二级导航2',
         clickable: false,
-        power: [1, 2],
+        power: [1],
         children: [
           {
             id: _.uniqueId(),
