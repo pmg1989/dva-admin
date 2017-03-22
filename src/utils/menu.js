@@ -131,6 +131,12 @@ const menu = [
         key: 'media-player',
         name: '音频视频',
         power: [1, 2]
+      },
+      {
+        id: _.uniqueId(),
+        key: 'drop-menu',
+        name: '下拉操作菜单',
+        power: [1, 2]
       }
     ]
   }

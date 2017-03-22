@@ -143,6 +143,14 @@ export default function({history, app}) {
                   cb(null, require('./routes/ui/MediaPlayer'))
                 }, 'media-player')
               }
+            }, {
+              path: 'drop-menu',
+              name: 'drop-menu',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  cb(null, require('./routes/ui/DropMenu'))
+                }, 'drop-menu')
+              }
             }
           ]
         },
