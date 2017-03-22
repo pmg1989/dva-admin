@@ -3,6 +3,8 @@ import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
+import DropMenu from '../../common/DropMenu'
+import { UPDATE, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
 
@@ -28,6 +30,13 @@ function List({
     })
   }
 
+  const handleMenuClick = (key, record) => {
+    return {
+      [UPDATE]: onEditItem,
+      [DELETE]: handleDeleteItem,
+    } [key] (record)
+  }
+
   const columns = [
     {
       title: '角色编号',
@@ -43,16 +52,7 @@ function List({
       // width: 100,
       render: (text, record) => (
         <p>
-          {updatePower && <Tooltip placement="bottom" title='编辑'>
-            <a onClick={() => onEditItem(record)} style={{
-              marginRight: 10
-            }}><Icon type="edit"/></a>
-          </Tooltip>}
-          {deletePower && <Tooltip placement="bottom" title='删除'>
-            <Popconfirm title='确定要删除吗？' onConfirm={() => handleDeleteItem(record)}>
-              <a><Icon type="close-circle-o" className="danger"/></a>
-            </Popconfirm>
-          </Tooltip>}
+          <DropMenu updatePower deletePower onMenuClick={({key}) => handleMenuClick(key, record)} />
         </p>
       ),
       // fixed: 'right'
