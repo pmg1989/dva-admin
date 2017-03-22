@@ -40,7 +40,7 @@ const DropMenuPage = () => (
       </Col>
       <Col lg={8} md={12}>
         <Card title="边框式基础菜单">
-          <DropMenu detailPower={false} updatePower deletePower border dropDownProps={{placement: 'bottomLeft'}}  onMenuClick={dropMenuProps.onMenuClick}/>
+          <DropMenu updatePower deletePower border dropDownProps={{placement: 'bottomLeft'}}  onMenuClick={dropMenuProps.onMenuClick}/>
         </Card>
       </Col>
       <Col lg={8} md={12}>
@@ -65,6 +65,7 @@ const DropMenuPage = () => (
           <DropMenu onMenuClick={dropMenuProps.onMenuClick}>
             <Menu.Item key={ADD}>新增</Menu.Item>
             <Menu.Item key={STATUS}>审核</Menu.Item>
+            <Menu.Item key={UPDATE}><Link to="/">转页编辑</Link></Menu.Item>
           </DropMenu>
         </Card>
       </Col>
