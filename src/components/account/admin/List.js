@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
+import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
+import DropMenu from '../../common/DropMenu'
+import { UPDATE, STATUS, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
 
@@ -28,6 +30,14 @@ function List({
         onDeleteItem(record.id)
       }
     })
+  }
+
+  const handleMenuClick = (key, record) => {
+    return {
+      [UPDATE]: onEditItem,
+      [STATUS]: onStatusItem,
+      [DELETE]: handleDeleteItem,
+    } [key](record)
   }
 
   const columns = [
@@ -74,33 +84,13 @@ function List({
       key: 'operation',
       // width: 100,
       render: (text, record) => (
-        <p>
-          {updatePower && <Tooltip placement="bottom" title='编辑'>
-            <a onClick={() => onEditItem(record)} style={{
-              marginRight: 10
-            }}><Icon type="edit"/></a>
-          </Tooltip>}
-          {updatePower && <Tooltip placement="bottom" title={record.status
-            ? '点击禁用'
-            : '点击启用'}>
-            {record.status
-              ? <Popconfirm title={`确定要禁用${record.name}吗？`} onConfirm={() => onStatusItem(record)}>
-                  <a style={{
-                    marginRight: 10
-                  }}>
-                    <Icon type="unlock"/>
-                  </a>
-                </Popconfirm>
-              : <a onClick={() => onStatusItem(record)} style={{
-                marginRight: 10
-              }}>
-                <Icon type="lock" className="warning"/>
-              </a>}
-          </Tooltip>}
-          {deletePower && <Tooltip placement="bottom" title='删除'>
-            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className="danger"/></a>
-          </Tooltip>}
-        </p>
+        <DropMenu>
+          <Menu onClick={({key}) => handleMenuClick(key, record)}>
+            {updatePower && <Menu.Item key={STATUS}>{record.status ? '禁用' : '启用'}</Menu.Item>}
+            {updatePower && <Menu.Item key={UPDATE}>编辑</Menu.Item>}
+            {deletePower && <Menu.Item key={DELETE}>删除</Menu.Item>}
+          </Menu>
+        </DropMenu>
       ),
       // fixed: 'right'
     }

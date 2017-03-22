@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
+import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
@@ -34,7 +34,7 @@ function List({
     return {
       [UPDATE]: onEditItem,
       [DELETE]: handleDeleteItem,
-    } [key] (record)
+    } [key](record)
   }
 
   const columns = [
@@ -51,13 +51,12 @@ function List({
       key: 'operation',
       // width: 100,
       render: (text, record) => (
-        <p>
-          <DropMenu
-            updatePower={updatePower}
-            deletePower={deletePower}
-            onMenuClick={({key}) => handleMenuClick(key, record)}
-          />
-        </p>
+        <DropMenu>
+          <Menu onClick={({key}) => handleMenuClick(key, record)}>
+            {updatePower && <Menu.Item key={UPDATE}>编辑</Menu.Item>}
+            {deletePower && <Menu.Item key={DELETE}>删除</Menu.Item>}
+          </Menu>
+        </DropMenu>
       ),
       // fixed: 'right'
     }

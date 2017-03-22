@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal} from 'antd'
+import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
 import TableBodyWrapper from '../../common/TableBodyWrapper'
+import DropMenu from '../../common/DropMenu'
+import { UPDATE, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
 
@@ -30,6 +32,13 @@ function List({
     })
   }
 
+  const handleMenuClick = (key, record) => {
+    return {
+      [UPDATE]: onEditItem,
+      [DELETE]: handleDeleteItem,
+    } [key](record)
+  }
+
   const columns = [
     {
       title: '分类编号',
@@ -48,16 +57,12 @@ function List({
       key: 'operation',
       // width: 100,
       render: (text, record) => (
-        <p>
-          {updatePower && <Tooltip placement="bottom" title='编辑'>
-            <a onClick={() => onEditItem(record)} style={{
-              marginRight: 10
-            }}><Icon type="edit"/></a>
-          </Tooltip>}
-          {deletePower && <Tooltip placement="bottom" title='删除'>
-            <a onClick={() => handleDeleteItem(record)}><Icon type="close-circle-o" className="danger"/></a>
-          </Tooltip>}
-        </p>
+        <DropMenu>
+          <Menu onClick={({key}) => handleMenuClick(key, record)}>
+            {updatePower && <Menu.Item key={UPDATE}>编辑</Menu.Item>}
+            {deletePower && <Menu.Item key={DELETE}>删除</Menu.Item>}
+          </Menu>
+        </DropMenu>
       ),
       // fixed: 'right'
     }
