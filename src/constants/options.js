@@ -6,3 +6,4 @@ export const DELETE = 5
 export const DETAIL = 6
 export const CHECK = 7
 export const UPLOAD = 8
+export const STATUS = 9
