@@ -80,6 +80,11 @@ function List({
       dataIndex: 'createTime',
       key: 'createTime'
     }, {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => <span>{status? '已启用': '已禁用'}</span>
+    }, {
       title: '操作',
       key: 'operation',
       // width: 100,

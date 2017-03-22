@@ -66,6 +66,11 @@ function List ({
       key: 'created_at',
       render: (value) => new Date(+value).format("yyyy-MM-dd HH:mm:ss")
     }, {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => <span>{status? '已启用': '已禁用'}</span>
+    }, {
       title: '操作',
       key: 'operation',
       // width: 80,
