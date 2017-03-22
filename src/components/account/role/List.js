@@ -52,7 +52,11 @@ function List({
       // width: 100,
       render: (text, record) => (
         <p>
-          <DropMenu updatePower deletePower onMenuClick={({key}) => handleMenuClick(key, record)} />
+          <DropMenu
+            updatePower={updatePower}
+            deletePower={deletePower}
+            onMenuClick={({key}) => handleMenuClick(key, record)}
+          />
         </p>
       ),
       // fixed: 'right'
