@@ -52,6 +52,9 @@ DropMenu.propTypes = {
   updatePower: PropTypes.bool,
   detailPower: PropTypes.bool,
   deletePower: PropTypes.bool,
+  border: PropTypes.bool,
+  dropDownProps: PropTypes.object,
+  onMenuClick: PropTypes.func
 }
 
 DropMenu.defaultProps = {
