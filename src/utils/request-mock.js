@@ -1,34 +1,29 @@
 import axios from 'axios'
 import { message } from 'antd'
-import { stringify, parse } from 'qs'
+import { stringify } from 'qs'
 
 //message 全局配置
 message.config({
   top: 50
 })
 
-export default function request(url, options) {
-  if (options.cross) {
-    return get('http://query.yahooapis.com/v1/public/yql', {
-      q: "select * from json where url='" + url + '?' + stringify(options.data) + "'",
-      format: 'json'
-    })
-  }
-  switch (options.method.toLowerCase()) {
+const fetch = (url, options) => {
+  const { method = 'get', data } = options
+  switch (method.toLowerCase()) {
     case 'get':
-      return get(url, options.data)
-      break
-    case 'post':
-      return post(url, options.data)
-      break
-  case 'put':
-    return put(url, options.data)
-    break
+      return axios.get(url, data)
     case 'delete':
-      return deleted(url, options.data)
-      break
+      return axios.delete(url, { data })
+    case 'head':
+      return axios.head(url, data)
+    case 'post':
+      return axios.post(url, data)
+    case 'put':
+      return axios.put(url, data)
+    case 'patch':
+      return axios.patch(url, data)
     default:
-      break
+      return axios(options)
   }
 }
 
@@ -46,37 +41,38 @@ function handelData(res) {
     message.success(data.msg)
   }
   return data
-  // return { ...data.data, success: data.success, msg: data.msg }
 }
 
 function handleError(error) {
   message.error(error.response.data.errors, 5)
 }
 
+export default function request(url, options) {
+  if (options.cross) {
+    return get('http://query.yahooapis.com/v1/public/yql', {
+      q: "select * from json where url='" + url + '?' + stringify(options.data) + "'",
+      format: 'json'
+    })
+  }
+
+  return fetch(url, options)
+        .then(checkStatus)
+        .then(handelData)
+        .catch(handleError)
+}
+
 export function get(url, params) {
-  return axios.get(url, { params: params })
-  .then(checkStatus)
-  .then(handelData)
-  .catch(handleError)
+  return request(url, {...options, method: 'get'})
 }
 
 export function post(url, data) {
-  return axios.post(url, parse(data))
-  .then(checkStatus)
-  .then(handelData)
-  .catch(handleError)
+  return request(url, {...options, method: 'post'})
 }
 
 export function put(url, data) {
-  return axios.put(url,  parse(data))
-  .then(checkStatus)
-  .then(handelData)
-  .catch(handleError)
+  return request(url, {...options, method: 'put'})
 }
 
 export function deleted(url, data) {
-  return axios.delete(url, { data })
-  .then(checkStatus)
-  .then(handelData)
-  .catch(handleError)
+  return request(url, {...options, method: 'deleted'})
 }
