@@ -8,7 +8,8 @@ class UploadFiles extends React.Component {
   static propTypes = {
     fileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
     onUpload: PropTypes.func.isRequired,
-    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
+    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+    disabled: PropTypes.bool
   }
 
   constructor(props) {
@@ -21,7 +22,7 @@ class UploadFiles extends React.Component {
           return { url: url, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
         })
       }
-      if(fileList && !!fileList.lengh) {
+      if(fileList && !!fileList.length) {
         const filesArr = fileList.split('/')
         return [{ uid: -1, url: fileList, name: filesArr[filesArr.length - 1], status: 'done' }]
       }
@@ -39,7 +40,7 @@ class UploadFiles extends React.Component {
 
     const { previewVisible, previewImage, fileList } = this.state
 
-    const { multiple = 1, onUpload } = this.props
+    const { multiple = 1, onUpload, disabled } = this.props
 
     const renderFiles = (files) => {
       const fileList = files.map(file => {
@@ -55,6 +56,7 @@ class UploadFiles extends React.Component {
       action: 'test.do',//newband.app.admin.API_HOST + '?access_token=' + Cookie.get('access_token'),
       data: {
       },
+      disabled,
       listType: 'picture-card',
       fileList: fileList,
       multiple: multiple === true,
@@ -73,6 +75,9 @@ class UploadFiles extends React.Component {
         onUpload(renderFiles(fileList))
       },
       onRemove: (file) => {
+        if(disabled) {
+          return false
+        }
         const fileList = this.state.fileList.filter(item => item.uid !== file.uid)
         onUpload(renderFiles(fileList))
       }
