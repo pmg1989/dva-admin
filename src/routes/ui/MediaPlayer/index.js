@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {Row, Col, Tabs} from 'antd'
-import MediaPlayer from '../../components/common/mediaPlayer'
-import VideoPlayer from '../../components/common/mediaPlayer/VideoPlayer'
-import AudioPlayer from '../../components/common/mediaPlayer/AudioPlayer'
-import CirclePlayer from '../../components/common/mediaPlayer/CirclePlayer'
+import MediaPlayer from '../../../components/common/mediaPlayer'
+import VideoPlayer from '../../../components/common/mediaPlayer/VideoPlayer'
+import AudioPlayer from '../../../components/common/mediaPlayer/AudioPlayer'
+import CirclePlayer from '../../../components/common/mediaPlayer/CirclePlayer'
 
 const TabPane = Tabs.TabPane
 

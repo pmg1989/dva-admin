@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'dva'
-import Login from './Login'
-import styles from './Login.less'
+import LoginForm from './LoginForm'
+import styles from './LoginForm.less'
 import { Spin } from 'antd'
 
-function LoginApp ({ dispatch, loading = false }) {
+function Login ({ dispatch, loading = false }) {
   const loginProps = {
     loading,
     onOk (data) {
@@ -12,11 +12,11 @@ function LoginApp ({ dispatch, loading = false }) {
     }
   }
   return (
-    <div className={styles.spin}><Spin tip='加载用户信息...' spinning={loading} size='large'><Login {...loginProps} /></Spin></div>
+    <div className={styles.spin}><Spin tip='加载用户信息...' spinning={loading} size='large'><LoginForm {...loginProps} /></Spin></div>
   )
 }
 
-LoginApp.propTypes = {
+Login.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool
 }
@@ -25,4 +25,4 @@ function mapStateToProps({ loading }) {
   return { loading: loading.models.app }
 }
 
-export default connect(mapStateToProps)(LoginApp)
+export default connect(mapStateToProps)(Login)
