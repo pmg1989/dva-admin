@@ -46,17 +46,6 @@ function Admin({location, curPowers, dispatch, accountAdmin, modal, loading}) {
     updatePower,
     deletePower,
     location,
-    onPageChange(page) {
-      const {query, pathname} = location
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...query,
-          page: page.current,
-          pageSize: page.pageSize
-        }
-      }))
-    },
     onDeleteItem(id) {
       dispatch({type: 'accountAdmin/delete', payload: {id}})
     },
