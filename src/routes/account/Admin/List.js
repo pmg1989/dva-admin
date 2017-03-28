@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
-import { TableBodyWrapper } from '../../../components/TableBodyWrapper'
+import {TableBodyWrapper} from '../../../components/TableBodyWrapper'
 import DropMenu from '../../../components/DropMenu'
-import { UPDATE, STATUS, DELETE } from '../../../constants/options'
+import {UPDATE, STATUS, DELETE} from '../../../constants/options'
 
 const confirm = Modal.confirm
 
