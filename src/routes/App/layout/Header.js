@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Icon, Popover } from 'antd'
-import styles from './main.less'
+import styles from './Header.less'
 import Menus from './Menu'
 
 const SubMenu = Menu.SubMenu
@@ -21,11 +21,11 @@ function Header ({user, logout, switchSider, siderFold, isNavbar, menuPopoverVis
     <div className={styles.header}>
       {isNavbar
         ? <Popover placement='bottomLeft' onVisibleChange={switchMenuPopover} visible={menuPopoverVisible} overlayClassName={styles.popovermenu} trigger='click' content={<Menus {...menusProps} />}>
-          <div className={styles.siderbutton}>
+          <div className={styles.button}>
             <Icon type='bars' />
           </div>
         </Popover>
-        : <div className={styles.siderbutton} onClick={switchSider}>
+        : <div className={styles.button} onClick={switchSider}>
           <Icon type={siderFold ? 'menu-unfold' : 'menu-fold'} />
         </div>}
 

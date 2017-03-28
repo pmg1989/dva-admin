@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon, Switch } from 'antd'
 import QueueAnim from 'rc-queue-anim'
-import styles from './main.less'
+import styles from './Layout.less'
 import { config } from '../../../utils'
 import Menus from './Menu'
 

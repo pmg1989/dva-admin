@@ -89,20 +89,17 @@
       margin: 28px 0;
       transition: @transition-ease-out;
       overflow: hidden;
-
       img {
         width: 54px;
         margin-right: 8px;
         transition: @transition-ease-out;
       }
-
       span {
         vertical-align: text-bottom;
         font-size: 16px;
         text-transform: uppercase;
         display: inline-block;
       }
-
       .anticon {
         transition: @transition-ease-out;
       }
@@ -144,6 +141,7 @@
       .ant-menu-root {
         height: ~"calc(100vh - 144px)";
         overflow-x: hidden;
+        border-right: none;
 
         &::-webkit-scrollbar-thumb {
           background-color: transparent;
@@ -159,7 +157,9 @@
           .ant-menu-sub {
             height: 0;
             opacity: 0;
+            transition: none;
           }
+
           .ant-menu-submenu-active {
             .ant-menu-sub {
               height: auto;
@@ -174,45 +174,11 @@
 
         .ant-menu-item,
         .ant-menu-submenu-title {
-          overflow: auto;
+          overflow: hidden;
           white-space: normal;
         }
       }
     }
-  }
-
-  .header {
-    :global .ant-menu-horizontal {
-      & > .ant-menu-submenu {
-        float: right;
-      }
-      border: none;
-    }
-    box-shadow: @shadow-2;
-    position: relative;
-
-    .siderbutton {
-      height: 47px;
-      width: 47px;
-      line-height: 47px;
-      text-align: center;
-      font-size: 18px;
-      cursor: pointer;
-      position: absolute;
-      transition: @transition-ease-in;
-
-      &:hover {
-        color: @primary-color;
-        background-color: fade(@primary-color, 15%);
-      }
-    }
-  }
-
-  .bread {
-    height: 64px;
-    line-height: 64px;
-    padding: 0 24px;
-    margin-bottom: -24px;
   }
 
   .main {
@@ -221,32 +187,23 @@
     height: 100vh;
     transition: @transition-ease-out;
 
-    .container {
-      margin: 24px;
-
-      .content {
+    :global {
+      .content-inner {
+        background: #fff;
+        padding: 24px;
+        box-shadow: @shadow-1;
         min-height: e("calc(100vh - 184px)");
-        position: relative;
-
-        :global .content-inner {
-          background: #fff;
-          padding: 24px;
-          box-shadow: @shadow-1;
-          min-height: e("calc(100vh - 184px)");
-        }
       }
     }
-  }
 
-  .footer {
-    height: 48px;
-    line-height: 48px;
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-    background: #fff;
-    box-shadow: @shadow-2;
-    width: 100%;
+    .container {
+      margin: 24px;
+    }
+
+    .content {
+      min-height: e("calc(100vh - 184px)");
+      position: relative;
+    }
   }
 }
 
@@ -302,29 +259,32 @@
   }
 }
 
-.popovermenu {
-  width: 280px;
-  left: 6px;
-
-  :global .ant-popover-inner-content {
-    padding: 0;
-
-    .ant-menu-inline .ant-menu-item,
-    .ant-menu-vertical .ant-menu-item {
-      border-right: 0;
-      height: 48px;
-      line-height: 48px;
-    }
-
-    .ant-menu-inline .ant-menu-item-selected,
-    .ant-menu-inline .ant-menu-selected {
-      border-right: 0;
-    }
-  }
-}
-
 .spin {
   :global .ant-spin-container {
     height: 100vh;
+  }
+}
+@media (max-width: 767px) {
+  .layout {
+    .main {
+      .container {
+        margin: 12px;
+      }
+
+      .bread {
+        padding: 0 12px;
+      }
+
+      .content {
+        min-height: e("calc(100vh - 160px)");
+      }
+
+      :global {
+        .content-inner {
+          padding: 12px;
+          min-height: e("calc(100vh - 160px)");
+        }
+      }
+    }
   }
 }
