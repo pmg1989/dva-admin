@@ -86,7 +86,6 @@ function List({
     columns,
     loading,
     className: styles.table,
-    onChange: onPageChange,
     pagination,
     rowKey: (record) => record.cid
   }
@@ -98,7 +97,6 @@ function List({
 
 List.propTypes = {
   bbsCategory: PropTypes.object.isRequired,
-  onPageChange: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired
 }

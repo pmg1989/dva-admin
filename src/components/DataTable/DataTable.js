@@ -8,8 +8,8 @@ import TableBodyWrapper from './TableBodyWrapper'
 function DataTable({dispatch, location, className, pagination, ...props}) {
 
   const getBodyWrapperProps = {
-    page: location.query.page,
-    current: pagination.current
+    page: location.query.page || 1,
+    current: pagination.current || 1
   }
 
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
@@ -20,7 +20,7 @@ function DataTable({dispatch, location, className, pagination, ...props}) {
       pathname: pathname,
       query: {
         ...query,
-        page: page.current,
+        current: page.current,
         pageSize: page.pageSize
       }
     }))
