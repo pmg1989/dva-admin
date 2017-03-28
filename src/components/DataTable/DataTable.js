@@ -28,16 +28,30 @@ function DataTable({dispatch, location, className, pagination, ...props}) {
 
   return (
     <Table
-      className={classnames(className, "table-motion")}
+      simple
       bordered
       scroll={{ x: 1200 }}
       onChange={onPageChange}
-      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-      simple
       getBodyWrapper={getBodyWrapper}
+      className={classnames(className, "table-motion")}
+      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
       {...props}
     />
   )
+}
+
+DataTable.propTypes = {
+  rowKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]).isRequired,
+  pagination: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]).isRequired,
+  columns: PropTypes.array.isRequired,
+  dataSource: PropTypes.array.isRequired,
+  className: PropTypes.string
 }
 
 function mapStateToProps({ routing }) {

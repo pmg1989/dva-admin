@@ -1,1 +1,1 @@
-export './TableBodyWrapper'
+export './DataTable'

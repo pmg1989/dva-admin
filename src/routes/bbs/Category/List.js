@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
-import classnames from 'classnames'
+import {Modal, Menu} from 'antd'
 import styles from './List.less'
-import {TableBodyWrapper, DropMenu} from '../../../components/'
+import {DataTable, DropMenu} from '../../../components/'
 import {UPDATE, DELETE} from '../../../constants/options'
 
 const confirm = Modal.confirm
@@ -15,7 +14,6 @@ function List({
   loading,
   updatePower,
   deletePower,
-  onPageChange,
   onDeleteItem,
   onEditItem,
   onStatusItem,
@@ -67,13 +65,6 @@ function List({
     }
   ]
 
-  const getBodyWrapperProps = {
-    page: location.query.page,
-    current: pagination.current
-  }
-
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
-
   let total = pagination.total
 
   const getFilterList = () => {
@@ -92,28 +83,16 @@ function List({
 
   const tableProps = {
     dataSource: getFilterList(),
-    bordered: true,
-    simple: true,
     columns,
     loading,
-    className: classnames(styles.table, "table-motion"),
-    scroll: { x: 1200 },
+    className: styles.table,
     onChange: onPageChange,
-    pagination: {
-      ...pagination,
-      total: total,
-      showSizeChanger: true,
-      showQuickJumper: true,
-      showTotal: total => `共 ${total} 条`
-    },
-    rowKey: (record) => record.cid,
-    getBodyWrapper
+    pagination,
+    rowKey: (record) => record.cid
   }
 
   return (
-    <div>
-      <Table  {...tableProps}/>
-    </div>
+    <DataTable  {...tableProps}/>
   )
 }
 

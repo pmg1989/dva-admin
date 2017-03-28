@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Button, Modal, Menu} from 'antd'
-import classnames from 'classnames'
+import {Modal, Menu} from 'antd'
 import styles from './List.less'
-import {TableBodyWrapper, DropMenu} from '../../../components/'
+import {DataTable, DropMenu} from '../../../components/'
 import { UPDATE, STATUS, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
@@ -15,7 +14,6 @@ function List ({
   loading,
   updatePower,
   deletePower,
-  onPageChange,
   onDeleteItem,
   onEditItem,
   onStatusItem,
@@ -86,35 +84,20 @@ function List ({
     }
   ]
 
-  const getBodyWrapperProps = {
-    page: location.query.page,
-    current: pagination.current
-  }
-
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
-
   return (
-    <div>
-      <Table
-        className={classnames(styles.table, "table-motion")}
-        bordered
-        scroll={{ x: 1200 }}
-        columns={columns}
-        dataSource={list}
-        loading={loading}
-        onChange={onPageChange}
-        pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-        simple
-        rowKey={record => record.id}
-        getBodyWrapper={getBodyWrapper}
-      />
-    </div>
+    <DataTable
+      className={styles.table}
+      columns={columns}
+      dataSource={list}
+      loading={loading}
+      pagination={pagination}
+      rowKey={record => record.id}
+    />
   )
 }
 
 List.propTypes = {
   accountUser: PropTypes.object.isRequired,
-  onPageChange: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired
 }

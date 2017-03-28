@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
-import classnames from 'classnames'
+import {Modal, Menu} from 'antd'
 import styles from './List.less'
-import {TableBodyWrapper, DropMenu} from '../../../components/'
+import {DataTable, DropMenu} from '../../../components/'
 import {UPDATE, DELETE} from '../../../constants/options'
 
 const confirm = Modal.confirm
@@ -61,25 +60,14 @@ function List({
     }
   ]
 
-  const getBodyWrapperProps = {
-    page: 1,
-    current: 1
-  }
-
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
-
   return (
-    <Table
-      className={classnames(styles.table, "table-motion")}
-      bordered scroll={{ x: 1000 }}
+    <DataTable
+      className={styles.table}
       columns={columns}
       dataSource={list}
       loading={loading}
-      onChange={onPageChange}
       pagination={false}
-      simple
       rowKey={record => record.id}
-      getBodyWrapper={getBodyWrapper}
     />
   )
 }

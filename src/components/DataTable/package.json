@@ -1,6 +1,6 @@
 {
-  "name": "TableBodyWrapper",
+  "name": "DataTable",
   "version": "0.0.1",
   "private": true,
-  "main": "./TableBodyWrapper.js"
+  "main": "./DataTable.js"
 }

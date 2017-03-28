@@ -46,17 +46,6 @@ function User({location, curPowers, dispatch, accountUser, modal, loading}) {
     updatePower,
     deletePower,
     location,
-    onPageChange(page) {
-      const {query, pathname} = location
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...query,
-          current: page.current,
-          pageSize: page.pageSize
-        }
-      }))
-    },
     onDeleteItem(id) {
       dispatch({type: 'accountUser/delete', payload: {id}})
     },

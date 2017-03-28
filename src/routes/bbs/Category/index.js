@@ -46,17 +46,6 @@ function Category({location, curPowers, dispatch, bbsCategory, modal, loading}) 
     updatePower,
     deletePower,
     location,
-    onPageChange(page) {
-      const {query, pathname} = location
-      dispatch(routerRedux.push({
-        pathname: pathname,
-        query: {
-          ...query,
-          current: page.current,
-          pageSize: page.pageSize
-        }
-      }))
-    },
     onDeleteItem(id) {
       dispatch({type: 'bbsCategory/delete', payload: {id}})
     },
