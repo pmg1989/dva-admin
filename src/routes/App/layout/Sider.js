@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon, Switch } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 import styles from './main.less'
-import { config } from '../../utils'
+import { config } from '../../../utils'
 import Menus from './Menu'
 
 function Sider ({ siderFold, darkTheme, location, changeTheme, navOpenKeys, userPower, changeOpenKeys }) {
@@ -24,7 +24,7 @@ function Sider ({ siderFold, darkTheme, location, changeTheme, navOpenKeys, user
       </QueueAnim>
       <Menus {...menusProps} />
       <QueueAnim delay={600} type='bottom'>
-      { !siderFold ? 
+      { !siderFold ?
         <div className={styles.switchtheme} key='1'>
           <span><Icon type='bulb' />切换主题</span>
           <Switch onChange={changeTheme} defaultChecked={darkTheme} checkedChildren='黑' unCheckedChildren='白' />

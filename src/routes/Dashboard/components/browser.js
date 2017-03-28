@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Table, Tag } from 'antd'
 import styles from './browser.less'
-import { color } from '../../utils'
+import { color } from '../../../utils'
 
 const status = {
   1: {

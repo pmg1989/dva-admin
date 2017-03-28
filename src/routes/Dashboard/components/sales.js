@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './sales.less'
-import {color} from '../../utils'
+import {color} from '../../../utils'
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts'
 
 function Sales (props) {

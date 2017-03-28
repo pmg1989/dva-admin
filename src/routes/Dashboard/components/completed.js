@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './completed.less'
-import {color} from '../../utils'
+import {color} from '../../../utils'
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts'
 
 function Completed (props) {
