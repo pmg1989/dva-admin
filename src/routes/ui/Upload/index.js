@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import UploadFile from '../../../components/common/UploadFile'
+import UploadFile from '../../../components/UploadFile'
 import {Form, Button, Row, Col, Tabs} from 'antd'
 
 const FormItem = Form.Item

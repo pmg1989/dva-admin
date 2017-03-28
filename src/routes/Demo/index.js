@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import MediaListPlayer from '../../components/common/mediaPlayer'
-import VideoPlayer from '../../components/common/mediaPlayer/VideoPlayer'
-import AudioPlayer from '../../components/common/mediaPlayer/AudioPlayer'
-import CirclePlayer from '../../components/common/mediaPlayer/CirclePlayer'
+import MediaListPlayer from '../../components/MediaPlayer'
+import VideoPlayer from '../../components/MediaPlayer/VideoPlayer'
+import AudioPlayer from '../../components/MediaPlayer/AudioPlayer'
+import CirclePlayer from '../../components/MediaPlayer/CirclePlayer'
 import styles from './index.less'
 
 const playlist = [
