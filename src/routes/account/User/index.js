@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
-import UserList from '../../components/account/user/List'
-import UserSearch from '../../components/account/user/Search'
-import UserModal from '../../components/account/user/ModalForm'
-import {checkPower} from '../../utils'
-import {ADD, UPDATE, DELETE} from '../../constants/options'
+import UserList from './List'
+import UserSearch from './Search'
+import UserModal from './ModalForm'
+import {checkPower} from '../../../utils'
+import {ADD, UPDATE, DELETE} from '../../../constants/options'
 
 function User({location, curPowers, dispatch, accountUser, modal, loading}) {
 

@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
-import AdminList from '../../components/account/admin/List'
-import AdminSearch from '../../components/account/admin/Search'
-import AdminModal from '../../components/account/admin/ModalForm'
-import {checkPower} from '../../utils'
-import {ADD, UPDATE, DELETE} from '../../constants/options'
+import AdminList from './List'
+import AdminSearch from './Search'
+import AdminModal from './ModalForm'
+import {checkPower} from '../../../utils'
+import {ADD, UPDATE, DELETE} from '../../../constants/options'
 
 function Admin({location, curPowers, dispatch, accountAdmin, modal, loading}) {
 

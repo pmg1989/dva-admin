@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react'
-import {Table, Popconfirm, Icon, Tooltip, Modal, Menu} from 'antd'
+import {Table, Popconfirm, Icon, Tooltip, Button, Modal, Menu} from 'antd'
 import classnames from 'classnames'
 import styles from './List.less'
-import TableBodyWrapper from '../../common/TableBodyWrapper'
-import DropMenu from '../../common/DropMenu'
+import TableBodyWrapper from '../../../components/common/TableBodyWrapper'
+import DropMenu from '../../../components/common/DropMenu'
 import { UPDATE, STATUS, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
 
-function List({
-  accountAdmin: {
+function List ({
+  accountUser: {
     list,
     pagination
   },
@@ -26,7 +26,7 @@ function List({
   const handleDeleteItem = (record) => {
     confirm({
       title: '您确定要删除这条记录吗?',
-      onOk() {
+      onOk () {
         onDeleteItem(record.id)
       }
     })
@@ -43,42 +43,28 @@ function List({
   const columns = [
     {
       title: '头像',
-      dataIndex: 'avatar',
-      key: 'avatar',
+      dataIndex: 'image',
+      key: 'image',
       width: 64,
       className: styles.avatar,
-      render: (text) => <img width={24} src={text}/>
+      render: (text) => <img width={24} src={text} />
     }, {
       title: '用户名',
       dataIndex: 'name',
       key: 'name'
     }, {
-      title: '性别',
-      dataIndex: 'isMale',
-      key: 'isMale',
-      render: (text) => <span>{text
-            ? '男'
-            : '女'}</span>
-    }, {
       title: '手机号',
-      dataIndex: 'phone',
-      key: 'phone'
+      dataIndex: 'mobile',
+      key: 'mobile'
     }, {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email'
     }, {
-      title: '角色',
-      dataIndex: 'roleName',
-      key: 'roleName'
-    }, {
-      title: '地区',
-      dataIndex: 'address',
-      key: 'address'
-    }, {
       title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime'
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (value) => new Date(+value).format("yyyy-MM-dd HH:mm:ss")
     }, {
       title: '状态',
       dataIndex: 'status',
@@ -87,7 +73,7 @@ function List({
     }, {
       title: '操作',
       key: 'operation',
-      // width: 100,
+      // width: 80,
       render: (text, record) => (
         <DropMenu>
           <Menu onClick={({key}) => handleMenuClick(key, record)}>
@@ -106,28 +92,29 @@ function List({
     current: pagination.current
   }
 
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
+  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
 
   return (
     <div>
       <Table
-      className={classnames(styles.table, "table-motion")}
-      bordered
-      scroll={{ x: 1200 }}
-      columns={columns}
-      dataSource={list}
-      loading={loading}
-      onChange={onPageChange}
-      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-      simple
-      rowKey={record => record.id}
-      getBodyWrapper={getBodyWrapper}/>
+        className={classnames(styles.table, "table-motion")}
+        bordered
+        scroll={{ x: 1200 }}
+        columns={columns}
+        dataSource={list}
+        loading={loading}
+        onChange={onPageChange}
+        pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
+        simple
+        rowKey={record => record.id}
+        getBodyWrapper={getBodyWrapper}
+      />
     </div>
   )
 }
 
 List.propTypes = {
-  accountAdmin: PropTypes.object.isRequired,
+  accountUser: PropTypes.object.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired

@@ -183,7 +183,7 @@ export default function({history, app}) {
       name: 'demo',
       getComponent(nextState, cb) {
         require.ensure([], require => {
-          cb(null, require('./routes/demo/Demo'))
+          cb(null, require('./routes/Demo'))
         }, 'demo')
       }
     },

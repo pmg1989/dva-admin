@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react'
 import {routerRedux} from 'dva/router'
 import {connect} from 'dva'
-import RoleList from '../../components/account/role/List'
-import RoleSearch from '../../components/account/role/Search'
-import RoleModal from '../../components/account/role/ModalForm'
-import {checkPower} from '../../utils'
-import {ADD, UPDATE, DELETE} from '../../constants/options'
+import RoleList from './List'
+import RoleSearch from './Search'
+import RoleModal from './ModalForm'
+import {checkPower} from '../../../utils'
+import {ADD, UPDATE, DELETE} from '../../../constants/options'
 
 function Role({location, curPowers, dispatch, accountRole, modal, loading}) {
 

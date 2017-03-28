@@ -3,7 +3,7 @@ import MediaListPlayer from '../../components/common/mediaPlayer'
 import VideoPlayer from '../../components/common/mediaPlayer/VideoPlayer'
 import AudioPlayer from '../../components/common/mediaPlayer/AudioPlayer'
 import CirclePlayer from '../../components/common/mediaPlayer/CirclePlayer'
-import styles from './Demo.less'
+import styles from './index.less'
 
 const playlist = [
   { src: 'http://www.youtube.com/embed/h3YVKTxTOgU', label: 'Brand New (Youtube)' },

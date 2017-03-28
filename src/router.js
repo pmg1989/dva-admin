@@ -43,7 +43,7 @@ export default function ({history, app}) {
         <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
       <Route path="login" component={require("./routes/Login")} onEnter={redirectToDashboard}/>
-      <Route path="demo" component={require("./routes/demo/Demo")}/>
+      <Route path="demo" component={require("./routes/Demo")}/>
       <Route path="*" component={require("./routes/Error")}/>
     </Router>
   )

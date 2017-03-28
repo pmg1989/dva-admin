@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Form, Button, Row, Col, Icon } from 'antd'
-import SearchGroup from '../../common/Search'
+import SearchGroup from '../../../components/common/Search'
 
 const Search = ({
   field,
@@ -19,9 +19,9 @@ const Search = ({
     keyword,
     size: 'large',
     select: true,
-    selectOptions: [{ value: 'roleName', name: '角色名称' }],
+    selectOptions: [{ value: 'name', name: '用户名' }, { value: 'phone', name: '手机号' }, { value: 'email', name: '邮箱' },{ value: 'roleName', name: '角色' }, { value: 'address', name: '地区' }],
     selectProps: {
-      defaultValue: field || 'roleName'
+      defaultValue: field || 'name'
     },
     onSearch: (value) => {
       onSearch(value)
@@ -30,8 +30,11 @@ const Search = ({
 
   return (
     <Row gutter={24}>
+      <Col lg={8} md={12} sm={16} xs={24} style={{marginBottom: 16}}>
+        <SearchGroup {...searchGroupProps} />
+      </Col>
       {addPower &&
-      <Col lg={24} md={24} sm={24} xs={24} style={{marginBottom: 16, textAlign: 'right'}}>
+      <Col lg={{offset: 8, span: 8}} md={12} sm={8} xs={24} style={{marginBottom: 16, textAlign: 'right'}}>
         <Button size='large' type='ghost' onClick={onAdd}><Icon type="plus-circle-o" />添加</Button>
       </Col>}
     </Row>
