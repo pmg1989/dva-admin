@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'dva'
-import Login from '../components/Login'
-import styles from '../components/layout/main.less'
+import Login from './Login'
+import styles from './Login.less'
 import { Spin } from 'antd'
-import '../components/layout/common.less'
 
 function LoginApp ({ dispatch, loading = false }) {
   const loginProps = {

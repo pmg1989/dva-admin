@@ -49,10 +49,11 @@ function handleError(error) {
 
 export default function request(url, options) {
   if (options.cross) {
-    return get('http://query.yahooapis.com/v1/public/yql', {
+    const params = {
       q: "select * from json where url='" + url + '?' + stringify(options.data) + "'",
       format: 'json'
-    })
+    }
+    return get('http://query.yahooapis.com/v1/public/yql?' + stringify(params))
   }
 
   return fetch(url, options)
@@ -61,18 +62,18 @@ export default function request(url, options) {
         .catch(handleError)
 }
 
-export function get(url, params) {
+export function get(url, options) {
   return request(url, {...options, method: 'get'})
 }
 
-export function post(url, data) {
+export function post(url, options) {
   return request(url, {...options, method: 'post'})
 }
 
-export function put(url, data) {
+export function put(url, options) {
   return request(url, {...options, method: 'put'})
 }
 
-export function deleted(url, data) {
+export function deleted(url, options) {
   return request(url, {...options, method: 'deleted'})
 }
