@@ -19,7 +19,7 @@ const Search = ({
     keyword,
     size: 'large',
     select: true,
-    selectOptions: [{ value: 'name', name: '用户名' }, { value: 'phone', name: '手机号' }, { value: 'email', name: '邮箱' },{ value: 'roleName', name: '角色' }, { value: 'address', name: '地区' }],
+    selectOptions: [{ value: 'name', name: '用户名' }, { value: 'phone', name: '手机号' }, { value: 'email', name: '邮箱' }],
     selectProps: {
       defaultValue: field || 'name'
     },

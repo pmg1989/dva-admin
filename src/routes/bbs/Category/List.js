@@ -86,7 +86,7 @@ function List({
     columns,
     loading,
     className: styles.table,
-    pagination,
+    pagination: {...pagination, total},
     rowKey: (record) => record.cid
   }
 
