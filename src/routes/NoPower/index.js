@@ -1,7 +1,7 @@
 import React from 'react'
 import {Icon} from 'antd'
 import {connect} from 'dva'
-import styles from './Error.less'
+import styles from './index.less'
 
 const NoPower = () =>
 <div className='content-inner'>
