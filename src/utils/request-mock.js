@@ -11,7 +11,7 @@ const fetch = (url, options) => {
   const { method = 'get', data } = options
   switch (method.toLowerCase()) {
     case 'get':
-      return axios.get(url, data)
+      return axios.get(url, { params: data })
     case 'delete':
       return axios.delete(url, { data })
     case 'head':
