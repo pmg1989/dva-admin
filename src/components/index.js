@@ -1,4 +1,4 @@
-export TableBodyWrapper from './TableBodyWrapper'
+export TableBodyWrapper from './TableBodyWrapper/TableBodyWrapper'
 export DropMenu from './DropMenu'
 export InputEmail from './InputEmail'
 export MediaPlayer from './MediaPlayer'
