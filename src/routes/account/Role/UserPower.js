@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
-import { Table, Icon, Checkbox } from 'antd'
+import { Icon, Checkbox } from 'antd'
 import { menu, equalSet } from '../../../utils'
+import {DataTable} from '../../../components/'
 import { MENU, CONTENT, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
 import styles from './UserPower.less'
 
@@ -94,17 +95,16 @@ class UserPower extends Component {
     }
 
     return (
-      <Table
-        columns={columns}
-        dataSource={menu}
-        bordered
-        scroll={{ x: 1000 }}
-        pagination={false}
-        simple
-        size="small"
-        defaultExpandAllRows
-        rowSelection={rowSelection}
-        rowKey={record => record.id}
+        <DataTable
+          animate={false}
+          columns={columns}
+          dataSource={menu}
+          pagination={false}
+          scroll={{ x: 1000 }}
+          size="small"
+          defaultExpandAllRows
+          rowSelection={rowSelection}
+          rowKey={record => record.id}
         />
     )
   }

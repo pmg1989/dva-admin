@@ -31,7 +31,7 @@ function DataTable({dispatch, location, className, pagination, animate, ...props
     bordered: true,
     scroll: {x: 1200},
     onChange: onPageChange,
-    pagination: {...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`},
+    pagination: !!pagination && {...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`},
     ...props
   }
   if(animate) {
