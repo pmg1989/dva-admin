@@ -5,7 +5,7 @@ import {Table} from 'antd'
 import classnames from 'classnames'
 import TableBodyWrapper from './TableBodyWrapper'
 
-function DataTable({dispatch, location, className, pagination, ...props}) {
+function DataTable({dispatch, location, className, pagination, animate, ...props}) {
 
   const getBodyWrapperProps = {
     page: location.query.page || 1,
@@ -26,21 +26,26 @@ function DataTable({dispatch, location, className, pagination, ...props}) {
     }))
   }
 
+  let tableProps = {
+    simple: true,
+    bordered: true,
+    scroll: {x: 1200},
+    onChange: onPageChange,
+    pagination: {...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`},
+    ...props
+  }
+  if(animate) {
+    tableProps.getBodyWrapper = getBodyWrapper
+    tableProps.className = classnames(className, "table-motion")
+  }
+
   return (
-    <Table
-      simple
-      bordered
-      scroll={{ x: 1200 }}
-      onChange={onPageChange}
-      getBodyWrapper={getBodyWrapper}
-      className={classnames(className, "table-motion")}
-      pagination={{...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`}}
-      {...props}
-    />
+    <Table {...tableProps}/>
   )
 }
 
 DataTable.propTypes = {
+  animate: PropTypes.bool,
   rowKey: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func
@@ -52,6 +57,10 @@ DataTable.propTypes = {
   columns: PropTypes.array.isRequired,
   dataSource: PropTypes.array.isRequired,
   className: PropTypes.string
+}
+
+DataTable.defaultProps = {
+  animate: true
 }
 
 function mapStateToProps({ routing }) {
