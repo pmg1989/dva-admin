@@ -228,33 +228,12 @@
     }
   }
 
-  .ant-menu-item,
-  .ant-menu-submenu-title {
-    & > a {
-      color: #999;
-    }
-
-    &:hover > a {
-      color: @primary-color;
-    }
-  }
-
-  &.ant-menu-inline {
+  .ant-menu-submenu-vertical {
     .ant-menu-item-selected {
-      background-color: @dark-half;
-    }
-  }
-
-  .ant-menu-item-selected {
-    color: @primary-color;
-    background-color: @dark-half;
-
-    & > a {
-      color: @primary-color;
-    }
-
-    &:hover {
-      background-color: @dark-half;
+      background-color: @primary-color;
+      a{
+        color: #fff;
+      }
     }
   }
 }
