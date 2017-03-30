@@ -151,6 +151,14 @@ export default function({history, app}) {
                   cb(null, require('./routes/ui/DropMenu'))
                 }, 'drop-menu')
               }
+            }, {
+              path: 'lz-editor',
+              name: 'lz-editor',
+              getComponent(nextState, cb) {
+                require.ensure([], require => {
+                  cb(null, require('./routes/ui/LzEditor'))
+                }, 'lz-editor')
+              }
             }
           ]
         },

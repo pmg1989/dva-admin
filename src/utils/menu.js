@@ -137,6 +137,12 @@ const menu = [
         key: 'drop-menu',
         name: '下拉操作菜单',
         power: [1, 2]
+      },
+      {
+        id: _.uniqueId(),
+        key: 'lz-editor',
+        name: 'LzEditor',
+        power: [1, 2]
       }
     ]
   }
