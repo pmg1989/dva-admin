@@ -69,10 +69,10 @@ body {
     justify-content: center;
 
     .ant-modal {
-      top: 0;
+      top: 10px;
 
       .ant-modal-body {
-        max-height: 500px;
+        max-height: 80vh;
         overflow-y: auto;
       }
     }
@@ -106,6 +106,19 @@ body {
 
   .margin-right {
     margin-right: 16px;
+  }
+
+  .ant-input-number-lg{
+    display: block !important;
+    width: 100% !important;
+    .ant-input-number-handler-wrap{
+      z-index: 100;
+    }
+  }
+  .ant-modal {
+    .ant-calendar-picker {
+      width: 100% !important;
+    }
   }
 }
 @media (min-width: 1600px) {
