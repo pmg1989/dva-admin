@@ -21,7 +21,7 @@ module.exports = function (webpackConfig, env) {
     webpackConfig.babel.plugins.push('dev-expression')
     webpackConfig.entry = {
       index: './src/index.js',
-      common: [ 'react', 'react-dom', 'classnames', 'dva', 'dva-loading', 'qs', 'js-cookie', 'moment', 'rc-queue-anim', 'rc-tween-one']
+      // common: [ 'react', 'react-dom', 'classnames', 'dva', 'dva-loading', 'qs', 'js-cookie', 'moment', 'rc-queue-anim', 'rc-tween-one']
     }
   }
   //mock data config
@@ -34,10 +34,10 @@ module.exports = function (webpackConfig, env) {
     'newband.app.admin.GRANT_TYPE': JSON.stringify('client_credentials')
   }))
 
-  // Don't extract common.js and common.css
-  // webpackConfig.plugins = webpackConfig.plugins.filter(function (plugin) {
-  //   return !(plugin instanceof webpack.optimize.CommonsChunkPlugin)
-  // })
+  // Don't extract common.js and common.css (please extract if use common.js)
+  webpackConfig.plugins = webpackConfig.plugins.filter(function (plugin) {
+    return !(plugin instanceof webpack.optimize.CommonsChunkPlugin)
+  })
 
   // Support CSS Modules
   // Parse all less files as css module.
