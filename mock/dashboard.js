@@ -102,22 +102,26 @@ let dataKey = mockStorge('Dashboard', Mock.mock({
       icon: 'pay-circle-o',
       color: color.green,
       title: 'Online Review',
-      number: 2781
+      number: 2500,
+      percent: 25
     }, {
       icon: 'team',
       color: color.blue,
       title: 'New Customers',
-      number: 3241
+      number: 5000,
+      percent: 50
     }, {
       icon: 'message',
       color: color.purple,
       title: 'Active Projects',
-      number: 253
+      number: 7500,
+      percent: 75
     }, {
       icon: 'shopping-cart',
       color: color.red,
       title: 'Referrals',
-      number: 4324
+      number: 10000,
+      percent: 100
     }
   ]
 }))
