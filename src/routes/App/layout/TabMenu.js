@@ -75,7 +75,7 @@ class TabMenu extends React.Component {
         onEdit={::this.onEdit}
       >
       {panes.map((pane, index) => (
-        <TabPane tab={<Link to={pane.path}>{pane.title}</Link>} key={pane.key} closable={pane.closable}>
+        <TabPane tab={<Link to={pane.path}>{pane.title}</Link>} key={pane.key} closable={panes.length > 1}>
           {React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}

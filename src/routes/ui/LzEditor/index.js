@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'dva'
+import {Row, Col} from 'antd'
 import LzEditor from 'react-lz-editor'
 
 class LzEditorPage extends Component {
@@ -34,16 +35,18 @@ class LzEditorPage extends Component {
 
   render() {
     return (
-      <div>
-        <LzEditor
-          active={true}
-          cbReceiver={::this.handleReceiver}
-          ImportContent={this.state.content}
-          Image={false}
-          Video={false}
-          Audio={false}
-        />
-      </div>
+      <Row>
+        <Col span={16} offset={4}>
+          <LzEditor
+            active={true}
+            cbReceiver={::this.handleReceiver}
+            ImportContent={this.state.content}
+            Image={false}
+            Video={false}
+            Audio={false}
+          />
+      </Col>
+    </Row>
     )
   }
 }
