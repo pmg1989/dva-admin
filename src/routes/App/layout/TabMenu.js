@@ -12,6 +12,7 @@ class TabMenu extends React.Component {
       title: '管理平台'
     }
     this.state = {
+      isCreated: false,
       activeKey: tabMenus.key,
       panes: [{...tabMenus, content: props.children}]
     }
@@ -19,25 +20,21 @@ class TabMenu extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.newTab.key !== this.props.newTab.key) {
-      const newTab = {...nextProps.newTab, content: nextProps.children}
+      const newTab = {...nextProps.newTab}
       const { panes } = this.state
 
       if(panes.find(cur => cur.key === newTab.key)) {
-        this.setState({ activeKey: newTab.key })
+        this.setState({ activeKey: newTab.key, isCreated: false })
       } else {
-        panes.push({...newTab})
-        this.setState({ panes, activeKey: newTab.key })
+        panes.push({...newTab, content: nextProps.children})
+        this.setState({ panes, activeKey: newTab.key, isCreated: true })
       }
     }
     return true
   }
 
   onChange(activeKey) {
-    this.setState({ activeKey })
-  }
-
-  onEdit(targetKey, action) {
-    this[action](targetKey)
+    this.setState({ activeKey, isCreated: false })
   }
 
   add() {
@@ -64,20 +61,19 @@ class TabMenu extends React.Component {
 
   render() {
     const { children, newTab } = this.props
-    const { activeKey } = this.state
-
+    const { panes, activeKey, isCreated } = this.state
+    console.log(isCreated);
     return (
       <Tabs
         hideAdd
         animated={false}
         onChange={::this.onChange}
-        activeKey={this.state.activeKey}
+        activeKey={activeKey}
         type="editable-card"
-        onEdit={::this.onEdit}
       >
-      {this.state.panes.map(pane => (
+      {panes.map(pane => (
         <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-          {React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
+          {React.cloneElement(isCreated ? children : pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}
       </Tabs>
