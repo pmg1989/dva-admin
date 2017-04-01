@@ -37,6 +37,10 @@ class TabMenu extends React.Component {
     this.setState({ activeKey, isCreated: false })
   }
 
+  onEdit = (targetKey, action) => {
+    this[action](targetKey)
+  }
+
   add() {
     const panes = this.state.panes
     const activeKey = `newTab${this.newTabIndex++}`
@@ -45,14 +49,15 @@ class TabMenu extends React.Component {
   }
 
   remove(targetKey) {
-    let activeKey = this.state.activeKey
+    let { activeKey, panes } = this.state
     let lastIndex
-    this.state.panes.forEach((pane, i) => {
+    panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1
       }
     })
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey)
+    console.log(activeKey, targetKey);
+    panes = panes.filter(pane => pane.key !== targetKey)
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].key
     }
@@ -70,6 +75,7 @@ class TabMenu extends React.Component {
         onChange={::this.onChange}
         activeKey={activeKey}
         type="editable-card"
+        onEdit={::this.onEdit}
       >
       {panes.map((pane, index) => (
         <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
