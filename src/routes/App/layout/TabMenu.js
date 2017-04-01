@@ -60,9 +60,9 @@ class TabMenu extends React.Component {
   }
 
   render() {
-    const { children, newTab } = this.props
+    const { newTab, children } = this.props
     const { panes, activeKey, isCreated } = this.state
-    console.log(isCreated);
+
     return (
       <Tabs
         hideAdd
@@ -71,9 +71,9 @@ class TabMenu extends React.Component {
         activeKey={activeKey}
         type="editable-card"
       >
-      {panes.map(pane => (
+      {panes.map((pane, index) => (
         <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-          {React.cloneElement(isCreated ? children : pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
+          {React.cloneElement((isCreated || index === panes.length - 1) ? children : panes[index + 1].content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}
       </Tabs>

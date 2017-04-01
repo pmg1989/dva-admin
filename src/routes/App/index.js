@@ -7,25 +7,25 @@ import { Header, Bread, Footer, Sider, TabMenu, styles } from './layout'
 import './skin.less'
 import { getCurPowers } from '../../utils'
 
-// App.propTypes = {
-//   children: PropTypes.element,
-//   location: PropTypes.object,
-//   dispatch: PropTypes.func,
-//   app: PropTypes.object
-// }
-
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      newTab: {}
-    }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     newTab: {}
+  //   }
+  // }
+
+  static propTypes = {
+    children: PropTypes.element.isRequired,
+    location: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    app: PropTypes.object.isRequired
   }
 
   render() {
     const { children, location, dispatch, app, loading } = this.props
-    const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
-    const { newTab } = this.state
+    const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers, newTab } = app
+    // const { newTab } = this.state
 
     const loginProps = {
       loading,
@@ -72,7 +72,13 @@ class App extends Component {
       },
       changeTitle: (item) => {
         localStorage.setItem('tabMenus', JSON.stringify(item))
-        this.setState({newTab: item})
+        // this.setState({newTab: item})
+        dispatch({
+          type: 'app/changeNewTab',
+          payload: {
+            newTab: item
+          }
+        })
       }
     }
 
