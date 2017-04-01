@@ -54,7 +54,7 @@ class TabMenu extends React.Component {
         type="editable-card"
         onEdit={::this.onEdit}
       >
-      {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>{pane.content}</TabPane>)}
+      {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>{pane.content && React.cloneElement(pane.content, { curPowers: pane.curPowers, key: location.pathname })}</TabPane>)}
       </Tabs>
     );
   }

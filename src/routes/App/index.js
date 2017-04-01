@@ -19,7 +19,8 @@ class App extends Component {
     super(props)
     const tabs = JSON.parse(localStorage.getItem('tabMenus')) || {
       key: '1',
-      title: '管理平台'
+      title: '管理平台',
+      curPowers: props.app.curPowers
     }
     this.state = {
       activeKey: tabs.key,
@@ -80,14 +81,15 @@ class App extends Component {
       },
       changeTitle: (item) => {
         setTimeout(() => {
-          localStorage.setItem('tabMenus', JSON.stringify(item))
+          const curTabs = {...item, curPowers}
+          localStorage.setItem('tabMenus', JSON.stringify(curTabs))
           this.setState((prev, props) => {
             const tabMenus = prev.tabMenus
-            if(tabMenus.find(cur => cur.key === item.key)) {
-              return { activeKey: item.key }
+            if(tabMenus.find(cur => cur.key === curTabs.key)) {
+              return { activeKey: curTabs.key }
             } else {
-              prev.tabMenus.push({...item, content: props.children})
-              return { tabMenus: prev.tabMenus, activeKey: item.key }
+              prev.tabMenus.push({...curTabs, content: props.children})
+              return { tabMenus: prev.tabMenus, activeKey: curTabs.key }
             }
           })
         }, 100)
