@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'dva/router'
 import { Tabs } from 'antd'
+import styles from './TabMenu.less'
 
 const TabPane = Tabs.TabPane
 
