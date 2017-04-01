@@ -12,7 +12,6 @@ class TabMenu extends React.Component {
       title: '管理平台'
     }
     this.state = {
-      isCreated: false,
       activeKey: tabMenus.key,
       panes: [{...tabMenus, content: props.children}]
     }
@@ -24,28 +23,21 @@ class TabMenu extends React.Component {
       const { panes } = this.state
 
       if(panes.find(cur => cur.key === newTab.key)) {
-        this.setState({ activeKey: newTab.key, isCreated: false })
+        this.setState({ activeKey: newTab.key })
       } else {
         panes.push({...newTab, content: nextProps.children})
-        this.setState({ panes, activeKey: newTab.key, isCreated: true })
+        this.setState({ panes, activeKey: newTab.key })
       }
     }
     return true
   }
 
   onChange(activeKey) {
-    this.setState({ activeKey, isCreated: false })
+    this.setState({ activeKey })
   }
 
   onEdit = (targetKey, action) => {
     this[action](targetKey)
-  }
-
-  add() {
-    const panes = this.state.panes
-    const activeKey = `newTab${this.newTabIndex++}`
-    panes.push({ title: 'New Tab', content: 'Content of new Tab', key: activeKey })
-    this.setState({ panes, activeKey })
   }
 
   remove(targetKey) {
@@ -66,7 +58,7 @@ class TabMenu extends React.Component {
 
   render() {
     const { newTab, children } = this.props
-    const { panes, activeKey, isCreated } = this.state
+    const { panes, activeKey } = this.state
 
     return (
       <Tabs
@@ -79,7 +71,7 @@ class TabMenu extends React.Component {
       >
       {panes.map((pane, index) => (
         <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-          {React.cloneElement((isCreated || index === panes.length - 1) ? children : panes[index + 1].content, { curPowers: newTab.curPowers, key: location.pathname })}
+          {React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}
       </Tabs>
