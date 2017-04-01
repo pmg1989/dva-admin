@@ -1,18 +1,18 @@
 # dva-admin
 
 [![React Native](https://img.shields.io/badge/react-^15.4.1-brightgreen.svg?style=flat-square)](https://github.com/facebook/react)
-[![Ant Design](https://img.shields.io/badge/ant--design-^2.7.0-yellowgreen.svg?style=flat-square)](https://github.com/ant-design/ant-design)
+[![Ant Design](https://img.shields.io/badge/ant--design-^2.8.2-yellowgreen.svg?style=flat-square)](https://github.com/ant-design/ant-design)
 [![dva](https://img.shields.io/badge/dva-^1.1.0-orange.svg?style=flat-square)](https://github.com/dvajs/dva)
 
 [![GitHub issues](https://img.shields.io/github/issues/pmg1989/dva-admin.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/pmg1989/dva-admin/pulls)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
-## dva-admin 是什么？
+## 宗旨与目的
 
 - 期望打造一套基于[react](https://github.com/facebook/react)，[ant-design](https://github.com/ant-design/ant-design)，[dva](https://github.com/dvajs/dva)于一体的、企业级后台管理系统
 - 期望可以单纯由前端来解决用户权限，后端提供权限数据支持的一套完善的权限管理功能后台管理系统
-- 期望可以在antd与dva的基础上，再次封装简单且可复用的基类组件，方便使用者简单调用，简单使用，简单拓展
+- 期望可以在antd与dva的基础上，再次封装简单且可复用的基类组件，方便使用者简单接入，简单使用，简单拓展
 
 ## 演示地址
 
@@ -34,6 +34,7 @@ https://pmg1989.github.io
 - 已实现基本完善的权限管理功能
 - 完善的后端分页与前端分页功能
 - 封装好可扩展的上传控件与音视频控件
+- 已实现基于Tab面板的可切换式导航栏菜单
 
 ## 开发及构建
 
@@ -100,9 +101,9 @@ build后的文件将会生成dist目录
 - 项目配置文件在`src/utils/config.js`
 - 如需重写异步请求函数，请修改`src/utils/request.js`
   （关于为什么使用axios而不是fetch：在一个无服务器的环境中模拟数据请求，[Mock](https://github.com/nuysoft/Mock)不能拦截Fetch，只能拦截XHR，所以我选了一个纯Ajax的库[axios](https://github.com/mzabriskie/axios)）
-  
+
 ### 特别感谢
 
-antd-admin: [https://github.com/zuiidea/antd-admin](https://github.com/zuiidea/antd-admin)
+zuiidea: [https://github.com/zuiidea/antd-admin](https://github.com/zuiidea/antd-admin)
 
-dva-example-user-dashboard: [https://github.com/dvajs/dva-example-user-dashboard](https://github.com/dvajs/dva-example-user-dashboard)
+sorrycc: [https://github.com/dvajs/dva-example-user-dashboard](https://github.com/dvajs/dva-example-user-dashboard)
