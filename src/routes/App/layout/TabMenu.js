@@ -68,7 +68,6 @@ class TabMenu extends React.Component {
     return (
       <Tabs
         hideAdd
-        animated={false}
         onChange={::this.onChange}
         activeKey={activeKey}
         type="editable-card"
