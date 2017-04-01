@@ -8,7 +8,6 @@ const TabPane = Tabs.TabPane
 class TabMenu extends React.Component {
   constructor(props) {
     super(props)
-    this.newTabIndex = 0
     const tabMenus = JSON.parse(localStorage.getItem('tabMenus')) || {
       key: '1',
       title: '管理平台'
@@ -31,7 +30,6 @@ class TabMenu extends React.Component {
         this.setState({ panes, activeKey: newTab.key })
       }
     }
-    return true
   }
 
   onChange(activeKey) {
@@ -75,7 +73,7 @@ class TabMenu extends React.Component {
       >
       {panes.map((pane, index) => (
         <TabPane tab={<Link to={pane.path}>{pane.title}</Link>} key={pane.key} closable={panes.length > 1}>
-          {React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
+          {pane.content && React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}
       </Tabs>

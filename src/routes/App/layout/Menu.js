@@ -24,7 +24,7 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
       } else {
         return (
           <Menu.Item key={linkTo}>
-            <Link to={linkTo} onClick={() => setTimeout(() => changeTitle({key: item.id, title: item.name, path: linkTo}), 300)}>
+            <Link to={linkTo} onClick={() => setTimeout(() => changeTitle({key: item.id, title: item.name, path: linkTo}), 350)}>
               {item.icon ? <Icon type={item.icon} /> : ''}
               {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
             </Link>
