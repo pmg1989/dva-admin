@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { Link } from 'dva/router'
 import { Tabs } from 'antd'
 
 const TabPane = Tabs.TabPane
@@ -48,7 +49,6 @@ class TabMenu extends React.Component {
         lastIndex = i - 1
       }
     })
-    console.log(activeKey, targetKey);
     panes = panes.filter(pane => pane.key !== targetKey)
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].key
@@ -70,7 +70,7 @@ class TabMenu extends React.Component {
         onEdit={::this.onEdit}
       >
       {panes.map((pane, index) => (
-        <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+        <TabPane tab={<Link to={pane.path}>{pane.title}</Link>} key={pane.key} closable={pane.closable}>
           {React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}

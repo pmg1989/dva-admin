@@ -68,20 +68,14 @@ class App extends Component {
         localStorage.setItem('navOpenKeys', JSON.stringify(openKeys))
         dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
       },
-      changeTitle: (item) => {
-        localStorage.setItem('tabMenus', JSON.stringify(item))
-        this.setState({newTab: item})
-        // dispatch({
-        //   type: 'app/changeNewTab',
-        //   payload: {
-        //     newTab: item
-        //   }
-        // })
+      changeTitle: (tabMenus) => {
+        localStorage.setItem('tabMenus', JSON.stringify(tabMenus))
+        this.setState({ newTab: tabMenus })
       }
     }
 
     const TabMenuProps = {
-      newTab: {curPowers, ...newTab}
+      newTab: { curPowers, ...newTab }
     }
 
     return (
