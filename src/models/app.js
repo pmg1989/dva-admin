@@ -32,8 +32,7 @@ export default {
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem('navOpenKeys') || '[]'), //侧边栏菜单打开的keys,
     userPower: initPower,
-    curPowers: [],
-    newTab: {}
+    curPowers: []
   },
   subscriptions : {
     setup({ dispatch, history }) {
@@ -121,9 +120,6 @@ export default {
     },
     changeCurPowers(state, action) {
       return { ...state, ...action.payload }
-    },
-    changeNewTab(state, action) {
-      return { ...state, newTab: action.payload.newTab }
     }
   }
 }

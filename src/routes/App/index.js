@@ -8,12 +8,10 @@ import './skin.less'
 import { getCurPowers } from '../../utils'
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     newTab: {}
-  //   }
-  // }
+
+  state = {
+    newTab: {}
+  }
 
   static propTypes = {
     children: PropTypes.element.isRequired,
@@ -24,8 +22,8 @@ class App extends Component {
 
   render() {
     const { children, location, dispatch, app, loading } = this.props
-    const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers, newTab } = app
-    // const { newTab } = this.state
+    const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
+    const { newTab } = this.state
 
     const loginProps = {
       loading,
@@ -72,13 +70,13 @@ class App extends Component {
       },
       changeTitle: (item) => {
         localStorage.setItem('tabMenus', JSON.stringify(item))
-        // this.setState({newTab: item})
-        dispatch({
-          type: 'app/changeNewTab',
-          payload: {
-            newTab: item
-          }
-        })
+        this.setState({newTab: item})
+        // dispatch({
+        //   type: 'app/changeNewTab',
+        //   payload: {
+        //     newTab: item
+        //   }
+        // })
       }
     }
 
