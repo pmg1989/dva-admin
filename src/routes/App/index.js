@@ -17,24 +17,15 @@ import { getCurPowers } from '../../utils'
 class App extends Component {
   constructor(props) {
     super(props)
-    const tabs = JSON.parse(localStorage.getItem('tabMenus')) || {
-      key: '1',
-      title: '管理平台',
-      curPowers: props.app.curPowers
-    }
     this.state = {
-      activeKey: tabs.key,
-      tabMenus: [{
-        ...tabs,
-        content: props.children
-      }]
+      newTab: {}
     }
   }
 
   render() {
     const { children, location, dispatch, app, loading } = this.props
     const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
-    const { tabMenus, activeKey } = this.state
+    const { newTab } = this.state
 
     const loginProps = {
       loading,
@@ -80,23 +71,14 @@ class App extends Component {
         dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
       },
       changeTitle: (item) => {
-        setTimeout(() => {
-          const curTabs = {...item, curPowers}
-          localStorage.setItem('tabMenus', JSON.stringify(curTabs))
-          this.setState((prev, props) => {
-            const tabMenus = prev.tabMenus
-            if(tabMenus.find(cur => cur.key === curTabs.key)) {
-              return { activeKey: curTabs.key }
-            } else {
-              prev.tabMenus.push({...curTabs, content: props.children})
-              return { tabMenus: prev.tabMenus, activeKey: curTabs.key }
-            }
-          })
-        }, 100)
+        localStorage.setItem('tabMenus', JSON.stringify(item))
+        this.setState({newTab: item})
       }
     }
 
-    const TabMenuGen = () => <TabMenu list={tabMenus} activeKey={activeKey}></TabMenu>
+    const TabMenuProps = {
+      newTab: {curPowers, ...newTab}
+    }
 
     return (
       <div>{login
@@ -109,7 +91,7 @@ class App extends Component {
               <Bread location={location} />
               <div className={styles.container}>
                 <div className={styles.content}>
-                  <TabMenuGen />
+                  <TabMenu {...TabMenuProps}>{children}</TabMenu>
                 </div>
               </div>
               <Footer />
