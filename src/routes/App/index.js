@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Spin } from 'antd'
+import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import classnames from 'classnames'
 import Login from '../Login'
@@ -75,7 +76,10 @@ class App extends Component {
     }
 
     const TabMenuProps = {
-      newTab: { curPowers, ...newTab }
+      newTab: { curPowers, ...newTab },
+      changeTabMenu(pathname) {
+        dispatch(routerRedux.push({ pathname }))
+      }
     }
 
     return (
