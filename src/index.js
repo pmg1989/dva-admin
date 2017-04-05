@@ -1,4 +1,4 @@
-// import "babel-polyfill" // 如果需要支持ie 9+，请解注此行即可
+// import "babel-polyfill" // 如果需要支持ie 9+，请解注此行即可.
 import './index.html'
 import dva from 'dva'
 import { browserHistory } from 'dva/router'
