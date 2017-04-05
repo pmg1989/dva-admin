@@ -35,7 +35,7 @@ class TabMenu extends React.Component {
   onChange(activeKey) {
     this.setState({ activeKey })
     const newTab = this.state.panes.find(cur => cur.key === activeKey)
-    localStorage.setItem('tabMenus', JSON.stringify({ key: newTab.key, title: newTab.title }))
+    localStorage.setItem('tabMenus', JSON.stringify({ key: newTab.key, title: newTab.title, path: newTab.path }))
   }
 
   onEdit = (targetKey, action) => {
@@ -53,7 +53,7 @@ class TabMenu extends React.Component {
     panes = panes.filter(pane => pane.key !== targetKey)
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].key
-      localStorage.setItem('tabMenus', JSON.stringify({ key: panes[lastIndex].key, title: panes[lastIndex].title }))
+      localStorage.setItem('tabMenus', JSON.stringify({ key: panes[lastIndex].key, title: panes[lastIndex].title, path: panes[lastIndex].path }))
       this.props.changeTabMenu(panes[lastIndex].path)
     }
     this.setState({ panes, activeKey })
@@ -72,7 +72,7 @@ class TabMenu extends React.Component {
         onEdit={::this.onEdit}
       >
       {panes.map((pane, index) => (
-        <TabPane tab={<Link to={pane.path}>{pane.title}</Link>} key={pane.key} closable={panes.length > 1}>
+        <TabPane tab={pane.title} key={pane.key} closable={panes.length > 1}>
           {pane.content && React.cloneElement(pane.content, { curPowers: newTab.curPowers, key: location.pathname })}
         </TabPane>
       ))}

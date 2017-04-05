@@ -15,7 +15,8 @@ function DataTable({dispatch, location, className, pagination, animate, ...props
   const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
 
   const onPageChange = (page) => {
-    const {query, pathname} = location
+    const {query} = location
+    const pathname = JSON.parse(localStorage.getItem('tabMenus')).path || location.pathname
     dispatch(routerRedux.push({
       pathname: pathname,
       query: {
