@@ -7,16 +7,10 @@ const initPower = Cookie.getJSON('user_power')
 
 function getAllPathPowers(menuArray, curPowers) {
   return menuArray.reduce((dir, item) => {
-    dir[`/${item.key}`] = {
-      power: curPowers[item.id],
-      tab: { title: item.name, key: item.id }
-    }
+    dir[`/${item.key}`] = curPowers[item.id]
     if(item.children) {
       item.children.reduce((cdir, cur) => {
-        dir[`/${cdir}/${cur.key}`] = {
-          power: curPowers[cur.id],
-          tab: { title: cur.name, key: cur.id }
-        }
+        dir[`/${cdir}/${cur.key}`] = curPowers[cur.id]
         return cdir
       },item.key)
       getAllPathPowers(item.children, curPowers)
@@ -38,8 +32,7 @@ export default {
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem('navOpenKeys') || '[]'), //侧边栏菜单打开的keys,
     userPower: initPower,
-    curPowers: [],
-    curTab: {}
+    curPowers: []
   },
   subscriptions : {
     setup({ dispatch, history }) {
@@ -127,9 +120,6 @@ export default {
     },
     changeCurPowers(state, action) {
       return { ...state, ...action.payload }
-    },
-    changeCurTab(state, action) {
-      return { ...state, curTab: action.payload.curTab }
     }
   }
 }

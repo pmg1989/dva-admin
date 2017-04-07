@@ -1,21 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 import { Spin } from 'antd'
-import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
+import { routerRedux } from 'dva/router'
+import QueueAnim from 'rc-queue-anim'
 import classnames from 'classnames'
 import Login from '../Login'
-import { Header, Bread, Footer, Sider, TabMenu, styles } from './layout'
+import { Header, Bread, Footer, Sider, styles } from './layout'
 import './skin.less'
 import { getCurPowers } from '../../utils'
 
-function App ({ children, location, dispatch, app }) {
-  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, loading, userPower, curPowers, curTab } = app
+function App ({ children, location, dispatch, app, loading }) {
+  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
+
   const loginProps = {
     loading,
     onOk (data) {
       dispatch({type: 'app/login', payload: data})
     }
   }
+
   const headerProps = {
     user,
     siderFold,
@@ -38,6 +41,7 @@ function App ({ children, location, dispatch, app }) {
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     }
   }
+
   const siderProps = {
     siderFold,
     darkTheme,
@@ -50,15 +54,6 @@ function App ({ children, location, dispatch, app }) {
     changeOpenKeys(openKeys) {
       localStorage.setItem('navOpenKeys', JSON.stringify(openKeys))
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
-    },
-    changeTitle: (tabMenus) => {
-      dispatch({ type: 'app/changeCurTab', payload: { curTab: tabMenus } })
-    }
-  }
-  const TabMenuProps = {
-    newTab: { curPowers, ...curTab },
-    changeTabMenu(pathname) {
-      dispatch(routerRedux.push({ pathname }))
     }
   }
 
@@ -73,7 +68,9 @@ function App ({ children, location, dispatch, app }) {
             <Bread location={location} />
             <div className={styles.container}>
               <div className={styles.content}>
-                <TabMenu {...TabMenuProps}>{children}</TabMenu>
+                <QueueAnim delay={[450, 0]} type={['right', 'left']} appear={false}>
+                { children && React.cloneElement(children, { curPowers, key: location.pathname })}
+                </QueueAnim>
               </div>
             </div>
             <Footer />

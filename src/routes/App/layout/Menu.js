@@ -7,7 +7,7 @@ import Immutable from 'immutable'
 
 const immutableMenu = Immutable.fromJS(menu)
 
-function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, navOpenKeys, userPower, changeOpenKeys, changeTitle }) {
+function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, navOpenKeys, userPower, changeOpenKeys }) {
 
   const topMenus = menu.map(item => item.key)
 
@@ -24,7 +24,7 @@ function Menus ({ siderFold, darkTheme, location, isNavbar, handleClickNavMenu, 
       } else {
         return (
           <Menu.Item key={linkTo}>
-            <Link to={linkTo} onClick={() => setTimeout(() => changeTitle({key: item.id, title: item.name, path: linkTo}), 350)}>
+            <Link to={linkTo}>
               {item.icon ? <Icon type={item.icon} /> : ''}
               {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
             </Link>
