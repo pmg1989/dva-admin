@@ -52,7 +52,6 @@ function App ({ children, location, dispatch, app }) {
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
     changeTitle: (tabMenus) => {
-      localStorage.setItem('tabMenus', JSON.stringify(tabMenus))
       dispatch({ type: 'app/changeCurTab', payload: { curTab: tabMenus } })
     }
   }

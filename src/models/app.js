@@ -7,10 +7,16 @@ const initPower = Cookie.getJSON('user_power')
 
 function getAllPathPowers(menuArray, curPowers) {
   return menuArray.reduce((dir, item) => {
-    dir[`/${item.key}`] = curPowers[item.id]
+    dir[`/${item.key}`] = {
+      power: curPowers[item.id],
+      tab: { title: item.name, key: item.id }
+    }
     if(item.children) {
       item.children.reduce((cdir, cur) => {
-        dir[`/${cdir}/${cur.key}`] = curPowers[cur.id]
+        dir[`/${cdir}/${cur.key}`] = {
+          power: curPowers[cur.id],
+          tab: { title: cur.name, key: cur.id }
+        }
         return cdir
       },item.key)
       getAllPathPowers(item.children, curPowers)

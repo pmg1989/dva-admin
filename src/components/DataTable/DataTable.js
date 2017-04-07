@@ -5,7 +5,7 @@ import {Table} from 'antd'
 import classnames from 'classnames'
 import TableBodyWrapper from './TableBodyWrapper'
 
-function DataTable({dispatch, location, className, pagination, animate, ...props}) {
+function DataTable({dispatch, location, curTab, className, pagination, animate, ...props}) {
 
   const getBodyWrapperProps = {
     page: location.query.page || 1,
@@ -16,7 +16,7 @@ function DataTable({dispatch, location, className, pagination, animate, ...props
 
   const onPageChange = (page) => {
     const {query} = location
-    const pathname = JSON.parse(localStorage.getItem('tabMenus')).path || location.pathname
+    const pathname = curTab.path || location.pathname
     dispatch(routerRedux.push({
       pathname: pathname,
       query: {
@@ -64,8 +64,8 @@ DataTable.defaultProps = {
   animate: true
 }
 
-function mapStateToProps({ routing }) {
-  return { location: routing.locationBeforeTransitions }
+function mapStateToProps({ routing, app }) {
+  return { location: routing.locationBeforeTransitions, curTab: app.curTab }
 }
 
 export default connect(mapStateToProps)(DataTable)

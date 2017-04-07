@@ -8,10 +8,9 @@ const TabPane = Tabs.TabPane
 class TabMenu extends React.Component {
   constructor(props) {
     super(props)
-    const tabMenus = JSON.parse(localStorage.getItem('tabMenus')) || {
-      key: '1',
-      title: '管理平台'
-    }
+    const allPathPowers = JSON.parse(localStorage.getItem('allPathPowers'))
+    const curPath = location.pathname !== '/' ? location.pathname : '/dashboard'
+    const tabMenus = allPathPowers[curPath].tab
     this.state = {
       activeKey: tabMenus.key,
       panes: [{...tabMenus, content: props.children}]
@@ -35,7 +34,8 @@ class TabMenu extends React.Component {
   onChange(activeKey) {
     this.setState({ activeKey })
     const newTab = this.state.panes.find(cur => cur.key === activeKey)
-    localStorage.setItem('tabMenus', JSON.stringify({ key: newTab.key, title: newTab.title, path: newTab.path }))
+    console.log(newTab);
+    
   }
 
   onEdit = (targetKey, action) => {
@@ -53,8 +53,6 @@ class TabMenu extends React.Component {
     panes = panes.filter(pane => pane.key !== targetKey)
     if (lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].key
-      localStorage.setItem('tabMenus', JSON.stringify({ key: panes[lastIndex].key, title: panes[lastIndex].title, path: panes[lastIndex].path }))
-      this.props.changeTabMenu(panes[lastIndex].path)
     }
     this.setState({ panes, activeKey })
   }
