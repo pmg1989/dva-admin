@@ -6,10 +6,11 @@ import Cookie from '../../utils/cookie'
 class UploadFiles extends React.Component {
 
   static propTypes = {
-    fileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+    fileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     onUpload: PropTypes.func.isRequired,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    path: PropTypes.string
   }
 
   constructor(props) {
@@ -40,11 +41,11 @@ class UploadFiles extends React.Component {
 
     const { previewVisible, previewImage, fileList } = this.state
 
-    const { multiple = 1, onUpload, disabled } = this.props
+    const { multiple = 1, onUpload, disabled, path } = this.props
 
-    const renderFiles = (files) => {
+    const renderFiles = (files, type) => {
       const fileList = files.map(file => {
-        return file.name
+        return type === 1 ? file.response.data.file : file
       })
       if(multiple === 1) {
         return fileList[0]
@@ -52,8 +53,15 @@ class UploadFiles extends React.Component {
       return fileList
     }
 
+    let actionUrl = newband.app.admin.API_HOST + '/file/upload/formData?access_token=' + Cookie.get('access_token')
+    if(!!path) {
+      actionUrl += '&path=' + path
+    }
     const uploadProps = {
-      action: 'test.do',//newband.app.admin.API_HOST + '?access_token=' + Cookie.get('access_token'),
+      action: actionUrl,
+      headers: {
+        'X-Requested-With': null
+      },
       data: {
       },
       disabled,
@@ -72,14 +80,16 @@ class UploadFiles extends React.Component {
       },
       onChange: ({ file, fileList, e }) => {
         this.setState({ fileList: fileList })
-        onUpload(renderFiles(fileList))
+        if(file.percent === 100 && file.status === "done") {
+          onUpload(renderFiles(fileList, 1))
+        }
       },
       onRemove: (file) => {
         if(disabled) {
           return false
         }
         const fileList = this.state.fileList.filter(item => item.uid !== file.uid)
-        onUpload(renderFiles(fileList))
+        onUpload(renderFiles(fileList, 0))
       }
     }
 

@@ -87,7 +87,7 @@ const getCurPowers = (curPath) => {
   if(!allPathPowers) {
     allPathPowers = JSON.parse(localStorage.getItem('allPathPowers'))
   }
-  const curPathPower = allPathPowers && allPathPowers[curPath].power
+  const curPathPower = allPathPowers && allPathPowers[curPath]
   //cur =2 检测查看页面内容权限
   if(!curPathPower || !curPathPower.find(cur => cur === 2)) {
     return false
