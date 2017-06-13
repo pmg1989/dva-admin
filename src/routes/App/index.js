@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Spin } from 'antd'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router'

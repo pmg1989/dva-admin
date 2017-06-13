@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Upload, Button, Icon, Modal, message } from 'antd'
 import styles from './UploadFile.less'
 import Cookie from '../../utils/cookie'

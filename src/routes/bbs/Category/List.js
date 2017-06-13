@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {Modal, Menu} from 'antd'
 import styles from './List.less'
 import {DataTable, DropMenu} from '../../../components/'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withMediaProps } from 'react-media-player'
 import Transition from 'react-motion-ui-pack'
 import styles from './MediaPlayer.less'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import MediaPlayer from './MediaPlayer'
 import styles from './MediaPlayer.less'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Media, Player } from 'react-media-player'
 import CircleProgress from './CircleProgress'
 import styles from './MediaPlayer.less'

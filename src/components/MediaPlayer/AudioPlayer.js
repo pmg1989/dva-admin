@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import { Media, Player, controls, utils } from 'react-media-player'
 import classnames from 'classnames'
