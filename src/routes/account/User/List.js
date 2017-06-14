@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Modal, Menu} from 'antd'
+import {Modal, Menu, Icon, Tag} from 'antd'
 import styles from './List.less'
 import {DataTable, DropMenu} from '../../../components/'
 import { UPDATE, STATUS, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
+let selectedKeys = []
 
 function List ({
   accountUser: {
@@ -18,6 +19,7 @@ function List ({
   onDeleteItem,
   onEditItem,
   onStatusItem,
+  onDeleteBatch,
   location
 }) {
 
@@ -36,6 +38,31 @@ function List ({
       [STATUS]: onStatusItem,
       [DELETE]: handleDeleteItem,
     } [key](record)
+  }
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      selectedKeys = selectedRowKeys
+    },
+    selections: [{
+        key: 'deleteAll',
+        text: <Tag color="#f50"><Icon type="delete" /> 批量删除</Tag>,
+        onSelect: () => {
+          if(!!selectedKeys.length) {
+            confirm({
+              title: '您确定要批量删除这些记录吗?',
+              onOk () {
+                onDeleteBatch(selectedKeys)
+              }
+            })
+          } else {
+            Modal.warning({
+              title: '警告',
+              content: '请至少选中一条记录！'
+            })
+          }
+        },
+      }],
   }
 
   const columns = [
@@ -92,6 +119,7 @@ function List ({
       dataSource={list}
       loading={loading}
       pagination={pagination}
+      rowSelection={rowSelection}
       rowKey={record => record.id}
     />
   )

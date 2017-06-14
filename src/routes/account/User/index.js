@@ -66,7 +66,14 @@ function User({location, curPowers, dispatch, accountUser, modal, loading}) {
           curItem: item
         }
       })
+    },
+    onDeleteBatch(ids) {
+        dispatch({
+          type: 'accountUser/deleteBatch',
+          payload: { ids }
+        })
     }
+
   }
 
   const modalProps = {

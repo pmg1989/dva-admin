@@ -28,6 +28,13 @@ export async function remove (params) {
   })
 }
 
+export async function removeBatch (params) {
+  return request('/api/deleteBatch', {
+    method: 'delete',
+    data: params
+  })
+}
+
 export async function update (params) {
   return request('/api/user', {
     method: 'put',

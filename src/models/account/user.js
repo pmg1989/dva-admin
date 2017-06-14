@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
-import { create, remove, update, query, get } from '../../services/account/user'
+import { create, remove, update, query, get, removeBatch } from '../../services/account/user'
 import { getCurPowers } from '../../utils'
 
 export default {
@@ -47,6 +47,12 @@ export default {
     },
     *delete ({ payload }, { call, put }) {
       const data = yield call(remove, { id: payload.id })
+      if (data && data.success) {
+        yield put({ type: 'query' })
+      }
+    },
+    *deleteBatch ({ payload }, { call, put }) {
+      const data = yield call(removeBatch, { ids: payload.ids })
       if (data && data.success) {
         yield put({ type: 'query' })
       }

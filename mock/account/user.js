@@ -97,6 +97,23 @@ module.exports = {
     res.json({success: true, data: userListData.data, page: userListData.page})
   },
 
+  'DELETE /api/deleteBatch' (req, res) {
+    const { ids } = getBody(req)
+
+    userListData.data = userListData.data.filter(function (item) {
+      if (ids.find(cur => cur === item.id)) {
+        return false
+      }
+      return true
+    })
+
+    userListData.page.total = userListData.data.length
+
+    global[dataKey] = userListData
+
+    res.json({success: true, data: userListData.data, page: userListData.page})
+  },
+
   'PUT /api/user' (req, res) {
     const editItem = getBody(req)
     editItem.created_at = Mock.mock('@integer(1487000000000, 1487999999999)')
