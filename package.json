@@ -10,7 +10,8 @@
     "lint": "eslint --fix --ext .js src",
     "build": "roadhog build",
     "build:dll": "roadhog buildDll",
-    "build:new": "node version && roadhog build"
+    "build:new": "node version && roadhog build",
+    "precommit": "npm run lint"
   },
   "dependencies": {
     "antd": "^2.13.0",
