@@ -2,15 +2,13 @@
   "private": true,
   "name": "dva-admin",
   "version": "4.0.1",
-  "pre-commit": [
-    "lint"
-  ],
   "scripts": {
     "dev": "set BROWSER=none&&set HOST=0.0.0.0&&roadhog server",
-    "lint": "eslint --fix --ext .js src",
     "build": "roadhog build",
+    "build:analyze": "roadhog build --analyze",
     "build:dll": "roadhog buildDll",
     "build:new": "node version && roadhog build",
+    "lint": "eslint --fix --ext .js src",
     "precommit": "npm run lint"
   },
   "dependencies": {
