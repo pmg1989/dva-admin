@@ -1,6 +1,60 @@
 const Mock = require('mockjs')
-import { getBody } from './utils'
+// import { getBody } from './utils'
 import Cookie from '../src/utils/cookie'
+
+const roleDic = {
+  1: {
+    1: [1, 2],
+    2: [1],
+    3: [1, 2, 3, 4, 5],
+    4: [1, 2, 3, 4, 5],
+    5: [1, 2, 3, 4, 5],
+    6: [1],
+    7: [1, 2, 4],
+    8: [1],
+    9: [1, 2, 3, 4, 5],
+    10: [1],
+    11: [1, 2],
+    12: [1],
+    13: [1, 2],
+    14: [1, 2],
+    15: [1],
+    16: [1, 2],
+    17: [1, 2],
+    18: [1, 2],
+    19: [1, 2]
+  },
+  2: {
+    1: [1],
+    2: [1],
+    3: [1],
+    4: [1, 3, 4],
+    5: [1, 2, 3, 4, 5],
+    6: [1],
+    7: [1, 4]
+  },
+  3: {
+    1: [1, 2],
+    2: [1],
+    3: [1, 2],
+    4: [1, 2],
+    5: [1, 2],
+    6: [1],
+    7: [1, 2, 4],
+    8: [1],
+    9: [1, 2, 3, 4, 5],
+    10: [1],
+    11: [1, 2],
+    12: [1, 2],
+    13: [1, 2],
+    14: [1, 2],
+    15: [1],
+    16: [1, 2],
+    17: [1, 2],
+    18: [1, 2],
+    19: [1, 2]
+  }
+}
 
 const app = Mock.mock([
   {
@@ -22,7 +76,7 @@ const app = Mock.mock([
 
 module.exports = {
   'POST /oauth/token' (req, res) {
-    const userItem = getBody(req)
+    const userItem = req.body
     const response = {
       success: true,
       access_token: 'i am a test access_token'
@@ -31,7 +85,7 @@ module.exports = {
   },
 
   'POST /admin/check' (req, res) {
-    const userItem = getBody(req)
+    const userItem = req.body
     const response = {
       success: false,
       msg: ''
@@ -41,12 +95,7 @@ module.exports = {
     })
     if (d.length) {
       if (d[0].password === userItem.password) {
-        // const now = new Date()
-        // now.setDate(now.getDate() + 1)
-        // Cookie.set('user_session', now.getTime())
-        // Cookie.set('user_name', userItem.username)
-        // Cookie.set('user_power', power)
-        const power = global['AccountPowerList'].data[d[0].roleId]
+        const power = roleDic[d[0].roleId]
 
         response.msg = '登录成功'
         response.success = true
