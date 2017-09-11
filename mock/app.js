@@ -1,8 +1,8 @@
-import mockStorge from '../src/utils/mockStorge'
+const Mock = require('mockjs')
 import { getBody } from './utils'
 import Cookie from '../src/utils/cookie'
 
-let dataKey = mockStorge('AdminUsers', [
+const app = Mock.mock([
   {
     username: 'admin',
     password: 'admin',
@@ -36,7 +36,7 @@ module.exports = {
       success: false,
       msg: ''
     }
-    const d = global[dataKey].filter(function (item) {
+    const d = app.filter(function (item) {
       return item.username === userItem.username
     })
     if (d.length) {

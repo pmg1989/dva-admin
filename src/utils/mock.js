@@ -1,8 +1,9 @@
 const Mock = require('mockjs')
-const mockData = [require('../../mock/app'), require('../../mock/dashboard'),
-	require('../../mock/account/admin'), require('../../mock/account/user'), require('../../mock/account/role'),
-	require('../../mock/system/modifyPassword'),
-	require('../../mock/bbs/category')
+const mockData = [require('../../mock/app'),
+  // require('../../mock/dashboard'),
+	// require('../../mock/account/admin'), require('../../mock/account/user'), require('../../mock/account/role'),
+	// require('../../mock/system/modifyPassword'),
+	// require('../../mock/bbs/category')
 ]
 
 function serialize(str) {
