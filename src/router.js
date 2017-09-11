@@ -39,7 +39,7 @@ export default function ({history, app}) {
           <Route path="upload" component={require("./routes/ui/Upload")}></Route>
           <Route path="media-player" component={require("./routes/ui/MediaPlayer")}></Route>
           <Route path="drop-menu" component={require("./routes/ui/DropMenu")}></Route>
-          <Route path="lz-editor" component={require("./routes/ui/LzEditor")}></Route>
+          {/*<Route path="lz-editor" component={require("./routes/ui/LzEditor")}></Route>*/}
         </Route>
         <Route path="no-power" component={require("./routes/NoPower")}/>
       </Route>
