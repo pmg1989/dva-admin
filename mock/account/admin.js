@@ -28,13 +28,11 @@ const admin = Mock.mock({
   }
 })
 
-let AdminListData = global[admin]
-
 module.exports = {
 
   'GET /api/adminItem' (req, res) {
     const getItem = qs.parse(req.query)
-    const adminItem = AdminListData.data.find(function (item) {
+    const adminItem = admin.data.find(function (item) {
       return item.id == +getItem.id
     })
     res.json({success: true, data: adminItem})
@@ -48,7 +46,7 @@ module.exports = {
     let data
     let newPage
 
-    let newData = AdminListData.data.concat()
+    let newData = admin.data.concat()
 
     if (page.field) {
       const d = newData.filter(function (item) {
@@ -62,9 +60,9 @@ module.exports = {
         total: d.length
       }
     } else {
-      data = AdminListData.data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-      AdminListData.page.current = currentPage * 1
-      newPage = AdminListData.page
+      data = admin.data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      admin.page.current = currentPage * 1
+      newPage = admin.page
     }
     res.json({success: true, data, page: {...newPage, pageSize: Number(pageSize)}})
   },
@@ -80,31 +78,31 @@ module.exports = {
     })
     newData.roleName = roleList[newData.roleId - 1]
 
-    newData.id = AdminListData.data.length + 1
-    AdminListData.data.unshift(newData)
+    newData.id = admin.data.length + 1
+    admin.data.unshift(newData)
 
-    AdminListData.page.total = AdminListData.data.length
-    AdminListData.page.current = 1
+    admin.page.total = admin.data.length
+    admin.page.current = 1
 
-    global[dataKey] = AdminListData
+    // global[dataKey] = AdminListData
 
-    res.json({success: true, data: AdminListData.data, page: AdminListData.page})
+    res.json({success: true, data: admin.data, page: admin.page})
   },
 
   'DELETE /api/admin' (req, res) {
     const deleteItem = req.body
-    AdminListData.data = AdminListData.data.filter(function (item) {
+    admin.data = admin.data.filter(function (item) {
       if (item.id === deleteItem.id) {
         return false
       }
       return true
     })
 
-    AdminListData.page.total = AdminListData.data.length
+    admin.page.total = admin.data.length
 
-    global[dataKey] = AdminListData
+    // global[dataKey] = AdminListData
 
-    res.json({success: true, data: AdminListData.data, page: AdminListData.page})
+    res.json({success: true, data: admin.data, page: admin.page})
   },
 
   'PUT /api/admin' (req, res) {
@@ -119,15 +117,15 @@ module.exports = {
     editItem.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
     editItem.roleName = roleList[editItem.roleId - 1]
 
-    AdminListData.data = AdminListData.data.map(function (item) {
+    admin.data = admin.data.map(function (item) {
       if (item.id === editItem.id) {
         return editItem
       }
       return item
     })
 
-    global[dataKey] = AdminListData
-    res.json({success: true, data: AdminListData.data, page: AdminListData.page})
+    // global[dataKey] = AdminListData
+    res.json({success: true, data: admin.data, page: admin.page})
   }
 
 }
