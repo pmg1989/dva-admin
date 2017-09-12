@@ -1,7 +1,5 @@
 const qs = require('qs')
 const Mock = require('mockjs')
-import mockStorge from '../../src/utils/mockStorge'
-import { getBody } from '../utils'
 
 const dic = {
   1: {
@@ -57,7 +55,7 @@ const dic = {
   }
 }
 
-let dataKey = mockStorge('AccountRoleList', Mock.mock({
+let dataKey = Mock.mock({
   'data|3': [
     {
       'id|+1': 1,
@@ -69,11 +67,11 @@ let dataKey = mockStorge('AccountRoleList', Mock.mock({
     total: 3,
     current: 1
   }
-}))
+})
 
-let dataKeyPL = mockStorge('AccountPowerList', Mock.mock({
+let dataKeyPL = Mock.mock({
   data: dic
-}))
+})
 
 let roleListData = global[dataKey]
 let powerList = global[dataKeyPL]
@@ -110,7 +108,7 @@ module.exports = {
   },
 
   'POST /api/role' (req, res) {
-    const curItem = getBody(req)
+    const curItem = req.body
 
     if(curItem.id) {
       roleListData.data = roleListData.data.map(function (item) {
@@ -135,7 +133,7 @@ module.exports = {
   },
 
   'DELETE /api/role' (req, res) {
-    const deleteItem = getBody(req)
+    const deleteItem = req.body
 
     roleListData.data = roleListData.data.filter(function (item) {
       return item.id !== deleteItem.id

@@ -1,9 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
-import mockStorge from '../../src/utils/mockStorge'
-import { getBody } from '../utils'
 
-let dataKey = mockStorge('BBSCategory', Mock.mock({
+let dataKey = Mock.mock({
   'data|100': [
     {
       'cid|+1': 1,
@@ -11,7 +9,7 @@ let dataKey = mockStorge('BBSCategory', Mock.mock({
       memo: '@cparagraph'
     }
   ]
-}))
+})
 
 let listData = global[dataKey]
 
@@ -22,7 +20,7 @@ module.exports = {
   },
 
   'PUT /api/category' (req, res) {
-    const editItem = getBody(req)
+    const editItem = req.body
 
     editItem.imgurl = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
 
@@ -38,7 +36,7 @@ module.exports = {
   },
 
   'DELETE /api/category' (req, res) {
-    const deleteItem = getBody(req)
+    const deleteItem = req.body
     listData.data = listData.data.filter(function (item) {
       if (item.cid === deleteItem.id) {
         return false
@@ -53,7 +51,7 @@ module.exports = {
   },
 
   'POST /api/category' (req, res) {
-    const newData = getBody(req)
+    const newData = req.body
     newData.imgurl = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
     newData.cid = listData.data.length + 1

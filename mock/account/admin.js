@@ -1,9 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
-import mockStorge from '../../src/utils/mockStorge'
-import { getBody } from '../utils'
 
-let dataKey = mockStorge('AccountAdminList', Mock.mock({
+const admin = Mock.mock({
   'data|100': [
     {
       'id|+1': 1,
@@ -28,9 +26,9 @@ let dataKey = mockStorge('AccountAdminList', Mock.mock({
     total: 100,
     current: 1
   }
-}))
+})
 
-let AdminListData = global[dataKey]
+let AdminListData = global[admin]
 
 module.exports = {
 
@@ -72,7 +70,7 @@ module.exports = {
   },
 
   'POST /api/admin' (req, res) {
-    const newData = getBody(req)
+    const newData = req.body
     newData.createTime = Mock.mock('@now')
     newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
@@ -94,7 +92,7 @@ module.exports = {
   },
 
   'DELETE /api/admin' (req, res) {
-    const deleteItem = getBody(req)
+    const deleteItem = req.body
     AdminListData.data = AdminListData.data.filter(function (item) {
       if (item.id === deleteItem.id) {
         return false
@@ -110,7 +108,7 @@ module.exports = {
   },
 
   'PUT /api/admin' (req, res) {
-    const editItem = getBody(req)
+    const editItem = req.body
 
     const roleListData = global['AccountRoleList'].data
     const roleList = roleListData.map(item => {

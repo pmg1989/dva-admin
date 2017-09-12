@@ -1,7 +1,5 @@
 const qs = require('qs')
 const Mock = require('mockjs')
-import mockStorge from '../../src/utils/mockStorge'
-import { getBody } from '../utils'
 
 let dataKey = 'AdminUsers'
 
@@ -10,7 +8,7 @@ let adminListData = global[dataKey]
 module.exports = {
 
   'PUT /api/modifyPassword' (req, res) {
-    const editItem = getBody(req)
+    const editItem = req.body
     let flag = false
 
     adminListData = adminListData.map(function (item) {

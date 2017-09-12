@@ -1,9 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
-import mockStorge from '../../src/utils/mockStorge'
-import { getBody } from '../utils'
 
-let dataKey = mockStorge('AccountUserList', Mock.mock({
+let dataKey = Mock.mock({
   'data|100': [
     {
       'id|+1': 1,
@@ -21,7 +19,7 @@ let dataKey = mockStorge('AccountUserList', Mock.mock({
     total: 100,
     current: 1
   }
-}))
+})
 
 let userListData = global[dataKey]
 
@@ -65,7 +63,7 @@ module.exports = {
   },
 
   'POST /api/user' (req, res) {
-    const newData = getBody(req)
+    const newData = req.body
     newData.created_at = Mock.mock('@integer(1487000000000, 1487999999999)')
     newData.image = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
@@ -81,7 +79,7 @@ module.exports = {
   },
 
   'DELETE /api/user' (req, res) {
-    const deleteItem = getBody(req)
+    const deleteItem = req.body
 
     userListData.data = userListData.data.filter(function (item) {
       if (item.id === deleteItem.id) {
@@ -98,7 +96,7 @@ module.exports = {
   },
 
   'DELETE /api/deleteBatch' (req, res) {
-    const { ids } = getBody(req)
+    const { ids } = req.body
 
     userListData.data = userListData.data.filter(function (item) {
       if (ids.find(cur => cur === item.id)) {
@@ -115,7 +113,7 @@ module.exports = {
   },
 
   'PUT /api/user' (req, res) {
-    const editItem = getBody(req)
+    const editItem = req.body
     editItem.created_at = Mock.mock('@integer(1487000000000, 1487999999999)')
     editItem.image = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
 
