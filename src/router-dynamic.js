@@ -1,59 +1,58 @@
 import React from 'react'
-import {Router, Route, IndexRoute} from 'dva/router'
+import PropTypes from 'prop-types'
+import { Router } from 'dva/router'
 import App from './routes/App'
-import {isLogin} from './utils'
+import { isLogin } from './utils'
 
-function redirectToLogin(nextState, replace) {
+function redirectToLogin (nextState, replace) {
   if (!isLogin()) {
     replace({
       pathname: '/login',
       state: {
         nextPathname: nextState.location.pathname,
-        nextSearch: location.search
-      }
+        nextSearch: location.search,
+      },
     })
   }
 }
 
-function redirectToDashboard(nextState, replace) {
+function redirectToDashboard (nextState, replace) {
   if (isLogin()) {
     replace('/dashboard')
   }
 }
 
-const cached = {};
-function registerModel(app, model) {
-  if (!cached[model.namespace]) {
+const registerModel = (app, model) => {
+  if (!(app._models.filter(m => m.namespace === model.namespace).length === 1)) {
     app.model(model)
-    cached[model.namespace] = 1
   }
 }
 
-export default function({history, app}) {
+const Routers = function ({ history, app }) {
   const routes = [
     {
       path: '/',
       component: App,
       onEnter: redirectToLogin,
-      getIndexRoute(nextState, cb) {
-        require.ensure([], require => {
+      getIndexRoute (nextState, cb) {
+        require.ensure([], (require) => {
           registerModel(app, require('./models/dashboard'))
-          cb(null, {component: require('./routes/Dashboard')})
+          cb(null, { component: require('./routes/Dashboard') })
         }, 'dashboard')
       },
       childRoutes: [
-        //dashboard
+        // dashboard
         {
           path: 'dashboard',
           name: 'dashboard',
-          getComponent(nextState, cb) {
-            require.ensure([], require => {
+          getComponent (nextState, cb) {
+            require.ensure([], (require) => {
               registerModel(app, require('./models/dashboard'))
               cb(null, require('./routes/Dashboard'))
             }, 'dashboard')
-          }
+          },
         },
-        //account
+        // account
         {
           path: 'account',
           name: 'account',
@@ -61,34 +60,34 @@ export default function({history, app}) {
             {
               path: 'admin',
               name: 'admin',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   registerModel(app, require('./models/account/admin'))
                   cb(null, require('./routes/account/Admin'))
                 }, 'account-admin')
-              }
+              },
             }, {
               path: 'user',
               name: 'user',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   registerModel(app, require('./models/account/user'))
                   cb(null, require('./routes/account/User'))
                 }, 'account-user')
-              }
+              },
             }, {
               path: 'role',
               name: 'role',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   registerModel(app, require('./models/account/role'))
                   cb(null, require('./routes/account/Role'))
                 }, 'account-role')
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
-        //system
+        // system
         {
           path: 'system',
           name: 'system',
@@ -96,16 +95,16 @@ export default function({history, app}) {
             {
               path: 'modify-password',
               name: 'modify-password',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   registerModel(app, require('./models/system/modifyPassword'))
                   cb(null, require('./routes/system/ModifyPassword'))
                 }, 'modify-password')
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
-        //bbs
+        // bbs
         {
           path: 'bbs',
           name: 'bbs',
@@ -113,16 +112,16 @@ export default function({history, app}) {
             {
               path: 'category',
               name: 'category',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   registerModel(app, require('./models/bbs/category'))
                   cb(null, require('./routes/bbs/Category'))
                 }, 'category')
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
-        //ui
+        // ui
         {
           path: 'ui',
           name: 'ui',
@@ -130,28 +129,28 @@ export default function({history, app}) {
             {
               path: 'upload',
               name: 'upload',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   cb(null, require('./routes/ui/Upload'))
                 }, 'upload')
-              }
+              },
             }, {
               path: 'media-player',
               name: 'media-player',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   cb(null, require('./routes/ui/MediaPlayer'))
                 }, 'media-player')
-              }
+              },
             }, {
               path: 'drop-menu',
               name: 'drop-menu',
-              getComponent(nextState, cb) {
-                require.ensure([], require => {
+              getComponent (nextState, cb) {
+                require.ensure([], (require) => {
                   cb(null, require('./routes/ui/DropMenu'))
                 }, 'drop-menu')
-              }
-            }
+              },
+            },
             // , {
             //   path: 'lz-editor',
             //   name: 'lz-editor',
@@ -161,52 +160,59 @@ export default function({history, app}) {
             //     }, 'lz-editor')
             //   }
             // }
-          ]
+          ],
         },
-        //no-power
+        // no-power
         {
           path: 'no-power',
           name: 'no-power',
-          getComponent(nextState, cb) {
-            require.ensure([], require => {
+          getComponent (nextState, cb) {
+            require.ensure([], (require) => {
               cb(null, require('./routes/NoPower'))
             }, 'no-power')
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
-    //login
+    // login
     {
       path: 'login',
       name: 'login',
       onEnter: redirectToDashboard,
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
+      getComponent (nextState, cb) {
+        require.ensure([], (require) => {
           cb(null, require('./routes/Login'))
         }, 'login')
-      }
+      },
     },
-    //demo
+    // demo
     {
       path: 'demo',
       name: 'demo',
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
+      getComponent (nextState, cb) {
+        require.ensure([], (require) => {
           cb(null, require('./routes/Demo'))
         }, 'demo')
-      }
+      },
     },
-    //*
+    // *
     {
       path: '*',
       name: 'error',
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
+      getComponent (nextState, cb) {
+        require.ensure([], (require) => {
           cb(null, require('./routes/Error'))
         }, 'error')
-      }
-    }
+      },
+    },
   ]
 
-  return <Router history={history} routes={routes}/>
+  return <Router history={history} routes={routes} />
 }
+
+Routers.propTypes = {
+  history: PropTypes.object,
+  app: PropTypes.object,
+}
+
+export default Routers
