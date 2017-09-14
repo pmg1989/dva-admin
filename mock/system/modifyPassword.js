@@ -1,9 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
 
-let dataKey = 'AdminUsers'
-
-let adminListData = global[dataKey]
+let adminListData = global.AdminUsers
 
 module.exports = {
 
@@ -19,7 +17,6 @@ module.exports = {
       return item
     })
     if(!flag){
-      global[dataKey] = adminListData
       res.json({success: true, msg: '密码修改成功！'})
     } else {
       res.json({success: false, msg: '旧密码不正确'})

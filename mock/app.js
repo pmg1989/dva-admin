@@ -73,6 +73,8 @@ const app = Mock.mock([
   }
 ])
 
+global.AdminUsers = app
+
 module.exports = {
   'POST /oauth/token' (req, res) {
     const userItem = req.body
