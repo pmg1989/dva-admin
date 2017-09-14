@@ -1,1 +1,1 @@
-export './InputEmail'
+export InputEmail from './InputEmail'

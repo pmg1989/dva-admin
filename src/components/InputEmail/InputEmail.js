@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { AutoComplete } from 'antd'
 
 class InputEmailComplete extends Component {
-
   state = { dataSource: [] }
 
-  handleChange(value) {
+  handleChange (value) {
     let dataSource
     if (!value || value.indexOf('@') >= 0) {
       dataSource = []
@@ -15,7 +14,7 @@ class InputEmailComplete extends Component {
     this.setState({ dataSource })
   }
 
-  render() {
+  render () {
     const { dataSource } = this.state
     return (
       <AutoComplete
