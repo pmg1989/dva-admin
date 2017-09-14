@@ -20,7 +20,7 @@ app.model(require('./models/app'))
 app.model(require('./models/modal'))
 
 // 4. Router for browserHistory dynamic load
-app.router(require('./router-dynamic'))
+app.router(require('./router'))
 
 // 5. Start
 app.start('#root')

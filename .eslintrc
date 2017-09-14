@@ -48,5 +48,9 @@
   },
   "settings": {
     "import/resolver": "node"
-    }
+  },
+  "globals": {
+    "window": true,
+    "location": true,
+  }
 }
