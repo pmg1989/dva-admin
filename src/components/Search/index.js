@@ -1,1 +1,1 @@
-export './Search'
+export Search from './Search'
