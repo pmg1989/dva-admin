@@ -1,103 +1,122 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Upload, Button, Icon, Modal, message } from 'antd'
+import React, { Component, PropTypes } from 'react'
+import { Upload, Icon, Modal } from 'antd'
 import styles from './UploadFile.less'
 import Cookie from '../../utils/cookie'
 
-class UploadFiles extends React.Component {
+const getFileList = (fileList) => {
+  if (Array.isArray(fileList)) {
+    return fileList.map((item, key) => {
+      const urlArr = item.full_url.split('/')
+      return { url: item.full_url, id: item.id, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
+    })
+  }
+  if (fileList && !!fileList.length) {
+    const filesArr = fileList.split('/')
+    return [{ uid: -1, url: fileList, name: filesArr[filesArr.length - 1], status: 'done' }]
+  }
+  return ''
+}
 
+function renderAccecpt (accept) {
+  if (!accept) {
+    return null
+  }
+  if (['image', 'video', 'audio'].find(ext => ext === accept)) {
+    return `${accept}/*`
+  }
+  if (accept === 'zip') {
+    return 'application/zip,application/x-zip,application/x-zip-compressed'
+  }
+  return `.${accept}`
+}
+
+class UploadFiles extends Component {
   static propTypes = {
     fileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     onUpload: PropTypes.func.isRequired,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     disabled: PropTypes.bool,
-    path: PropTypes.string
+    path: PropTypes.string,
+    accept: PropTypes.string,
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
-
-    const getFileList = (fileList) => {
-      if(Array.isArray(fileList)) {
-        return fileList.map((url, key) => {
-          const urlArr = url.split('/')
-          return { url: url, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
-        })
-      }
-      if(fileList && !!fileList.length) {
-        const filesArr = fileList.split('/')
-        return [{ uid: -1, url: fileList, name: filesArr[filesArr.length - 1], status: 'done' }]
-      }
-      return ''
-    }
 
     this.state = {
       previewVisible: false,
       previewImage: '',
-      fileList: getFileList(props.fileList)
+      fileList: getFileList(props.fileList),
     }
   }
 
-  render() {
+  componentWillReceiveProps (nextProps) {
+    if (Array.isArray(this.props.fileList) && !this.props.fileList.length && !!nextProps.fileList.length) {
+      this.setState({ fileList: getFileList(nextProps.fileList) })
+    }
+  }
 
+  render () {
     const { previewVisible, previewImage, fileList } = this.state
 
-    const { multiple = 1, onUpload, disabled, path } = this.props
+    const { multiple = 1, onUpload, disabled, path, accept } = this.props
 
-    const renderFiles = (files, type) => {
-      const fileList = files.map(file => {
-        return type === 1 ? file.response.data.file : file
+    const renderFiles = (files) => {
+      const newFiles = files.map((file) => {
+        return file.response ? file.response.data.file : file
       })
-      if(multiple === 1) {
-        return fileList[0]
+      if (multiple === 1) {
+        return newFiles[0]
       }
-      return fileList
+      return newFiles
     }
 
-    let actionUrl = newband.app.admin.API_HOST + '/file/upload/formData?access_token=' + Cookie.get('access_token')
-    if(!!path) {
-      actionUrl += '&path=' + path
+    let actionUrl = `${newband.app.admin.API_HOST}v2/file/upload/formData?access_token=${Cookie.get('access_token')}`
+    if (path) {
+      actionUrl += `&path=${path}`
     }
+
     const uploadProps = {
+      accept: renderAccecpt(accept),
       action: actionUrl,
       headers: {
-        'X-Requested-With': null
+        'X-Requested-With': null,
       },
       data: {
       },
       disabled,
       listType: 'picture-card',
-      fileList: fileList,
+      fileList,
       multiple: multiple === true,
       onPreview: (file) => {
         this.setState({
           previewImage: file.url || file.thumbUrl,
-          previewVisible: true
+          previewVisible: true,
         })
       },
-      beforeUpload: (file) => {
-
+      beforeUpload: () => {
         return true
       },
-      onChange: ({ file, fileList, e }) => {
-        this.setState({ fileList: fileList })
-        if(file.percent === 100 && file.status === "done") {
+      onChange: ({ file, fileList }) => {
+        this.setState({ fileList })
+        if (file.percent === 100 && file.status === 'done') {
           onUpload(renderFiles(fileList, 1))
         }
       },
       onRemove: (file) => {
-        if(disabled) {
+        if (disabled) {
           return false
         }
-        const fileList = this.state.fileList.filter(item => item.uid !== file.uid)
-        onUpload(renderFiles(fileList, 0))
-      }
+        const files = this.state.fileList.filter(item => item.uid !== file.uid)
+        onUpload(renderFiles(files, 0))
+        return true
+      },
     }
 
     const modalProps = {
       visible: previewVisible,
       footer: null,
-      onCancel: () => this.setState({ previewVisible: false })
+      onCancel: () => this.setState({ previewVisible: false }),
     }
 
     const uploadButton = (
@@ -110,13 +129,13 @@ class UploadFiles extends React.Component {
     return (
       <div className="clearfix">
         <Upload {...uploadProps}>
-          {multiple === true ? uploadButton : (fileList.length >= multiple ? null : uploadButton)}
+          {multiple === true ? uploadButton : (fileList.length < multiple && uploadButton)}
         </Upload>
         <Modal {...modalProps}>
-          <img className={styles.previewImage} alt='' src={previewImage} />
+          <img className={styles.previewImage} alt="" src={previewImage} />
         </Modal>
       </div>
-    );
+    )
   }
 }
 

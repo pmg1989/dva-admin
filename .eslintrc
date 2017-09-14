@@ -52,5 +52,6 @@
   "globals": {
     "window": true,
     "location": true,
+    "newband": true,
   }
 }

@@ -1,1 +1,1 @@
-export './UploadFile'
+export UploadFile from './UploadFile'

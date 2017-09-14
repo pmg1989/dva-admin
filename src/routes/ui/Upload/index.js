@@ -9,7 +9,7 @@ class Upload extends Component {
 
   state = {
     file: '',
-    files1: ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'],
+    files1: [{ id: 1, full_url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' }],
     files2: []
   }
 
