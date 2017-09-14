@@ -1,1 +1,1 @@
-export './DataTable'
+export DataTable from './DataTable'

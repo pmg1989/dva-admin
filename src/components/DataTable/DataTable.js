@@ -1,56 +1,57 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'dva'
-import {routerRedux} from 'dva/router'
-import {Table} from 'antd'
+import { connect } from 'dva'
+import { routerRedux } from 'dva/router'
+import { Table } from 'antd'
 import classnames from 'classnames'
 import TableBodyWrapper from './TableBodyWrapper'
 
-function DataTable({dispatch, location, className, pagination, animate, ...props}) {
-
+const DataTable = function ({ dispatch, location, className, pagination, animate, ...props }) {
   const getBodyWrapperProps = {
     page: location.query.page || 1,
-    current: pagination.current || 1
+    current: pagination.current || 1,
   }
 
-  const getBodyWrapper = (body) => (<TableBodyWrapper {...getBodyWrapperProps} body={body}/>)
+  const getBodyWrapper = body => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
 
   const onPageChange = (page) => {
-    const {query} = location
+    const { query } = location
     const pathname = location.pathname
     dispatch(routerRedux.push({
-      pathname: pathname,
+      pathname,
       query: {
         ...query,
         current: page.current,
-        pageSize: page.pageSize
-      }
+        pageSize: page.pageSize,
+      },
     }))
   }
 
   let tableProps = {
     simple: true,
     bordered: true,
-    scroll: {x: 1200},
+    scroll: { x: 1200 },
     onChange: onPageChange,
-    pagination: !!pagination && {...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条`},
-    ...props
+    pagination: !!pagination && { ...pagination, showSizeChanger: true, showQuickJumper: true, showTotal: total => `共 ${total} 条` },
+    ...props,
   }
-  if(animate) {
+  if (animate) {
     tableProps.getBodyWrapper = getBodyWrapper
-    tableProps.className = classnames(className, "table-motion")
+    tableProps.className = classnames(className, 'table-motion')
   }
 
   return (
-    <Table {...tableProps}/>
+    <Table {...tableProps} />
   )
 }
 
 DataTable.propTypes = {
+  dispatch: PropTypes.func,
+  location: PropTypes.object,
   animate: PropTypes.bool,
   rowKey: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ]).isRequired,
   pagination: PropTypes.oneOfType([
     PropTypes.bool,
@@ -58,14 +59,14 @@ DataTable.propTypes = {
   ]).isRequired,
   columns: PropTypes.array.isRequired,
   dataSource: PropTypes.array.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 DataTable.defaultProps = {
-  animate: true
+  animate: true,
 }
 
-function mapStateToProps({ routing, app }) {
+function mapStateToProps ({ routing }) {
   return { location: routing.locationBeforeTransitions }
 }
 
