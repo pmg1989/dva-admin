@@ -70,11 +70,11 @@ module.exports = {
   },
 
   'POST /api/admin' (req, res) {
-    const newData = getBody(req)
+    const newData = req.body
     newData.createTime = Mock.mock('@now')
     newData.avatar = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
-    const roleListData = global['AccountRoleList'].data
+    const roleListData = global.roleListData.data
     const roleList = roleListData.map(item => {
       return item.name
     })
@@ -85,8 +85,6 @@ module.exports = {
 
     AdminListData.page.total = AdminListData.data.length
     AdminListData.page.current = 1
-
-    global[dataKey] = AdminListData
 
     res.json({success: true, data: AdminListData.data, page: AdminListData.page})
   },
@@ -99,15 +97,13 @@ module.exports = {
 
     AdminListData.page.total = AdminListData.data.length
 
-    global.AdminListData = AdminListData
-
     res.json({success: true, msg: '删除成功！'})
   },
 
   'PUT /api/admin' (req, res) {
-    const editItem = getBody(req)
+    const editItem = req.body
 
-    const roleListData = global['AccountRoleList'].data
+    const roleListData = global.roleListData.data
     const roleList = roleListData.map(item => {
       return item.name
     })
@@ -123,7 +119,6 @@ module.exports = {
       return item
     })
 
-    global[dataKey] = AdminListData
     res.json({success: true, data: AdminListData.data, page: AdminListData.page})
   }
 
