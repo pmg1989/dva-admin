@@ -1,7 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
 
-let dataKey = Mock.mock({
+let listData = Mock.mock({
   'data|30': [
     {
       'cid|+1': 1,
@@ -14,8 +14,6 @@ let dataKey = Mock.mock({
   ]
 })
 
-global.listData = dataKey
-
 module.exports = {
 
   'GET /api/category' (req, res) {
@@ -25,7 +23,7 @@ module.exports = {
   'PUT /api/category' (req, res) {
     const editItem = req.body
 
-    editItem.imgurl = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
+    editItem.avatar = Mock.Random.image('40x40', Mock.Random.color(), '#757575', 'png', editItem.name.substr(0, 1))
 
     listData.data = listData.data.map(function (item) {
       if (item.cid === editItem.cid) {
@@ -34,7 +32,6 @@ module.exports = {
       return item
     })
 
-    global[dataKey] = listData
     res.json({success: true, list: listData.data})
   },
 
@@ -47,20 +44,15 @@ module.exports = {
       return true
     })
 
-
-    global[dataKey] = listData
-
     res.json({success: true, list: listData.data})
   },
 
   'POST /api/category' (req, res) {
     const newData = req.body
-    newData.imgurl = Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
+    newData.avatar = Mock.Random.image('40x40', Mock.Random.color(), '#757575', 'png', newData.name.substr(0, 1))
 
     newData.cid = listData.data.length + 1
     listData.data.unshift(newData)
-
-    global[dataKey] = listData
 
     res.json({success: true, list: listData.data})
   },

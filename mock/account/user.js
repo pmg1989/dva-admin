@@ -1,7 +1,7 @@
 const qs = require('qs')
 const Mock = require('mockjs')
 
-let dataKey = Mock.mock({
+let userListData = Mock.mock({
   'data|100': [
     {
       'id|+1': 1,
@@ -20,8 +20,6 @@ let dataKey = Mock.mock({
     current: 1
   }
 })
-
-let userListData = global[dataKey]
 
 module.exports = {
 
@@ -73,8 +71,6 @@ module.exports = {
     userListData.page.total = userListData.data.length
     userListData.page.current = 1
 
-    global[dataKey] = userListData
-
     res.json({success: true, data: userListData.data, page: userListData.page})
   },
 
@@ -89,8 +85,6 @@ module.exports = {
     })
 
     userListData.page.total = userListData.data.length
-
-    global[dataKey] = userListData
 
     res.json({success: true, data: userListData.data, page: userListData.page})
   },
@@ -107,8 +101,6 @@ module.exports = {
 
     userListData.page.total = userListData.data.length
 
-    global[dataKey] = userListData
-
     res.json({success: true, data: userListData.data, page: userListData.page})
   },
 
@@ -124,7 +116,6 @@ module.exports = {
       return item
     })
 
-    global[dataKey] = userListData
     res.json({success: true, data: userListData.data, page: userListData.page})
   }
 

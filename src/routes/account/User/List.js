@@ -67,6 +67,10 @@ function List ({
 
   const columns = [
     {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id'
+    }, {
       title: '头像',
       dataIndex: 'image',
       key: 'image',
