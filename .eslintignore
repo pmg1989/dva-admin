@@ -7,6 +7,6 @@ src/components/UploadFile/UploadFile.js
 src/constants
 src/models
 src/routes
-src/services
+
 src/themes
 src/utils
