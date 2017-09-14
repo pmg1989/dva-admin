@@ -4,7 +4,7 @@ export default {
   state: {
     visible: false,
     type: 'create',
-    curItem: {}
+    curItem: {},
   },
   reducers: {
     showModal (state, action) {
@@ -16,6 +16,6 @@ export default {
     setItem (state, action) {
       const { curItem } = action.payload
       return { ...state, curItem }
-    }
-  }
+    },
+  },
 }

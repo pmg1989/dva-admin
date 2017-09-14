@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import { routerRedux } from 'dva/router'
 import { create, remove, update, query, get, removeBatch } from '../../services/account/user'
 import { getCurPowers } from '../../utils'
@@ -10,17 +9,17 @@ export default {
     pagination: {
       current: 1,
       pageSize: 10,
-      total: null
-    }
+      total: null,
+    },
   },
 
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen(location => {
+      history.listen((location) => {
         const pathname = location.pathname
         if (pathname === '/account/user') {
           const curPowers = getCurPowers(pathname)
-          if(curPowers) {
+          if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
             dispatch({ type: 'query' })
           } else {
@@ -28,11 +27,11 @@ export default {
           }
         }
       })
-    }
+    },
   },
 
   effects: {
-    *query ({ payload }, { select, call, put }) {
+    * query ({}, { select, call, put }) {
       const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
       const data = yield call(query, pathQuery)
       if (data.success) {
@@ -40,24 +39,24 @@ export default {
           type: 'querySuccess',
           payload: {
             list: data.list,
-            pagination: data.page
-          }
+            pagination: data.page,
+          },
         })
       }
     },
-    *delete ({ payload }, { call, put }) {
+    * delete ({ payload }, { call, put }) {
       const data = yield call(remove, { id: payload.id })
       if (data && data.success) {
         yield put({ type: 'query' })
       }
     },
-    *deleteBatch ({ payload }, { call, put }) {
+    * deleteBatch ({ payload }, { call, put }) {
       const data = yield call(removeBatch, { ids: payload.ids })
       if (data && data.success) {
         yield put({ type: 'query' })
       }
     },
-    *create ({ payload }, { select, call, put }) {
+    * create ({ payload }, { select, call, put }) {
       const data = yield call(create, payload.curItem)
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
@@ -65,32 +64,32 @@ export default {
         const { page } = pathQuery
         yield put(routerRedux.push({
           pathname: location.pathname,
-          query: !!page ? { ...pathQuery, page: 1 } : pathQuery
+          query: page ? { ...pathQuery, page: 1 } : pathQuery,
         }))
       }
     },
-    *update ({ payload }, { call, put }) {
+    * update ({ payload }, { call, put }) {
       const data = yield call(update, payload.curItem)
       if (data && data.success) {
         yield put({ type: 'modal/hideModal' })
         yield put({ type: 'query' })
       }
     },
-    *updateStatus ({ payload }, { select, call, put }) {
+    * updateStatus ({ payload }, { call, put }) {
       const { curItem } = payload
       const data = yield call(update, { ...curItem, status: !curItem.status })
       if (data && data.success) {
         yield put({ type: 'query' })
       }
     },
-    *showModal ({ payload }, { select, call, put }) {
+    * showModal ({ payload }, { call, put }) {
       const { type, curItem } = payload
       let newData = {}
 
-      yield put({ type: 'modal/showModal', payload: { type: type } })
+      yield put({ type: 'modal/showModal', payload: { type } })
 
       const data = yield call(get, { id: curItem.id })
-      if(data && data.success) {
+      if (data && data.success) {
         newData.curItem = data.data
       }
 
@@ -101,6 +100,6 @@ export default {
   reducers: {
     querySuccess (state, action) {
       return { ...state, ...action.payload }
-    }
-  }
+    },
+  },
 }

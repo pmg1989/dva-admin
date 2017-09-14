@@ -1,20 +1,20 @@
-import {parse} from 'qs'
+import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
 import { getCurPowers } from '../utils'
-import {myCity, queryWeather, query} from '../services/dashboard'
+import { myCity, queryWeather, query } from '../services/dashboard'
 
 let zuimei = {
-  ParseActualData: function (actual, air) {
+  ParseActualData (actual) {
     let weather = {
-      icon: 'http://www.zuimeitianqi.com/res/icon/' + zuimei.GetIconName(actual.wea, 'big'),
+      icon: `http://www.zuimeitianqi.com/res/icon/${zuimei.GetIconName(actual.wea, 'big')}`,
       name: zuimei.GetWeatherName(actual.wea),
       temperature: actual.tmp,
-      dateTime: new Date(actual.PTm).format('MM-dd hh:mm')
+      dateTime: new Date(actual.PTm).format('MM-dd hh:mm'),
     }
     return weather
   },
 
-  GetIconName: function (wea, flg) {
+  GetIconName (wea, flg) {
     let myDate = new Date()
     let hour = myDate.getHours()
     let num = 0
@@ -23,30 +23,28 @@ let zuimei = {
       if (hour < 12) {
         num = zuimei.ReplaceIcon(weas[0])
         if (num < 6) {
-          num = num + '_' + flg + '_night.png'
+          num = `${num}_${flg}_night.png`
         } else {
-          num = num + '_' + flg + '.png'
+          num = `${num}_${flg}.png`
         }
       } else if (hour >= 12) {
         num = zuimei.ReplaceIcon(weas[1])
         if (hour >= 18) {
-          num = num + '_' + flg + '_night.png'
+          num = `${num}_${flg}_night.png`
         } else {
-          num = num + '_' + flg + '.png'
+          num = `${num}_${flg}.png`
         }
       }
+    } else if ((hour >= 18 && hour <= 23) || (hour >= 0 && hour <= 6)) {
+      num = `${num}_${flg}_night.png`
     } else {
-      if ((hour >= 18 && hour <= 23) || (hour >= 0 && hour <= 6)) {
-        num = num + '_' + flg + '_night.png'
-      } else {
-        num = num + '_' + flg + '.png'
-      }
+      num = `${num}_${flg}.png`
     }
 
     return num
   },
 
-  ReplaceIcon: function (num) {
+  ReplaceIcon (num) {
     if (num === 21) {
       num = 7
     } else if (num === 22) {
@@ -68,11 +66,11 @@ let zuimei = {
     return num
   },
 
-  GetWeatherName: function (wea) {
+  GetWeatherName (wea) {
     let name = ''
     if (wea.indexOf('/') !== -1) {
       let weas = wea.split('/')
-      name = zuimei.GetWeatherByCode(weas[0]) + '转' + zuimei.GetWeatherByCode(weas[1])
+      name = `${zuimei.GetWeatherByCode(weas[0])}转${zuimei.GetWeatherByCode(weas[1])}`
     } else {
       name = zuimei.GetWeatherByCode(wea)
     }
@@ -80,7 +78,7 @@ let zuimei = {
     return name
   },
 
-  GetWeatherByCode: function (num) {
+  GetWeatherByCode (num) {
     let wea = ''
     if (num === 0) {
       wea = '晴'
@@ -161,7 +159,7 @@ let zuimei = {
     }
 
     return wea
-  }
+  },
 }
 
 export default {
@@ -172,11 +170,11 @@ export default {
       temperature: '5',
       name: '晴',
       icon: 'http://www.zuimeitianqi.com/res/icon/0_big.png',
-      dateTime: new Date().format('MM-dd hh:mm')
+      dateTime: new Date().format('MM-dd hh:mm'),
     },
     sales: [],
     quote: {
-      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236'
+      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
     },
     numbers: [],
     recentSales: [],
@@ -185,60 +183,59 @@ export default {
     browser: [],
     cpu: {},
     user: {
-      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236'
-    }
+      avatar: 'http://img.hb.aicdn.com/bc442cf0cc6f7940dcc567e465048d1a8d634493198c4-sPx5BR_fw236',
+    },
   },
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen(location => {
+      history.listen((location) => {
         const pathname = location.pathname
         if (pathname === '/' || pathname === '/dashboard') {
           const curPowers = getCurPowers('/dashboard')
-          if(curPowers) {
+          if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({type: 'queryWeather'})
-            dispatch({type: 'query'})
+            dispatch({ type: 'queryWeather' })
+            dispatch({ type: 'query' })
           } else {
             dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
         }
       })
-    }
+    },
   },
   effects: {
-    *query ({
-      payload
-    }, {call, put}) {
+    * query ({
+      payload,
+    }, { call, put }) {
       const data = yield call(query, parse(payload))
-      yield put({type: 'queryWeather', payload: {...data}})
+      yield put({ type: 'queryWeather', payload: { ...data } })
     },
-    *queryWeather ({
-      payload
-    }, {call, put}) {
-      const myCityResult = yield call(myCity, {flg: 0})
+    * queryWeather ({}, { call, put }) {
+      const myCityResult = yield call(myCity, { flg: 0 })
       const myCityData = myCityResult.query.results.json
-      const result = yield call(queryWeather, {cityCode: myCityData.selectCityCode})
+      const result = yield call(queryWeather, { cityCode: myCityData.selectCityCode })
       const data = result.query.results.json
       const weather = zuimei.ParseActualData(data.data.actual)
       weather.city = myCityData.selectCityName
 
-      yield put({type: 'queryWeatherSuccess', payload: {
-        weather
-      }})
-    }
+      yield put({ type: 'queryWeatherSuccess',
+        payload: {
+          weather,
+        } })
+    },
   },
   reducers: {
     queryWeatherSuccess (state, action) {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     },
     queryWeather (state, action) {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
-    }
-  }
+    },
+  },
 }
