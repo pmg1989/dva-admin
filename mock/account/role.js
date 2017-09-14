@@ -69,12 +69,8 @@ let dataKey = Mock.mock({
   }
 })
 
-let dataKeyPL = Mock.mock({
-  data: dic
-})
-
-let roleListData = global[dataKey]
-let powerList = global[dataKeyPL]
+global.roleListData = dataKey
+global.powerList = dic
 
 module.exports = {
 
@@ -117,8 +113,6 @@ module.exports = {
         }
         return item
       })
-
-      global[dataKeyPL].data[curItem.id] = JSON.parse(curItem.power)
     } else {
       curItem.id = roleListData.data.length + 1
       roleListData.data.push({...curItem, power: JSON.parse(curItem.power)})
@@ -126,9 +120,6 @@ module.exports = {
       roleListData.page.total = roleListData.data.length
       roleListData.page.current = 1
     }
-
-    global[dataKey] = roleListData
-
     res.json({success: true, data: roleListData.data, page: roleListData.page})
   },
 
@@ -140,8 +131,6 @@ module.exports = {
     })
 
     roleListData.page.total = roleListData.data.length
-
-    global[dataKey] = roleListData
 
     res.json({success: true, data: roleListData.data, page: roleListData.page})
   },
