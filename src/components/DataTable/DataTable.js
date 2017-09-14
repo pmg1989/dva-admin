@@ -6,7 +6,7 @@ import { Table } from 'antd'
 import classnames from 'classnames'
 import TableBodyWrapper from './TableBodyWrapper'
 
-const DataTable = function ({ dispatch, location, className, pagination, animate, ...props }) {
+function DataTable ({ dispatch, location, className, pagination, animate, ...props }) {
   const getBodyWrapperProps = {
     page: location.query.page || 1,
     current: pagination.current || 1,
