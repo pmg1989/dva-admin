@@ -4,9 +4,9 @@ src/public
 src/components/MediaPlayer
 src/components/UploadFile/UploadFile.js
 
-src/constants
+
 src/models
 src/routes
 
-src/themes
+
 src/utils
