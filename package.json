@@ -9,7 +9,7 @@
     "build:dll": "roadhog buildDll",
     "build:new": "node version && roadhog build",
     "lint": "eslint --fix --ext .js src",
-    "precommit": "eslint --fix --ext .js src"
+    "precommit": "npm run lint"
   },
   "dependencies": {
     "antd": "^2.13.0",
