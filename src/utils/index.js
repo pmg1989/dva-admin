@@ -6,10 +6,6 @@ export { color } from './theme'
 
 let allPathPowers //缓存 localStorage.getItem('allPathPowers') 数据
 
-// if(newband.app.admin.ISMOCK){
-//   require('./mock.js')
-// }
-
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, function () {

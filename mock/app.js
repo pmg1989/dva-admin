@@ -1,5 +1,4 @@
 const Mock = require('mockjs')
-// import { getBody } from './utils'
 import Cookie from '../src/utils/cookie'
 
 const roleDic = {
@@ -90,12 +89,12 @@ module.exports = {
       success: false,
       msg: ''
     }
-    const d = app.filter(function (item) {
+    const user = app.filter(function (item) {
       return item.username === userItem.username
     })
-    if (d.length) {
-      if (d[0].password === userItem.password) {
-        const power = roleDic[d[0].roleId]
+    if (user.length) {
+      if (user[0].password === userItem.password) {
+        const power = roleDic[user[0].roleId]
 
         response.msg = '登录成功'
         response.success = true
@@ -119,11 +118,6 @@ module.exports = {
   },
 
   'POST /api/logout' (req, res) {
-    // Cookie.remove('user_session')
-    // Cookie.remove('user_name')
-    // Cookie.remove('user_power')
-    // Cookie.remove('access_token')
-    // Cookie.remove('cur_menu_id')
     res.json({
       success: true,
       msg: '注销成功'
