@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Icon, Button } from 'antd'
 
-function DropMenu({ border, dropDownProps, children }) {
-
+function DropMenu ({ border, dropDownProps, children }) {
   const dropProps = {
     overlay: children,
     placement: 'bottomCenter',
-    ...dropDownProps
+    ...dropDownProps,
   }
 
   return (
@@ -23,7 +22,7 @@ function DropMenu({ border, dropDownProps, children }) {
 DropMenu.propTypes = {
   border: PropTypes.bool,
   dropDownProps: PropTypes.object,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 }
 
 export default DropMenu

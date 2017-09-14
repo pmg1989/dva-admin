@@ -1,1 +1,1 @@
-export './DropMenu'
+export DropMenu from './DropMenu'
