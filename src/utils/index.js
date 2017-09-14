@@ -1,7 +1,7 @@
 import menu from './menu'
 import Cookie from './cookie'
 export config from './config'
-export request from './request'
+export request from './request-mock'
 export { color } from './theme'
 
 let allPathPowers //缓存 localStorage.getItem('allPathPowers') 数据

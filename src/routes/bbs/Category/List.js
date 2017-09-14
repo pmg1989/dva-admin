@@ -43,13 +43,16 @@ function List({
       dataIndex: 'cid',
       key: 'cid'
     }, {
+      title: '分类图标',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render(avatar) {
+        return <img className={styles.avatar} src={avatar} />
+      }
+    }, {
       title: '分类名称',
       dataIndex: 'name',
       key: 'name'
-    }, {
-      title: '分类描述',
-      dataIndex: 'memo',
-      key: 'memo'
     }, {
       title: '操作',
       key: 'operation',

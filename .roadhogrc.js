@@ -33,7 +33,7 @@ export default {
         }]
       ],
       define: {
-        'newband.app.admin.ISMOCK': false,
+        'newband.app.admin.ISMOCK': true,
         'newband.app.admin.IS_DYNAMIC_LOAD': true,
         'newband.app.admin.API_HOST': 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2',
         'newband.app.admin.CLIENT_ID': '8_458xy3o1w2g4cgwkk0ksgs0kkkw8o4soc000g004csoo840og4',
@@ -54,7 +54,7 @@ export default {
         }]
       ],
       define: {
-        'newband.app.admin.ISMOCK': false,
+        'newband.app.admin.ISMOCK': true,
         'newband.app.admin.IS_DYNAMIC_LOAD': true,
         'newband.app.admin.API_HOST': 'http://ec2-54-223-130-122.cn-north-1.compute.amazonaws.com.cn:81/v2',
         'newband.app.admin.CLIENT_ID': '8_458xy3o1w2g4cgwkk0ksgs0kkkw8o4soc000g004csoo840og4',

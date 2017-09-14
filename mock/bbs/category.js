@@ -2,16 +2,19 @@ const qs = require('qs')
 const Mock = require('mockjs')
 
 let dataKey = Mock.mock({
-  'data|100': [
+  'data|30': [
     {
       'cid|+1': 1,
       'name|+1': ["键盘", "吉他", "声乐", "贝斯", "爵士鼓", "其他"],
-      memo: '@cparagraph'
+      memo: '@cparagraph',
+      avatar: function () {
+        return Mock.Random.image('40x40', Mock.Random.color(), '#757575', 'png', this.name.substr(0, 1))
+      }
     }
   ]
 })
 
-let listData = global[dataKey]
+global.listData = dataKey
 
 module.exports = {
 
