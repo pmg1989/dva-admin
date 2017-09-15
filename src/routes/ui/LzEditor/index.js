@@ -1,10 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'dva'
-import {Row, Col} from 'antd'
+import React, { Component } from 'react'
+import { connect } from 'dva'
+import { Row, Col } from 'antd'
 import LzEditor from 'react-lz-editor'
 
 class LzEditorPage extends Component {
-
   state = {
     content: `<h1>一级标题 Head level 1</h1>
               <h2>HTML 格式</h2>
@@ -26,27 +25,22 @@ class LzEditorPage extends Component {
               <p>用场景化的方式表达就是，用户可以在观看电视购物频道的时候，直接从电视上进行支付购买商品，不用再通过银行汇款或者货到付款；可以选择对电视上的点播内容进行付费，还可能在电视上对水电煤等公用事业费用进行缴费。</p>
               <p>一度金融的消息称，乐视金融同数码视讯的接触尚处在高层范围内进行，因此对于收购价格，暂时还不能确定。</p>
               <p>如果乐视金融拿下数码视讯的两张金融牌照，并且在到期后能够获得央行审核顺利延期，意味着乐视可以通过移动设备和电视两个终端来链接用户的银行卡。</p>
-              <p>乐视金融在去年11月份首度公开亮相的时候，缺少银行和支付两张关键牌照就一直是外界关注的问题。</p>`
+              <p>乐视金融在去年11月份首度公开亮相的时候，缺少银行和支付两张关键牌照就一直是外界关注的问题。</p>`,
   }
 
-  handleReceiver(content) {
-    console.log(content);
-  }
-
-  render() {
+  render () {
     return (
       <Row>
         <Col span={16} offset={4}>
           <LzEditor
-            active={true}
-            cbReceiver={::this.handleReceiver}
+            active
             ImportContent={this.state.content}
             Image={false}
             Video={false}
             Audio={false}
           />
-      </Col>
-    </Row>
+        </Col>
+      </Row>
     )
   }
 }

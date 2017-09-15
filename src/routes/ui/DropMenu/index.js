@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Link } from 'dva/router'
-import { Menu, Icon, Row, Col, Card, message, Modal } from 'antd'
+import { Menu, Row, Col, Card, message, Modal } from 'antd'
 import DropMenu from '../../../components/DropMenu'
 import { DETAIL, UPDATE, DELETE } from '../../../constants/options'
 
@@ -14,9 +13,9 @@ const handleClick = (key) => {
 const handleDeleteItem = (key) => {
   confirm({
     title: '您确定要删除这条记录吗?',
-    onOk() {
+    onOk () {
       handleClick(key)
-    }
+    },
   })
 }
 
@@ -24,8 +23,8 @@ const handleMenuClick = ({ key }) => {
   return {
     [DETAIL]: handleClick,
     [UPDATE]: handleClick,
-    [DELETE]: handleDeleteItem
-  } [key] (key)
+    [DELETE]: handleDeleteItem,
+  }[key](key)
 }
 
 const DropMenuPage = () => (
@@ -53,7 +52,7 @@ const DropMenuPage = () => (
       </Col>
       <Col lg={8} md={12}>
         <Card title="点击式菜单">
-          <DropMenu dropDownProps={{trigger: ['click']}}>
+          <DropMenu dropDownProps={{ trigger: ['click'] }}>
             <Menu onClick={handleMenuClick}>
               <Menu.Item key={DETAIL}>详情</Menu.Item>
               <Menu.Item key={UPDATE}>编辑</Menu.Item>
