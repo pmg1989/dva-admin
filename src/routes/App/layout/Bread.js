@@ -8,15 +8,15 @@ import { menu } from '../../../utils'
 let pathSet = []
 const getPathSet = function (menuArray, parentPath) {
   parentPath = parentPath || '/'
-  menuArray.map(item => {
+  menuArray.forEach((item) => {
     pathSet[(parentPath + item.key).replace(/\//g, '-').hyphenToHump()] = {
       path: parentPath + item.key,
       name: item.name,
       icon: item.icon || '',
-      clickable: item.clickable === undefined
+      clickable: item.clickable === undefined,
     }
     if (item.children) {
-      getPathSet(item.children, parentPath + item.key + '/')
+      getPathSet(item.children, `${parentPath + item.key}/`)
     }
   })
 }
@@ -24,11 +24,11 @@ getPathSet(menu)
 
 function Bread ({ location }) {
   let pathNames = []
-  location.pathname.substr(1).split('/').map((item, key) => {
+  location.pathname.substr(1).split('/').forEach((item, key) => {
     if (key > 0) {
-      pathNames.push((pathNames[key - 1] + '-' + item).hyphenToHump())
+      pathNames.push((`${pathNames[key - 1]}-${item}`).hyphenToHump())
     } else {
-      pathNames.push(('-' + item).hyphenToHump())
+      pathNames.push((`-${item}`).hyphenToHump())
     }
   })
   const breads = pathNames.map((item, key) => {
@@ -49,7 +49,7 @@ function Bread ({ location }) {
     <div className={styles.bread}>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to='/'><Icon type='home' /><span>主页</span></Link>
+          <Link to="/"><Icon type="home" /><span>主页</span></Link>
         </Breadcrumb.Item>
         {breads}
       </Breadcrumb>
@@ -58,7 +58,7 @@ function Bread ({ location }) {
 }
 
 Bread.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
 }
 
 export default Bread
