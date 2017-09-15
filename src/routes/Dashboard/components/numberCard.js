@@ -1,18 +1,36 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Icon, Card, Progress } from 'antd'
 import CountUp from 'react-countup'
 import styles from './numberCard.less'
 
 class NumberCard extends Component {
-
-  state = {
-    percent: 0
+  static propTypes = {
+    percent: PropTypes.number.isRequired,
+    icon: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    countUp: PropTypes.object,
   }
 
-  increase(count) {
+  state = {
+    percent: 0,
+  }
+
+  componentDidMount () {
+    const { percent } = this.props
+    this.countdown = setInterval(() => this.increase(percent), 25)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.countdown)
+  }
+
+  increase (count) {
     let percent = this.state.percent
-    if(percent < count) {
-      percent++
+    if (percent < count) {
+      percent += 1
       if (percent > 100) {
         percent = 100
       }
@@ -20,25 +38,15 @@ class NumberCard extends Component {
     } else {
       clearInterval(this.countdown)
     }
-
   }
 
-  componentDidMount() {
-    const { percent } = this.props
-    this.countdown = setInterval(() => this.increase(percent), 25)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.countdown)
-  }
-
-  render() {
+  render () {
     const { icon, color, title, number, countUp } = this.props
     const { percent } = this.state
     return (
-      <Card className={styles.numberCard} bordered={false} bodyStyle={{padding: 0}}>
+      <Card className={styles.numberCard} bordered={false} bodyStyle={{ padding: 0 }}>
         <div className={styles.flexBox}>
-          <Icon className={styles.iconWarp} style={{ backgroundColor : color }} type={icon} />
+          <Icon className={styles.iconWarp} style={{ backgroundColor: color }} type={icon} />
           <div className={styles.content}>
             <p className={styles.title}>{title || 'No Title'}</p>
             <Progress percent={percent} strokeWidth={3} />
@@ -49,7 +57,7 @@ class NumberCard extends Component {
                 duration={2.75}
                 useEasing
                 useGrouping
-                separator=','
+                separator=","
                 {...countUp || {}}
               />
             </p>

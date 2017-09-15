@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'dva'
-import {Row, Col, Card} from 'antd'
+import { connect } from 'dva'
+import { Row, Col, Card } from 'antd'
 import NumberCard from './components/numberCard'
 import Quote from './components/quote'
 import Sales from './components/sales'
@@ -13,50 +13,58 @@ import Browser from './components/browser'
 import Cpu from './components/cpu'
 import User from './components/user'
 import styles from './index.less'
-import {color} from '../../utils'
+import { color } from '../../utils'
 
 const bodyStyle = {
   bodyStyle: {
     height: 432,
-    background: '#fff'
-  }
+    background: '#fff',
+  },
 }
 
-function Dashboard ({dashboard, dispatch}) {
-  const {weather, sales, quote, numbers, recentSales, comments, completed, browser, cpu, user} = dashboard
+function Dashboard ({ dashboard }) {
+  const { weather, sales, quote, numbers, recentSales, comments, completed, browser, cpu, user } = dashboard
   const numberCards = numbers.map((item, key) =>
-    <Col key={key} lg={6} sm={12}>
+    (<Col key={key} lg={6} sm={12}>
       <NumberCard {...item} />
-    </Col>
+    </Col>)
   )
 
   return (
     <Row gutter={24}>
       {numberCards}
       <Col lg={18} md={24}>
-        <Card bordered={false} bodyStyle={{
-          padding: '24px 36px 24px 0'
-        }}>
+        <Card bordered={false}
+          bodyStyle={{
+            padding: '24px 36px 24px 0',
+          }}
+        >
           <Sales data={sales} />
         </Card>
       </Col>
       <Col lg={6} md={24}>
         <Row gutter={24}>
           <Col lg={24} md={12}>
-            <Card bordered={false} className={styles.weather} bodyStyle={{
-              padding: 0,
-              height: 204,
-              background: color.blue
-            }}>
+            <Card bordered={false}
+              className={styles.weather}
+              bodyStyle={{
+                padding: 0,
+                height: 204,
+                background: color.blue,
+              }}
+            >
               <Weather {...weather} />
             </Card>
           </Col>
           <Col lg={24} md={12}>
-            <Card bordered={false} className={styles.quote} bodyStyle={{
-              padding: 0,
-              height: 204,
-              background: color.peach
-            }}>
+            <Card bordered={false}
+              className={styles.quote}
+              bodyStyle={{
+                padding: 0,
+                height: 204,
+                background: color.peach,
+              }}
+            >
               <Quote {...quote} />
             </Card>
           </Col>
@@ -73,9 +81,11 @@ function Dashboard ({dashboard, dispatch}) {
         </Card>
       </Col>
       <Col lg={24} md={24}>
-        <Card bordered={false} bodyStyle={{
-          padding: '24px 36px 24px 0'
-        }}>
+        <Card bordered={false}
+          bodyStyle={{
+            padding: '24px 36px 24px 0',
+          }}
+        >
           <Completed data={completed} />
         </Card>
       </Col>
@@ -90,7 +100,7 @@ function Dashboard ({dashboard, dispatch}) {
         </Card>
       </Col>
       <Col lg={8} md={24}>
-        <Card bordered={false} bodyStyle={{...bodyStyle.bodyStyle, padding: 0}}>
+        <Card bordered={false} bodyStyle={{ ...bodyStyle.bodyStyle, padding: 0 }}>
           <User {...user} />
         </Card>
       </Col>
@@ -99,6 +109,7 @@ function Dashboard ({dashboard, dispatch}) {
 }
 
 Dashboard.propTypes = {
+  dashboard: PropTypes.object,
   weather: PropTypes.object,
   sales: PropTypes.array,
   quote: PropTypes.object,
@@ -108,7 +119,7 @@ Dashboard.propTypes = {
   completed: PropTypes.array,
   browser: PropTypes.array,
   cpu: PropTypes.object,
-  user: PropTypes.object
+  user: PropTypes.object,
 }
 
-export default connect(({dashboard}) => ({dashboard}))(Dashboard)
+export default connect(({ dashboard }) => ({ dashboard }))(Dashboard)
