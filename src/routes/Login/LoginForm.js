@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Row, Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 import QueueAnim from 'rc-queue-anim'
 import { config } from '../../utils'
 import styles from './LoginForm.less'
@@ -12,8 +12,8 @@ const Login = ({
   onOk,
   form: {
     getFieldDecorator,
-    validateFieldsAndScroll
-  }
+    validateFieldsAndScroll,
+  },
 }) => {
   function handleOk (e) {
     e.preventDefault()
@@ -27,36 +27,36 @@ const Login = ({
 
   return (
     <div className={styles.form}>
-      <QueueAnim delay={200} type='top'>
-        <div className={styles.logo} key='1'>
-          <img src={config.logoSrc} />
+      <QueueAnim delay={200} type="top">
+        <div className={styles.logo} key="1">
+          <img src={config.logoSrc} alt={config.logoSrc} />
           <span>{config.logoText}</span>
         </div>
       </QueueAnim>
       <form onSubmit={handleOk}>
-        <QueueAnim delay={200} type='top'>
-          <FormItem hasFeedback key='1'>
+        <QueueAnim delay={200} type="top">
+          <FormItem hasFeedback key="1">
             {getFieldDecorator('username', {
               rules: [
                 {
                   required: true,
-                  message: '请填写用户名'
-                }
-              ]
-            })(<Input size='large' placeholder='用户名' />)}
+                  message: '请填写用户名',
+                },
+              ],
+            })(<Input size="large" placeholder="用户名" />)}
           </FormItem>
-          <FormItem hasFeedback key='2'>
+          <FormItem hasFeedback key="2">
             {getFieldDecorator('password', {
               rules: [
                 {
                   required: true,
-                  message: '请填写密码'
-                }
-              ]
-            })(<Input size='large' type='password' placeholder='密码' />)}
+                  message: '请填写密码',
+                },
+              ],
+            })(<Input size="large" type="password" placeholder="密码" />)}
           </FormItem>
-          <FormItem key='3'>
-            <Button type='primary' htmlType='submit' size='large' loading={loading}>
+          <FormItem key="3">
+            <Button type="primary" htmlType="submit" size="large" loading={loading}>
               登录
             </Button>
           </FormItem>
@@ -67,9 +67,9 @@ const Login = ({
 }
 
 Login.propTypes = {
-  form: PropTypes.object,
-  loginButtonLoading: PropTypes.bool,
-  onOk: PropTypes.func
+  form: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onOk: PropTypes.func.isRequired,
 }
 
 export default Form.create()(Login)

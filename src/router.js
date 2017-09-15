@@ -185,16 +185,6 @@ const Routers = function ({ history, app }) {
         }, 'login')
       },
     },
-    // demo
-    {
-      path: 'demo',
-      name: 'demo',
-      getComponent (nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('./routes/Demo'))
-        }, 'demo')
-      },
-    },
     // *
     {
       path: '*',

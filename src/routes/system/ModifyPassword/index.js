@@ -1,38 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'dva'
+import { connect } from 'dva'
 import ModifyForm from './ModifyForm'
-import { checkPower, checkQueryPower } from '../../../utils'
+import { checkPower } from '../../../utils'
 import { UPDATE } from '../../../constants/options'
 
-import { Link } from 'dva/router'
-
-function ModifyPassword({ dispatch, curPowers, systemModifyPassword, loading }) {
-
+function ModifyPassword ({ dispatch, curPowers, loading }) {
   const updatePower = checkPower(UPDATE, curPowers)
 
   const modifyFormProps = {
     loading,
     updatePower,
-    onOk(data) {
-      dispatch({ type: `systemModifyPassword/update`, payload: data })
-    }
+    onOk (data) {
+      dispatch({ type: 'systemModifyPassword/update', payload: data })
+    },
   }
 
   return (
     <div>
-      <ModifyForm {...modifyFormProps}></ModifyForm>
+      <ModifyForm {...modifyFormProps} />
     </div>
   )
 }
 
 ModifyPassword.propTypes = {
-  systemModifyPwd: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func.isRequired,
+  curPowers: PropTypes.array.isRequired,
+  loading: PropTypes.bool,
 }
 
-function mapStateToProps({ systemModifyPassword, loading }) {
-  return { systemModifyPassword, loading: loading.models.systemModifyPassword }
+function mapStateToProps ({ loading }) {
+  return { loading: loading.models.systemModifyPassword }
 }
 
 export default connect(mapStateToProps)(ModifyPassword)

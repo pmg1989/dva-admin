@@ -6,9 +6,5 @@ src/components/UploadFile/UploadFile.js
 
 
 src/routes/Dashboard
-src/routes/Demo
-src/routes/Error
-src/routes/Login
-src/routes/NoPower
-src/routes/system
+
 src/routes/ui
