@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, InputNumber, Radio, Modal, Icon, Select } from 'antd'
+import { Form, Input, Radio, Modal, Icon, Select } from 'antd'
 import { validPhone } from '../../../utils/utilsValid'
 
 const FormItem = Form.Item
@@ -9,11 +9,11 @@ const Option = Select.Option
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 6,
   },
   wrapperCol: {
-    span: 14
-  }
+    span: 14,
+  },
 }
 
 const ModalForm = ({
@@ -22,13 +22,12 @@ const ModalForm = ({
   form: {
     getFieldDecorator,
     validateFields,
-    resetFields
+    resetFields,
   },
   onOk,
-  onCancel
+  onCancel,
 }) => {
-
-  if(!curItem.roleList) {
+  if (!curItem.roleList) {
     curItem.roleList = []
   }
 
@@ -39,7 +38,7 @@ const ModalForm = ({
       }
       const data = {
         ...values,
-        id: curItem.id
+        id: curItem.id,
       }
       onOk(data)
     })
@@ -52,35 +51,35 @@ const ModalForm = ({
     confirmLoading: loading,
     onOk: handleOk,
     onCancel,
-    afterClose() {
-      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
-    }
+    afterClose () {
+      resetFields() // 必须项，编辑后如未确认保存，关闭时必须重置数据
+    },
   }
 
   return (
     <Modal {...modalFormOpts}>
       <Form>
-        <FormItem label='用户名：' hasFeedback {...formItemLayout}>
+        <FormItem label="用户名：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('name', {
             initialValue: curItem.name,
             rules: [
               {
                 required: true,
-                message: '用户名不能为空'
-              }
-            ]
+                message: '用户名不能为空',
+              },
+            ],
           })(<Input />)}
         </FormItem>
-        <FormItem label='性别' hasFeedback {...formItemLayout}>
+        <FormItem label="性别" hasFeedback {...formItemLayout}>
           {getFieldDecorator('isMale', {
             initialValue: curItem.isMale,
             rules: [
               {
                 required: true,
                 type: 'boolean',
-                message: '请选择性别'
-              }
-            ]
+                message: '请选择性别',
+              },
+            ],
           })(
             <Radio.Group>
               <Radio value>男</Radio>
@@ -88,56 +87,56 @@ const ModalForm = ({
             </Radio.Group>
           )}
         </FormItem>
-        <FormItem label='手机号：' hasFeedback {...formItemLayout}>
+        <FormItem label="手机号：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('phone', {
             initialValue: curItem.phone,
             rules: [
               {
                 required: true,
-                message: '手机号不能为空'
+                message: '手机号不能为空',
               },
               {
-                validator: validPhone
-              }
-            ]
+                validator: validPhone,
+              },
+            ],
           })(<Input />)}
         </FormItem>
-        <FormItem label='邮箱：' hasFeedback {...formItemLayout}>
+        <FormItem label="邮箱：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('email', {
             initialValue: curItem.email,
             rules: [
               {
                 required: true,
-                message: '邮箱不能为空'
+                message: '邮箱不能为空',
               },
               {
                 type: 'email',
-                message: '邮箱格式不正确'
-              }
-            ]
-          })(<Input type='email'/>)}
-          {/*(<InputEmailComplete/>)}*/}
+                message: '邮箱格式不正确',
+              },
+            ],
+          })(<Input type="email" />)}
+          {/* (<InputEmailComplete/>)} */}
         </FormItem>
-        <FormItem label='角色：' hasFeedback {...formItemLayout}>
+        <FormItem label="角色：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('roleId', {
             initialValue: curItem.roleId && curItem.roleId.toString(),
             rules: [
               {
                 required: true,
-                message: '角色不能为空'
-              }
-            ]
-          })(<Select placeholder='--请选择角色--'>{curItem.roleList.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
+                message: '角色不能为空',
+              },
+            ],
+          })(<Select placeholder="--请选择角色--">{curItem.roleList.map(item => <Option key={item.id} value={item.id.toString()}>{item.name}</Option>)}</Select>)}
         </FormItem>
-        <FormItem label='地区：' hasFeedback {...formItemLayout}>
+        <FormItem label="地区：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('address', {
             initialValue: curItem.address,
             rules: [
               {
                 required: true,
-                message: '地区不能为空'
-              }
-            ]
+                message: '地区不能为空',
+              },
+            ],
           })(<Input />)}
         </FormItem>
       </Form>
@@ -147,7 +146,10 @@ const ModalForm = ({
 
 ModalForm.propTypes = {
   modal: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired
+  loading: PropTypes.bool.isRequired,
+  form: PropTypes.object.isRequired,
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 export default Form.create()(ModalForm)

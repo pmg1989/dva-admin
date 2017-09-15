@@ -8,11 +8,11 @@ const FormItem = Form.Item
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 6,
   },
   wrapperCol: {
-    span: 14
-  }
+    span: 14,
+  },
 }
 
 const ModalForm = ({
@@ -21,13 +21,12 @@ const ModalForm = ({
   form: {
     getFieldDecorator,
     validateFields,
-    resetFields
+    resetFields,
   },
   onOk,
-  onCancel
+  onCancel,
 }) => {
-
-  if(!curItem.power) {
+  if (!curItem.power) {
     curItem.power = {}
   }
 
@@ -39,7 +38,7 @@ const ModalForm = ({
       const data = {
         ...values,
         id: curItem.id,
-        power: curItem.power
+        power: curItem.power,
       }
       onOk(data)
     })
@@ -52,29 +51,29 @@ const ModalForm = ({
     confirmLoading: loading,
     onOk: handleOk,
     onCancel,
-    afterClose() {
-      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
-    }
+    afterClose () {
+      resetFields() // 必须项，编辑后如未确认保存，关闭时必须重置数据
+    },
   }
 
-  const UserPowerGen = () => <UserPower powerList={curItem.power}/>
+  const UserPowerGen = () => <UserPower powerList={curItem.power} />
 
   return (
     <Modal {...modalFormOpts}>
       <Form>
-        <FormItem label='角色名称：' hasFeedback {...formItemLayout}>
+        <FormItem label="角色名称：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('name', {
             initialValue: curItem.name,
             rules: [
               {
                 required: true,
-                message: '角色名称不能为空'
-              }
-            ]
+                message: '角色名称不能为空',
+              },
+            ],
           })(<Input />)}
         </FormItem>
         <FormItem>
-          <UserPowerGen/>
+          <UserPowerGen />
         </FormItem>
       </Form>
     </Modal>
@@ -82,8 +81,11 @@ const ModalForm = ({
 }
 
 ModalForm.propTypes = {
-  modal: PropTypes.object,
-  form: PropTypes.object
+  loading: PropTypes.bool.isRequired,
+  modal: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 export default Form.create()(ModalForm)

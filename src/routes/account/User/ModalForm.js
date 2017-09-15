@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, InputNumber, Radio, Modal, Icon } from 'antd'
+import { Form, Input, Modal, Icon } from 'antd'
 import { validPhone } from '../../../utils/utilsValid'
 
 const FormItem = Form.Item
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 6,
   },
   wrapperCol: {
-    span: 14
-  }
+    span: 14,
+  },
 }
 
 const ModalForm = ({
@@ -20,10 +20,10 @@ const ModalForm = ({
   form: {
     getFieldDecorator,
     validateFields,
-    resetFields
+    resetFields,
   },
   onOk,
-  onCancel
+  onCancel,
 }) => {
   function handleOk () {
     validateFields((errors, values) => {
@@ -32,7 +32,7 @@ const ModalForm = ({
       }
       const data = {
         ...values,
-        id: curItem.id
+        id: curItem.id,
       }
       onOk(data)
     })
@@ -45,52 +45,52 @@ const ModalForm = ({
     confirmLoading: loading,
     onOk: handleOk,
     onCancel,
-    afterClose() {
-      resetFields() //必须项，编辑后如未确认保存，关闭时必须重置数据
-    }
+    afterClose () {
+      resetFields() // 必须项，编辑后如未确认保存，关闭时必须重置数据
+    },
   }
 
   return (
     <Modal {...modalFormOpts}>
       <Form>
-        <FormItem label='用户名：' hasFeedback {...formItemLayout}>
+        <FormItem label="用户名：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('name', {
             initialValue: curItem.name,
             rules: [
               {
                 required: true,
-                message: '用户名不能为空'
-              }
-            ]
+                message: '用户名不能为空',
+              },
+            ],
           })(<Input />)}
         </FormItem>
-        <FormItem label='手机号：' hasFeedback {...formItemLayout}>
+        <FormItem label="手机号：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('mobile', {
             initialValue: curItem.mobile,
             rules: [
               {
                 required: true,
-                message: '手机号不能为空'
+                message: '手机号不能为空',
               },
               {
-                validator: validPhone
-              }
-            ]
+                validator: validPhone,
+              },
+            ],
           })(<Input />)}
         </FormItem>
-        <FormItem label='邮箱：' hasFeedback {...formItemLayout}>
+        <FormItem label="邮箱：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('email', {
             initialValue: curItem.email,
             rules: [
               {
                 required: true,
-                message: '邮箱不能为空'
+                message: '邮箱不能为空',
               },
               {
                 type: 'email',
-                message: '邮箱格式不正确'
-              }
-            ]
+                message: '邮箱格式不正确',
+              },
+            ],
           })(<Input />)}
         </FormItem>
       </Form>
@@ -100,7 +100,10 @@ const ModalForm = ({
 
 ModalForm.propTypes = {
   modal: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 export default Form.create()(ModalForm)

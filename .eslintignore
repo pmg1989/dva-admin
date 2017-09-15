@@ -5,4 +5,12 @@ src/components/MediaPlayer
 src/components/UploadFile/UploadFile.js
 
 
-src/routes
+src/routes/App
+src/routes/bbs
+src/routes/Dashboard
+src/routes/Demo
+src/routes/Error
+src/routes/Login
+src/routes/NoPower
+src/routes/system
+src/routes/ui

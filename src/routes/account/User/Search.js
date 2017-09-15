@@ -9,11 +9,6 @@ const Search = ({
   addPower,
   onSearch,
   onAdd,
-  form: {
-    getFieldDecorator,
-    validateFields,
-    getFieldsValue
-  }
 }) => {
   const searchGroupProps = {
     field,
@@ -22,21 +17,21 @@ const Search = ({
     select: true,
     selectOptions: [{ value: 'name', name: '用户名' }, { value: 'mobile', name: '手机号' }, { value: 'email', name: '邮箱' }],
     selectProps: {
-      defaultValue: field || 'name'
+      defaultValue: field || 'name',
     },
     onSearch: (value) => {
       onSearch(value)
-    }
+    },
   }
 
   return (
     <Row gutter={24}>
-      <Col lg={8} md={12} sm={16} xs={24} style={{marginBottom: 16}}>
+      <Col lg={8} md={12} sm={16} xs={24} style={{ marginBottom: 16 }}>
         <SearchGroup {...searchGroupProps} />
       </Col>
       {addPower &&
-      <Col lg={{offset: 8, span: 8}} md={12} sm={8} xs={24} style={{marginBottom: 16, textAlign: 'right'}}>
-        <Button size='large' type='ghost' onClick={onAdd}><Icon type="plus-circle-o" />添加</Button>
+      <Col lg={{ offset: 8, span: 8 }} md={12} sm={8} xs={24} style={{ marginBottom: 16, textAlign: 'right' }}>
+        <Button size="large" type="ghost" onClick={onAdd}><Icon type="plus-circle-o" />添加</Button>
       </Col>}
     </Row>
   )
@@ -47,7 +42,8 @@ Search.propTypes = {
   onSearch: PropTypes.func,
   onAdd: PropTypes.func,
   field: PropTypes.string,
-  keyword: PropTypes.string
+  keyword: PropTypes.string,
+  addPower: PropTypes.bool.isRequired,
 }
 
 export default Form.create()(Search)

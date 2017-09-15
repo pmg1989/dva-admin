@@ -1,31 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Modal, Menu} from 'antd'
+import { Modal, Menu } from 'antd'
 import styles from './List.less'
-import {DataTable, DropMenu} from '../../../components/'
-import {UPDATE, DELETE} from '../../../constants/options'
+import { DataTable, DropMenu } from '../../../components/'
+import { UPDATE, DELETE } from '../../../constants/options'
 
 const confirm = Modal.confirm
 
-function List({
+function List ({
   accountRole: {
-    list
+    list,
   },
   loading,
-  location,
   updatePower,
   deletePower,
-  onPageChange,
   onDeleteItem,
-  onEditItem
+  onEditItem,
 }) {
-
   const handleDeleteItem = (record) => {
     confirm({
       title: '删除角色可能会对管理员账号造成无法弥补的影响，您确定要删除这个角色吗?',
-      onOk() {
+      onOk () {
         onDeleteItem(record.id)
-      }
+      },
     })
   }
 
@@ -33,32 +30,32 @@ function List({
     return {
       [UPDATE]: onEditItem,
       [DELETE]: handleDeleteItem,
-    } [key](record)
+    }[key](record)
   }
 
   const columns = [
     {
       title: '角色编号',
       dataIndex: 'id',
-      key: 'id'
+      key: 'id',
     }, {
       title: '角色名称',
       dataIndex: 'name',
-      key: 'roleName'
+      key: 'roleName',
     }, {
       title: '操作',
       key: 'operation',
       // width: 100,
       render: (text, record) => (
         <DropMenu>
-          <Menu onClick={({key}) => handleMenuClick(key, record)}>
+          <Menu onClick={({ key }) => handleMenuClick(key, record)}>
             {updatePower && <Menu.Item key={UPDATE}>编辑</Menu.Item>}
             {deletePower && <Menu.Item key={DELETE}>删除</Menu.Item>}
           </Menu>
         </DropMenu>
       ),
       // fixed: 'right'
-    }
+    },
   ]
 
   return (
@@ -76,7 +73,10 @@ function List({
 List.propTypes = {
   accountRole: PropTypes.object.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
-  onEditItem: PropTypes.func.isRequired
+  onEditItem: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  updatePower: PropTypes.bool.isRequired,
+  deletePower: PropTypes.bool.isRequired,
 }
 
 export default List
