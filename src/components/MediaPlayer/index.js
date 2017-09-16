@@ -1,43 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import MediaPlayer from './MediaPlayer'
+import PlayList from './PlayList'
 import styles from './MediaPlayer.less'
-
-class Playlist extends Component {
-  static propTypes = {
-    tracks: PropTypes.array.isRequired,
-    currentTrack: PropTypes.object.isRequired,
-    onTrackClick: PropTypes.func.isRequired,
-  }
-
-  _handleTrackClick (track) {
-    this.props.onTrackClick(track)
-  }
-
-  render () {
-    const { tracks, currentTrack } = this.props
-    return (
-      <aside className={styles['media-playlist']}>
-        <header className={styles['media-playlist-header']}>
-          <h3 className={styles['media-playlist-title']}>播放列表</h3>
-        </header>
-        <ul className={styles['media-playlist-tracks']}>
-          {tracks.map(track => (
-            <li
-              key={track.label}
-              className={classnames(styles['media-playlist-track'], { [styles['is-active']]: track === currentTrack })}
-              onClick={this._handleTrackClick.bind(this, track)}
-            >
-              {track.label}
-            </li>
-          )
-          )}
-        </ul>
-      </aside>
-    )
-  }
-}
 
 const mod = (num, max) => ((num % max) + max) % max
 
@@ -93,7 +58,7 @@ class Index extends Component {
           onPause={() => this.setState({ autoPlay: false })}
           onEnded={() => !repeatTrack && this._navigatePlaylist(1)}
         />
-        <Playlist
+        <PlayList
           tracks={playlist}
           currentTrack={currentTrack}
           onTrackClick={this._handleTrackClick}
