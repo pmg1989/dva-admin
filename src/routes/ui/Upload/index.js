@@ -34,7 +34,7 @@ class Upload extends Component {
             <TabPane tab="单文件上传" key="1">
               <Form>
                 <FormItem label="文件上传" hasFeedback>
-                  <UploadFile fileList={file} onUpload={::this.handleSigleUpload} />
+                  <UploadFile files={file} onUpload={::this.handleSigleUpload} />
                 </FormItem>
                 <FormItem label="文件名" >
                   {file}
@@ -44,7 +44,7 @@ class Upload extends Component {
             <TabPane tab="多文件无限制上传" key="2">
               <Form layout="horizontal">
                 <FormItem label="文件上传" hasFeedback>
-                  <UploadFile fileList={files1} onUpload={::this.handleInfiniteUpload} multiple />
+                  <UploadFile files={files1} onUpload={::this.handleInfiniteUpload} multiple />
                 </FormItem>
                 <FormItem label="文件列表" >
                   {JSON.stringify(files1)}
@@ -54,7 +54,7 @@ class Upload extends Component {
             <TabPane tab="多文件限制数量上传" key="3">
               <Form layout="horizontal">
                 <FormItem label="文件上传" hasFeedback>
-                  <UploadFile fileList={files2} onUpload={::this.handleLimiteUpload} multiple={3} />
+                  <UploadFile files={files2} onUpload={::this.handleLimiteUpload} multiple={3} />
                 </FormItem>
                 <FormItem label="文件列表" >
                   {JSON.stringify(files2)}

@@ -3,16 +3,16 @@ import { Upload, Icon, Modal } from 'antd'
 import styles from './UploadFile.less'
 import Cookie from '../../utils/cookie'
 
-const getFileList = (fileList) => {
-  if (Array.isArray(fileList)) {
-    return fileList.map((item, key) => {
+const getFileList = (files) => {
+  if (Array.isArray(files)) {
+    return files.map((item, key) => {
       const urlArr = item.full_url.split('/')
       return { url: item.full_url, id: item.id, uid: key, name: urlArr[urlArr.length - 1], status: 'done' }
     })
   }
-  if (fileList && !!fileList.length) {
-    const filesArr = fileList.split('/')
-    return [{ uid: -1, url: fileList, name: filesArr[filesArr.length - 1], status: 'done' }]
+  if (files && !!files.length) {
+    const filesArr = files.split('/')
+    return [{ uid: -1, url: files, name: filesArr[filesArr.length - 1], status: 'done' }]
   }
   return ''
 }
@@ -32,7 +32,7 @@ function renderAccecpt (accept) {
 
 class UploadFiles extends Component {
   static propTypes = {
-    fileList: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    files: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     onUpload: PropTypes.func.isRequired,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     disabled: PropTypes.bool,
@@ -46,23 +46,23 @@ class UploadFiles extends Component {
     this.state = {
       previewVisible: false,
       previewImage: '',
-      fileList: getFileList(props.fileList),
+      files: getFileList(props.files),
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (Array.isArray(this.props.fileList) && !this.props.fileList.length && !!nextProps.fileList.length) {
-      this.setState({ fileList: getFileList(nextProps.fileList) })
+    if (Array.isArray(this.props.files) && !this.props.files.length && !!nextProps.files.length) {
+      this.setState({ files: getFileList(nextProps.files) })
     }
   }
 
   render () {
-    const { previewVisible, previewImage, fileList } = this.state
+    const { previewVisible, previewImage, files } = this.state
 
     const { multiple = 1, onUpload, disabled, path, accept } = this.props
 
-    const renderFiles = (files) => {
-      const newFiles = files.map((file) => {
+    const renderFiles = (fileList) => {
+      const newFiles = fileList.map((file) => {
         return file.response ? file.response.data.file : file
       })
       if (multiple === 1) {
@@ -86,7 +86,7 @@ class UploadFiles extends Component {
       },
       disabled,
       listType: 'picture-card',
-      fileList,
+      fileList: files,
       multiple: multiple === true,
       onPreview: (file) => {
         this.setState({
@@ -98,7 +98,7 @@ class UploadFiles extends Component {
         return true
       },
       onChange: ({ file, fileList }) => {
-        this.setState({ fileList })
+        this.setState({ files: fileList })
         if (file.percent === 100 && file.status === 'done') {
           onUpload(renderFiles(fileList, 1))
         }
@@ -107,8 +107,8 @@ class UploadFiles extends Component {
         if (disabled) {
           return false
         }
-        const files = this.state.fileList.filter(item => item.uid !== file.uid)
-        onUpload(renderFiles(files, 0))
+        const fileList = this.state.files.filter(item => item.uid !== file.uid)
+        onUpload(renderFiles(fileList, 0))
         return true
       },
     }
@@ -129,7 +129,7 @@ class UploadFiles extends Component {
     return (
       <div className="clearfix">
         <Upload {...uploadProps}>
-          {multiple === true ? uploadButton : (fileList.length < multiple && uploadButton)}
+          {multiple === true ? uploadButton : (files.length < multiple && uploadButton)}
         </Upload>
         <Modal {...modalProps}>
           <img className={styles.previewImage} alt="" src={previewImage} />
