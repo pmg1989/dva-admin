@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Row, Col, Tabs } from 'antd'
-import UploadFile from '../../../components/UploadFile'
+import { UploadFile } from 'components'
 
 const FormItem = Form.Item
 const TabPane = Tabs.TabPane

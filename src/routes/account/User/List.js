@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Menu, Icon, Tag } from 'antd'
-import styles from './List.less'
-import { DataTable, DropMenu } from '../../../components/'
+import { DataTable, DropMenu } from 'components'
 import { UPDATE, STATUS, DELETE } from '../../../constants/options'
+import styles from './List.less'
+
 
 const confirm = Modal.confirm
 let selectedKeys = []

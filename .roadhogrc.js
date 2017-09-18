@@ -34,6 +34,7 @@ export default {
             services: `${__dirname}/src/services`,
             models: `${__dirname}/src/models`,
             routes: `${__dirname}/src/routes`,
+            constants: `${__dirname}/src/constants`,
             themes: `${__dirname}/src/themes`,
           }
         }]
@@ -59,6 +60,7 @@ export default {
             services: `${__dirname}/src/services`,
             models: `${__dirname}/src/models`,
             routes: `${__dirname}/src/routes`,
+            constants: `${__dirname}/src/constants`,
             themes: `${__dirname}/src/themes`,
           }
         }]

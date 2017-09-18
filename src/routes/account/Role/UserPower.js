@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Checkbox } from 'antd'
+import { DataTable } from 'components'
 import { menu, equalSet } from '../../../utils'
-import { DataTable } from '../../../components/'
 import { MENU, CONTENT, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from '../../../constants/options'
 import styles from './UserPower.less'
 
