@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { checkPower } from 'utils'
+import { ADD, UPDATE, DELETE } from 'constants/options'
 import RoleList from './List'
 import RoleSearch from './Search'
 import RoleModal from './ModalForm'
-import { ADD, UPDATE, DELETE } from '../../../constants/options'
 
 function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
   const addPower = checkPower(ADD, curPowers)

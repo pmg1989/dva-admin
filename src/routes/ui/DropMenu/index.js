@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { Menu, Row, Col, Card, message, Modal } from 'antd'
 import { DropMenu } from 'components'
-import { DETAIL, UPDATE, DELETE } from '../../../constants/options'
+import { DETAIL, UPDATE, DELETE } from 'constants/options'
 
 const confirm = Modal.confirm
 

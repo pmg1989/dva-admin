@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Menu } from 'antd'
 import { DataTable, DropMenu } from 'components'
-import { UPDATE, DELETE } from '../../../constants/options'
+import { UPDATE, DELETE } from 'constants/options'
 import styles from './List.less'
 
 const confirm = Modal.confirm

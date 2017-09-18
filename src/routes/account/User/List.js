@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Menu, Icon, Tag } from 'antd'
 import { DataTable, DropMenu } from 'components'
-import { UPDATE, STATUS, DELETE } from '../../../constants/options'
+import { UPDATE, STATUS, DELETE } from 'constants/options'
 import styles from './List.less'
 
 

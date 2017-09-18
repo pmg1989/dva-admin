@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import { checkPower } from 'utils'
+import { ADD, UPDATE, DELETE } from 'constants/options'
 import UserList from './List'
 import UserSearch from './Search'
 import UserModal from './ModalForm'
-import { ADD, UPDATE, DELETE } from '../../../constants/options'
 
 function User ({ location, curPowers, dispatch, accountUser, modal, loading }) {
   const addPower = checkPower(ADD, curPowers)
