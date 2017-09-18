@@ -21,7 +21,7 @@ const dic = {
     16: [1, 2],
     17: [1, 2],
     18: [1, 2],
-    19: [1, 2]
+    19: [1, 2],
   },
   2: {
     1: [1],
@@ -30,7 +30,7 @@ const dic = {
     4: [1, 3, 4],
     5: [1, 2, 3, 4, 5],
     6: [1],
-    7: [1, 4]
+    7: [1, 4],
   },
   3: {
     1: [1, 2],
@@ -51,30 +51,30 @@ const dic = {
     16: [1, 2],
     17: [1, 2],
     18: [1, 2],
-    19: [1, 2]
-  }
+    19: [1, 2],
+  },
 }
 
-let dataKey = Mock.mock({
+let roleList = Mock.mock({
   'data|3': [
     {
       'id|+1': 1,
-      'name|+1': ["管理员", "教师", "学生"],
-      'power|+1':[dic[1], dic[2], dic[3]]
-    }
+      'name|+1': ['管理员', '教师', '学生'],
+      'power|+1': [dic[1], dic[2], dic[3]],
+    },
   ],
   page: {
     total: 3,
-    current: 1
-  }
+    current: 1,
+  },
 })
 
-global.roleListData = dataKey
+global.roleListData = roleList
 global.powerList = dic
 
 module.exports = {
 
-  'GET /api/role' (req, res) {
+  'GET /api/role': function (req, res) {
     const page = qs.parse(req.query)
     const pageSize = page.pageSize || 10
     const currentPage = page.page || 1
@@ -82,10 +82,10 @@ module.exports = {
     let data
     let newPage
 
-    let newData = roleListData.data.concat()
+    let newData = roleList.data.concat()
 
     if (page.field) {
-      const d = newData.filter(function (item) {
+      const d = newData.filter((item) => {
         return item[page.field].indexOf(decodeURI(page.keyword)) > -1
       })
 
@@ -93,46 +93,46 @@ module.exports = {
 
       newPage = {
         current: currentPage * 1,
-        total: d.length
+        total: d.length,
       }
     } else {
-      data = roleListData.data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-      roleListData.page.current = currentPage * 1
-      newPage = roleListData.page
+      data = roleList.data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      roleList.page.current = currentPage * 1
+      newPage = roleList.page
     }
-    res.json({success: true, list: data, page: {...newPage, pageSize: Number(pageSize)}})
+    res.json({ success: true, list: data, page: { ...newPage, pageSize: Number(pageSize) } })
   },
 
-  'POST /api/role' (req, res) {
+  'POST /api/role': function (req, res) {
     const curItem = req.body
 
-    if(curItem.id) {
-      roleListData.data = roleListData.data.map(function (item) {
+    if (curItem.id) {
+      roleList.data = roleList.data.map((item) => {
         if (item.id === curItem.id) {
-          return {...curItem, power: JSON.parse(curItem.power)}
+          return { ...curItem, power: JSON.parse(curItem.power) }
         }
         return item
       })
     } else {
-      curItem.id = roleListData.data.length + 1
-      roleListData.data.push({...curItem, power: JSON.parse(curItem.power)})
+      curItem.id = roleList.data.length + 1
+      roleList.data.push({ ...curItem, power: JSON.parse(curItem.power) })
 
-      roleListData.page.total = roleListData.data.length
-      roleListData.page.current = 1
+      roleList.page.total = roleList.data.length
+      roleList.page.current = 1
     }
-    res.json({success: true, data: roleListData.data, page: roleListData.page})
+    res.json({ success: true, data: roleList.data, page: roleList.page })
   },
 
-  'DELETE /api/role' (req, res) {
+  'DELETE /api/role': function (req, res) {
     const deleteItem = req.body
 
-    roleListData.data = roleListData.data.filter(function (item) {
+    roleList.data = roleList.data.filter((item) => {
       return item.id !== deleteItem.id
     })
 
-    roleListData.page.total = roleListData.data.length
+    roleList.page.total = roleList.data.length
 
-    res.json({success: true, data: roleListData.data, page: roleListData.page})
+    res.json({ success: true, data: roleList.data, page: roleList.page })
   },
 
 }

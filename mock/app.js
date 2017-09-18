@@ -1,5 +1,6 @@
-const Mock = require('mockjs')
 import Cookie from '../src/utils/cookie'
+
+const Mock = require('mockjs')
 
 const app = Mock.mock([
   {
@@ -10,34 +11,33 @@ const app = Mock.mock([
   {
     username: 'teacher',
     password: '123456',
-    roleId: 2
+    roleId: 2,
   },
   {
     username: 'guest',
     password: 'guest',
-    roleId: 3
-  }
+    roleId: 3,
+  },
 ])
 
 global.AdminUsers = app
 
 module.exports = {
-  'POST /oauth/token' (req, res) {
-    const userItem = req.body
+  'POST /oauth/token': function (req, res) {
     const response = {
       success: true,
-      access_token: 'i am a test access_token'
+      access_token: 'i am a test access_token',
     }
     res.json(response)
   },
 
-  'POST /admin/check' (req, res) {
+  'POST /admin/check': function (req, res) {
     const userItem = req.body
     const response = {
       success: false,
-      msg: ''
+      msg: '',
     }
-    const user = app.filter(function (item) {
+    const user = app.filter((item) => {
       return item.username === userItem.username
     })
     if (user.length) {
@@ -56,19 +56,19 @@ module.exports = {
     res.json(response)
   },
 
-  'GET /api/userInfo' (req, res) {
+  'GET /api/userInfo': function (req, res) {
     const response = {
       success: Cookie.get('user_session') && Cookie.get('user_session') > new Date().getTime(),
       username: Cookie.get('user_name') || '',
-      msg: ''
+      msg: '',
     }
     res.json(response)
   },
 
-  'POST /api/logout' (req, res) {
+  'POST /api/logout': function (req, res) {
     res.json({
       success: true,
-      msg: '注销成功'
+      msg: '注销成功',
     })
-  }
+  },
 }

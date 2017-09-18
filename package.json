@@ -8,7 +8,7 @@
     "build:analyze": "roadhog build --analyze",
     "build:dll": "roadhog buildDll",
     "build:new": "node version && roadhog build",
-    "lint": "eslint --fix --ext .js src",
+    "lint": "eslint --fix --ext .js src mock",
     "precommit": "npm run lint"
   },
   "dependencies": {
