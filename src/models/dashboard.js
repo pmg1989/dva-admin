@@ -1,7 +1,7 @@
 import { parse } from 'qs'
 import { routerRedux } from 'dva/router'
 import { getCurPowers } from 'utils'
-import { myCity, queryWeather, query } from '../services/dashboard'
+import { myCity, queryWeather, query } from 'services/dashboard'
 
 let zuimei = {
   ParseActualData (actual) {

@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router'
 import { Cookie, isLogin, userName, setLoginIn, setLoginOut, menu } from 'utils'
-import { getToken, login } from '../services/app'
+import { getToken, login } from 'services/app'
 
 const initPower = Cookie.getJSON('user_power')
 

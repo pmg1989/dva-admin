@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router'
 import { getCurPowers } from 'utils'
-import { create, remove, update, query, get, removeBatch } from '../../services/account/user'
+import { create, remove, update, query, get, removeBatch } from 'services/account/user'
 
 export default {
   namespace: 'accountUser',
