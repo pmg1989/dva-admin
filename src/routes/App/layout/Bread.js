@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Breadcrumb, Icon } from 'antd'
 import { Link } from 'dva/router'
+import { menu } from 'utils'
 import styles from './Bread.less'
-import { menu } from '../../../utils'
 
 let pathSet = []
 const getPathSet = function (menuArray, parentPath) {

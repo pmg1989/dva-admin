@@ -1,4 +1,4 @@
-import { request } from '../utils'
+import { request } from 'utils'
 
 export async function getToken () {
   const data = {

@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router'
+import { getCurPowers } from 'utils'
 import { update } from '../../services/system/modifyPassword'
-import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'systemModifyPassword',

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
+import { checkPower } from 'utils'
 import RoleList from './List'
 import RoleSearch from './Search'
 import RoleModal from './ModalForm'
-import { checkPower } from '../../../utils'
 import { ADD, UPDATE, DELETE } from '../../../constants/options'
 
 function Role ({ curPowers, dispatch, accountRole, modal, loading }) {

@@ -4,7 +4,7 @@ import { Menu, Icon } from 'antd'
 import { Link } from 'dva/router'
 import QueueAnim from 'rc-queue-anim'
 import Immutable from 'immutable'
-import { menu } from '../../../utils'
+import { menu } from 'utils'
 
 const immutableMenu = Immutable.fromJS(menu)
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Input } from 'antd'
 import QueueAnim from 'rc-queue-anim'
-import { config } from '../../utils'
+import { config } from 'utils'
 import styles from './LoginForm.less'
 
 const FormItem = Form.Item

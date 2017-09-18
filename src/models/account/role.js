@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import { routerRedux } from 'dva/router'
+import { getCurPowers } from 'utils'
 import { create, remove, update, query } from '../../services/account/role'
-import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountRole',

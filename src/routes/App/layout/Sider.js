@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Switch } from 'antd'
 import QueueAnim from 'rc-queue-anim'
+import { config } from 'utils'
 import styles from './Layout.less'
-import { config } from '../../../utils'
 import Menus from './Menu'
 
 function Sider ({ siderFold, darkTheme, location, changeTheme, navOpenKeys, userPower, changeOpenKeys }) {

@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router'
+import { getCurPowers } from 'utils'
 import { create, remove, update, query, get } from '../../services/account/admin'
 import { query as queryRole } from '../../services/account/role'
-import { getCurPowers } from '../../utils'
 
 export default {
   namespace: 'accountAdmin',

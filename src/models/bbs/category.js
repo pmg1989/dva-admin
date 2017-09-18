@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router'
+import { getCurPowers } from 'utils'
 import { create, remove, update, query } from '../../services/bbs/category'
-import { getCurPowers } from '../../utils'
 
 const page = {
   current: 1,

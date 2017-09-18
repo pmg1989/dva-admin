@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
+import { checkPower } from 'utils'
 import AdminList from './List'
 import AdminSearch from './Search'
 import AdminModal from './ModalForm'
-import { checkPower } from '../../../utils'
 import { ADD, UPDATE, DELETE } from '../../../constants/options'
 
 function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading }) {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Upload, Icon, Modal } from 'antd'
+import Cookie from 'utils/cookie'
 import styles from './UploadFile.less'
-import Cookie from '../../utils/cookie'
 
 const getFileList = (files) => {
   if (Array.isArray(files)) {

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
+import { checkPower } from 'utils'
 import ModifyForm from './ModifyForm'
-import { checkPower } from '../../../utils'
 import { UPDATE } from '../../../constants/options'
 
 function ModifyPassword ({ dispatch, curPowers, loading }) {

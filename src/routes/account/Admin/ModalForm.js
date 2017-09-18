@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Radio, Modal, Icon, Select } from 'antd'
-import { validPhone } from '../../../utils/utilsValid'
+import { validPhone } from 'utils/utilsValid'
 
 const FormItem = Form.Item
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Router } from 'dva/router'
+import { isLogin } from 'utils'
 import App from './routes/App'
-import { isLogin } from './utils'
 
 function redirectToLogin (nextState, replace) {
   if (!isLogin()) {

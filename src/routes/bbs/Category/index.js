@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
+import { checkPower } from 'utils'
 import CategoryList from './List'
 import CategorySearch from './Search'
 import CategoryModal from './ModalForm'
-import { checkPower } from '../../../utils'
 import { ADD, UPDATE, DELETE } from '../../../constants/options'
 
 function Category ({ location, curPowers, dispatch, bbsCategory, modal, loading }) {
