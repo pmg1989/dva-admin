@@ -34,28 +34,37 @@ https://pmg1989.github.io
 - 已实现基本完善的权限管理功能
 - 完善的后端分页与前端分页功能
 - 封装好可扩展的上传控件与音视频控件
-- 已实现基于Tab面板的可切换式导航栏菜单
+- 用[roadhog](https://github.com/sorrycc/roadhog)本地调试和构建，其中Mock功能实现脱离后端独立开发。
 
 ## 开发及构建
 
 ### 目录结构
 
 ```bash
-├── /mock/           # 数据mock的接口文件
 ├── /dist/           # 项目输出目录
 ├── /src/            # 项目源码目录
-│ ├── /components/   # 项目组件
-│ │ ├── /common/     # 项目公共组件
+│ ├── /public/       # 公共文件，编译时copy至dist目录
+│ ├── /components/   # UI组件及UI相关方法
+│ │ ├── skin.less    # 全局样式
+│ │ └── vars.less    # 全局样式变量
 │ ├── /routes/       # 路由组件
+│ │ └── App/index.js       # 路由入口
 │ ├── /models/       # 数据模型
 │ ├── /services/     # 数据接口
+│ ├── /themes/       # 项目样式
+│ ├── /mock/         # 数据mock
 │ ├── /utils/        # 工具函数
+│ │ ├── config.js    # 项目常规配置
+│ │ ├── menu.js      # 菜单及面包屑配置
+│ │ ├── config.js    # 项目常规配置
+│ │ ├── request.js   # 异步请求函数
+│ │ └── theme.js     # 项目需要在js中使用到样式变量
 │ ├── route.js       # 路由配置
 │ ├── index.js       # 入口文件
 │ └── index.html     
 ├── package.json     # 项目信息
-└── proxy.config.js  # 数据mock配置
-
+├── .eslintrc        # Eslint配置
+└── .roadhogrc.js    # roadhog配置
 ```
 
 ### 快速开始
@@ -75,7 +84,8 @@ npm install 或者 yarn 或者 yarn install
 开发：
 
 ```bash
-npm run dev    # 使用mock拦截请求，数据存储在localStroge里
+npm run build:dll #第一次npm run dev时需运行此命令，使开发时编译更快
+npm run dev
 
 打开 http://localhost:8000
 ```
@@ -84,19 +94,23 @@ npm run dev    # 使用mock拦截请求，数据存储在localStroge里
 构建：
 
 ```bash
+npm run build
 
-npm run build-dev local环境发布
-npm run build-staging staging 环境发布
-npm run build-release release 环境发布
+将会打包至dist/{version}目录 #package.json里version字段
 
-build后的文件将会生成dist目录
+npm run build:new
+
+将会打包至dist/{version增加1}目录 #package.json里version字段
+```
+
+代码检测：
+
+```bash
+git项目提交时，会自动run precommit 进而执行 npm run lint，执行esLint代码检测
 ```
 
 ### 注意事项
 
-- 生产环境中，如已有数据接口，请将`conf/webpack.config.js`中的 `webpackConfig.plugins 'newband.admin.isMock': true`改为false，以及 `src/utils/index.js`中的`export request from './request-mock'`改为`export request from './request'`
-- 切换`conf/webpack.config.js`中的`'newband.app.admin.IS_DYNAMIC_LOAD': true`,可以调整JavaScript是否动态按需加载
-- 开发环境中，如再mock目录新增文件，请在`src/utils/mock.js`第二行的`mockData`数组中添加
 - 如需重写antd样式配置，请修改`src/theme.js`
 - 项目配置文件在`src/utils/config.js`
 - 如需重写异步请求函数，请修改`src/utils/request.js`
