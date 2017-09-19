@@ -69,7 +69,6 @@ let roleList = Mock.mock({
   },
 })
 
-global.roleListData = roleList
 global.powerList = dic
 
 module.exports = {
@@ -120,6 +119,8 @@ module.exports = {
       roleList.page.total = roleList.data.length
       roleList.page.current = 1
     }
+
+    global.powerList = { ...global.powerList, [curItem.id]: JSON.parse(curItem.power) }
     res.json({ success: true, data: roleList.data, page: roleList.page })
   },
 
@@ -131,6 +132,8 @@ module.exports = {
     })
 
     roleList.page.total = roleList.data.length
+
+    delete global.powerList[deleteItem.id]
 
     res.json({ success: true, data: roleList.data, page: roleList.page })
   },
