@@ -120,7 +120,7 @@ function List ({
       className={styles.table}
       columns={columns}
       dataSource={list}
-      loading={loading}
+      loading={loading.effects['accountUser/query']}
       pagination={pagination}
       rowSelection={rowSelection}
       rowKey={record => record.id}
@@ -130,7 +130,7 @@ function List ({
 
 List.propTypes = {
   accountUser: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.object.isRequired,
   updatePower: PropTypes.bool.isRequired,
   deletePower: PropTypes.bool.isRequired,
   onStatusItem: PropTypes.func.isRequired,

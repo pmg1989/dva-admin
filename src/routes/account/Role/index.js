@@ -75,11 +75,11 @@ Role.propTypes = {
   dispatch: PropTypes.func.isRequired,
   curPowers: PropTypes.array.isRequired,
   modal: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.object.isRequired,
 }
 
 function mapStateToProps ({ accountRole, modal, loading }) {
-  return { accountRole, modal, loading: loading.models.accountRole }
+  return { accountRole, modal, loading }
 }
 
 export default connect(mapStateToProps)(Role)

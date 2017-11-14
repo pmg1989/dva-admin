@@ -100,11 +100,11 @@ Admin.propTypes = {
   curPowers: PropTypes.array,
   accountAdmin: PropTypes.object,
   modal: PropTypes.object,
-  loading: PropTypes.bool,
+  loading: PropTypes.object.isRequired,
 }
 
 function mapStateToProps ({ accountAdmin, modal, loading }) {
-  return { accountAdmin, modal, loading: loading.models.accountAdmin }
+  return { accountAdmin, modal, loading }
 }
 
 export default connect(mapStateToProps)(Admin)

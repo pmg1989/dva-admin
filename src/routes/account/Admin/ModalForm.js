@@ -48,7 +48,7 @@ const ModalForm = ({
     title: type === 'create' ? <div><Icon type="plus-circle-o" /> 新建管理员</div> : <div><Icon type="edit" /> 修改管理员</div>,
     visible,
     wrapClassName: 'vertical-center-modal',
-    confirmLoading: loading,
+    confirmLoading: loading.effects['accountAdmin/showModal'],
     onOk: handleOk,
     onCancel,
     afterClose () {
@@ -146,7 +146,7 @@ const ModalForm = ({
 
 ModalForm.propTypes = {
   modal: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

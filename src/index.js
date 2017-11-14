@@ -12,7 +12,7 @@ const app = dva({
 })
 
 // 2. Plugins
-app.use(createLoading())
+app.use(createLoading({ effects: true }))
 
 // 3. Model
 app.model(require('./models/app'))

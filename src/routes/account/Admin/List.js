@@ -102,7 +102,7 @@ function List ({
       className={styles.table}
       columns={columns}
       dataSource={list}
-      loading={loading}
+      loading={loading.effects['accountAdmin/query']}
       pagination={pagination}
       rowKey={record => record.id}
     />
@@ -110,7 +110,7 @@ function List ({
 }
 
 List.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.object.isRequired,
   accountAdmin: PropTypes.object.isRequired,
   updatePower: PropTypes.bool.isRequired,
   deletePower: PropTypes.bool.isRequired,
