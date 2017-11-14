@@ -1,6 +1,5 @@
 import { routerRedux } from 'dva/router'
 import { Cookie, isLogin, userName, setLoginIn, setLoginOut, menu } from 'utils'
-import { getToken, login } from 'services/app'
 
 const initPower = Cookie.getJSON('user_power')
 
@@ -48,36 +47,15 @@ export default {
     },
   },
   effects: {
-    * login ({
-      payload,
-    }, { call, put, select }) {
-      const dataToken = yield call(getToken)
-      if (dataToken.success) {
-        const params = { access_token: dataToken.access_token, mobile: payload.username, username: payload.username, password: payload.password }
-        const data = yield call(login, params)
-
-        if (data && data.success) {
-          const allPathPowers = yield getAllPathPowers(menu, data.role_power)
-
-          yield setLoginIn(payload.username, dataToken.access_token, data.role_power, allPathPowers)
-          yield put({
-            type: 'loginSuccess',
-            payload: {
-              user: {
-                name: payload.username,
-              },
-              userPower: data.role_power,
-            },
-          })
-
-          const nextLocation = yield select(state => state.routing.locationBeforeTransitions)
-          const nextPathname = nextLocation.state && nextLocation.state.nextPathname && nextLocation.state.nextPathname !== '/no-power' ? nextLocation.state.nextPathname : '/dashboard'
-          yield put(routerRedux.push({
-            pathname: nextPathname,
-            search: nextLocation.state && nextLocation.state.nextSearch,
-          }))
-        }
-      }
+    * login ({ payload }, { put }) {
+      const { user, userPower, accessToken } = payload
+      const allPathPowers = getAllPathPowers(menu, userPower)
+      setLoginIn(user.name, accessToken, userPower, allPathPowers)
+      yield put({ type: 'loginSuccess',
+        payload: {
+          user,
+          userPower,
+        } })
     },
     * logout ({}, { put }) {
       const data = { success: true } // yield call(logout, parse(payload))

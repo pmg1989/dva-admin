@@ -9,7 +9,7 @@ function Login ({ dispatch, loading = false }) {
   const loginProps = {
     loading,
     onOk (data) {
-      dispatch({ type: 'app/login', payload: data })
+      dispatch({ type: 'login/submit', payload: data })
     },
   }
   return (
@@ -23,7 +23,7 @@ Login.propTypes = {
 }
 
 function mapStateToProps ({ loading }) {
-  return { loading: loading.models.app }
+  return { loading: loading.models.login }
 }
 
 export default connect(mapStateToProps)(Login)

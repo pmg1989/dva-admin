@@ -1,22 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Spin } from 'antd'
 import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
 import classnames from 'classnames'
-import Login from '../Login'
 import { Header, Bread, Footer, Sider, styles } from './layout'
 import './skin.less'
 
-function App ({ children, location, dispatch, app, loading }) {
-  const { login, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
-
-  const loginProps = {
-    loading,
-    onOk (data) {
-      dispatch({ type: 'app/login', payload: data })
-    },
-  }
+function App ({ children, location, dispatch, app }) {
+  const { user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys, userPower, curPowers } = app
 
   const headerProps = {
     user,
@@ -57,25 +48,23 @@ function App ({ children, location, dispatch, app, loading }) {
   }
 
   return (
-    <div>{login
-      ? <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
-        {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
-          <Sider {...siderProps} />
-        </aside> : ''}
-        <div className={styles.main}>
-          <Header {...headerProps} />
-          <Bread location={location} />
-          <div className={styles.container}>
-            <div className={styles.content}>
-              <QueueAnim delay={[450, 0]} type={['right', 'left']} appear={false}>
-                { children && React.cloneElement(children, { curPowers, key: location.pathname })}
-              </QueueAnim>
-            </div>
+    <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
+      {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
+        <Sider {...siderProps} />
+      </aside> : ''}
+      <div className={styles.main}>
+        <Header {...headerProps} />
+        <Bread location={location} />
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <QueueAnim delay={[450, 0]} type={['right', 'left']} appear={false}>
+              { children && React.cloneElement(children, { curPowers, key: location.pathname })}
+            </QueueAnim>
           </div>
-          <Footer />
         </div>
+        <Footer />
       </div>
-      : <div className={styles.spin}><Spin tip="加载用户信息..." spinning={loading} size="large"><Login {...loginProps} /></Spin></div>}</div>
+    </div>
   )
 }
 
@@ -84,11 +73,6 @@ App.propTypes = {
   location: PropTypes.object,
   dispatch: PropTypes.func,
   app: PropTypes.object,
-  loading: PropTypes.bool,
 }
 
-function mapStateToProps ({ app, loading }) {
-  return { app, loading: loading.models.app }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect(({ app }) => ({ app }))(App)
