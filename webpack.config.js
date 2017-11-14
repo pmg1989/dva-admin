@@ -22,7 +22,7 @@ module.exports = (webpackConfig, env) => {
       },
     ]),
     new HtmlWebpackPlugin({
-      template: `${__dirname}/src/entry.ejs`,
+      template: production ? `${__dirname}/src/entry.ejs` : `${__dirname}/src/entry.dev.ejs`,
       filename: production ? '../index.html' : 'index.html',
       minify: production ? {
         collapseWhitespace: true,
