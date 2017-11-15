@@ -188,8 +188,7 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen((location) => {
-        const pathname = location.pathname
+      history.listen(({ pathname }) => {
         if (pathname === '/' || pathname === '/dashboard') {
           const curPowers = getCurPowers('/dashboard')
           if (curPowers) {
