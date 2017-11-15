@@ -1,4 +1,3 @@
-import { routerRedux } from 'dva/router'
 import { getCurPowers } from 'utils'
 import { update } from 'services/system/modifyPassword'
 
@@ -14,8 +13,6 @@ export default {
           const curPowers = getCurPowers(pathname)
           if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-          } else {
-            dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
         }
       })

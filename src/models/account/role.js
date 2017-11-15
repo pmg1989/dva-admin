@@ -1,5 +1,4 @@
 import { message } from 'antd'
-import { routerRedux } from 'dva/router'
 import { getCurPowers } from 'utils'
 import { create, remove, update, query } from 'services/account/role'
 
@@ -17,8 +16,6 @@ export default {
           if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
             dispatch({ type: 'query' })
-          } else {
-            dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
         }
       })

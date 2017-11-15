@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router'
 import menu from './menu'
 import Cookie from './cookie'
 
@@ -87,6 +88,7 @@ const getCurPowers = (curPath) => {
   const curPathPower = allPathPowers && allPathPowers[curPath]
   // cur =2 检测查看页面内容权限
   if (!curPathPower || !curPathPower.find(cur => cur === 2)) {
+    browserHistory.push({ pathname: '/no-power' })
     return false
   }
   return curPathPower // 返回curPathPower，是为方便页面跳转验证权限后，dispatch当然权限

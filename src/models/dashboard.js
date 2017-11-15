@@ -1,5 +1,4 @@
 import { parse } from 'qs'
-import { routerRedux } from 'dva/router'
 import { getCurPowers } from 'utils'
 import { myCity, queryWeather, query } from 'services/dashboard'
 
@@ -195,8 +194,6 @@ export default {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
             dispatch({ type: 'queryWeather' })
             dispatch({ type: 'query' })
-          } else {
-            dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
         }
       })
