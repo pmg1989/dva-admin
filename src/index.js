@@ -1,11 +1,11 @@
 // import "babel-polyfill" // 如果需要支持ie 9+，请解注此行即可。
 import dva from 'dva'
-import { browserHistory } from 'dva/router'
+import createHistory from 'history/createBrowserHistory'
 import createLoading from 'dva-loading'
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
+  history: createHistory(),
   onError (error) {
     console.error('app onError -- ', error)
   },

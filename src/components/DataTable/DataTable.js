@@ -2,28 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { routerRedux } from 'dva/router'
+import queryString from 'query-string'
 import { Table } from 'antd'
 import classnames from 'classnames'
 import TableBodyWrapper from './TableBodyWrapper'
 
 function DataTable ({ dispatch, location, className, pagination, animate, ...props }) {
   const getBodyWrapperProps = {
-    page: location.query.page || 1,
+    page: queryString.parse(location.search).page || 1,
     current: pagination.current || 1,
   }
 
   const getBodyWrapper = body => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
 
   const onPageChange = (page) => {
-    const { query } = location
+    const query = queryString.parse(location.search)
     const pathname = location.pathname
     dispatch(routerRedux.push({
       pathname,
-      query: {
+      search: queryString.stringify({
         ...query,
         current: page.current,
         pageSize: page.pageSize,
-      },
+      }),
     }))
   }
 
@@ -67,7 +68,7 @@ DataTable.defaultProps = {
 }
 
 function mapStateToProps ({ routing }) {
-  return { location: routing.locationBeforeTransitions }
+  return { location: routing.location }
 }
 
 export default connect(mapStateToProps)(DataTable)

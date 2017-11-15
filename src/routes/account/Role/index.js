@@ -8,6 +8,7 @@ import RoleSearch from './Search'
 import RoleModal from './ModalForm'
 
 function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
+  console.log(curPowers)
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)

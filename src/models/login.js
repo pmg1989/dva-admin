@@ -43,8 +43,9 @@ export default {
             },
           })
 
-          const nextLocation = yield select(state => state.routing.locationBeforeTransitions)
+          const nextLocation = yield select(state => state.routing.location)
           const nextPathname = nextLocation.state && nextLocation.state.nextPathname && nextLocation.state.nextPathname !== '/no-power' ? nextLocation.state.nextPathname : '/dashboard'
+
           yield put(routerRedux.push({
             pathname: nextPathname,
             search: nextLocation.state && nextLocation.state.nextSearch,

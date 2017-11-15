@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import QueueAnim from 'rc-queue-anim'
 import classnames from 'classnames'
+import { withRouter } from 'dva/router'
 import { Header, Bread, Footer, Sider, styles } from './layout'
 import './skin.less'
 
@@ -47,6 +48,15 @@ function App ({ children, location, dispatch, app }) {
     },
   }
 
+  if (['/login'].includes(location.pathname)) {
+    return (
+      <div>
+        {children}
+      </div>
+    )
+  }
+  console.log(curPowers)
+
   return (
     <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
       {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
@@ -75,4 +85,4 @@ App.propTypes = {
   app: PropTypes.object,
 }
 
-export default connect(({ app }) => ({ app }))(App)
+export default withRouter(connect(({ app }) => ({ app }))(App))

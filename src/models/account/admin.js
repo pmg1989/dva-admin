@@ -1,4 +1,5 @@
 import { routerRedux } from 'dva/router'
+import { parse } from 'query-string'
 import { getCurPowers } from 'utils'
 import { create, remove, update, query, get } from 'services/account/admin'
 import { query as queryRole } from 'services/account/role'
@@ -16,8 +17,7 @@ export default {
 
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen((location) => {
-        const pathname = location.pathname
+      history.listen(({ pathname }) => {
         if (pathname === '/account/admin') {
           const curPowers = getCurPowers(pathname)
           if (curPowers) {
@@ -33,7 +33,7 @@ export default {
 
   effects: {
     * query ({}, { select, call, put }) {
-      const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+      const pathQuery = yield select(({ routing }) => parse(routing.location.search))
       const data = yield call(query, pathQuery)
       if (data && data.success) {
         yield put({

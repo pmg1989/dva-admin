@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
+import queryString from 'query-string'
 import { checkPower } from 'utils'
 import { ADD, UPDATE, DELETE } from 'constants/options'
 import AdminList from './List'
@@ -12,8 +13,7 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
   const deletePower = checkPower(DELETE, curPowers)
-
-  const { field, keyword } = location.query
+  const { field, keyword } = queryString.parse(location.search)
 
   const searchProps = {
     field,
@@ -24,9 +24,9 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
       fieldsValue.keyword.length
         ? dispatch(routerRedux.push({
           pathname,
-          query: {
+          search: queryString.stringify({
             ...fieldsValue,
-          },
+          }),
         }))
         : dispatch(routerRedux.push({ pathname }))
     },

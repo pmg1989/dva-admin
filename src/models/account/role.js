@@ -11,8 +11,7 @@ export default {
 
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen((location) => {
-        const pathname = location.pathname
+      history.listen(({ pathname }) => {
         if (pathname === '/account/role') {
           const curPowers = getCurPowers(pathname)
           if (curPowers) {

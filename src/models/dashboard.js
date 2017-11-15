@@ -188,8 +188,7 @@ export default {
   },
   subscriptions: {
     setup ({ dispatch, history }) {
-      history.listen((location) => {
-        const pathname = location.pathname
+      history.listen(({ pathname }) => {
         if (pathname === '/' || pathname === '/dashboard') {
           const curPowers = getCurPowers('/dashboard')
           if (curPowers) {
@@ -208,7 +207,7 @@ export default {
       payload,
     }, { call, put }) {
       const data = yield call(query, parse(payload))
-      yield put({ type: 'queryWeather', payload: { ...data } })
+      yield put({ type: 'querySuccess', payload: { ...data } })
     },
     * queryWeather ({}, { call, put }) {
       const myCityResult = yield call(myCity, { flg: 0 })
@@ -231,7 +230,7 @@ export default {
         ...action.payload,
       }
     },
-    queryWeather (state, action) {
+    querySuccess (state, action) {
       return {
         ...state,
         ...action.payload,
