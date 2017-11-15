@@ -1,21 +1,7 @@
 import { routerRedux } from 'dva/router'
-import { Cookie, isLogin, userName, setLoginIn, setLoginOut, menu } from 'utils'
+import { Cookie, isLogin, userName, setLoginOut } from 'utils'
 
 const initPower = Cookie.getJSON('user_power')
-
-function getAllPathPowers (menuArray, curPowers) {
-  return menuArray.reduce((dir, item) => {
-    dir[`/${item.key}`] = curPowers[item.id]
-    if (item.children) {
-      item.children.reduce((cdir, cur) => {
-        dir[`/${cdir}/${cur.key}`] = curPowers[cur.id]
-        return cdir
-      }, item.key)
-      getAllPathPowers(item.children, curPowers)
-    }
-    return dir
-  }, {})
-}
 
 export default {
   namespace: 'app',
@@ -47,16 +33,6 @@ export default {
     },
   },
   effects: {
-    * login ({ payload }, { put }) {
-      const { user, userPower, accessToken } = payload
-      const allPathPowers = getAllPathPowers(menu, userPower)
-      setLoginIn(user.name, accessToken, userPower, allPathPowers)
-      yield put({ type: 'loginSuccess',
-        payload: {
-          user,
-          userPower,
-        } })
-    },
     * logout ({}, { put }) {
       const data = { success: true } // yield call(logout, parse(payload))
       if (data && data.success) {
