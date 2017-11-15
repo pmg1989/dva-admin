@@ -22,8 +22,6 @@ export default {
           if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
             dispatch({ type: 'query' })
-          } else {
-            dispatch(routerRedux.push({ pathname: '/no-power' }))
           }
         }
       })
