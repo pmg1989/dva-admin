@@ -3,22 +3,12 @@ import PropTypes from 'prop-types'
 import { Icon, Checkbox } from 'antd'
 import { DataTable } from 'components'
 import { menu, equalSet } from 'utils'
-import { MENU, CONTENT, DETAIL, ADD, UPDATE, DELETE, CHECK, UPLOAD } from 'constants/options'
+import { powerName } from 'constants/options'
 import styles from './UserPower.less'
 
 const CheckboxGroup = Checkbox.Group
 
 const getPowerText = (item) => {
-  const powerName = {
-    [MENU]: '查看菜单',
-    [CONTENT]: '查看页面',
-    [DETAIL]: '详情',
-    [ADD]: '新增',
-    [UPDATE]: '修改',
-    [DELETE]: '删除',
-    [CHECK]: '审核',
-    [UPLOAD]: '上传',
-  }
   const optionsPowerName = item.power.map((cur) => {
     return { label: powerName[cur], value: cur }
   })
@@ -48,7 +38,7 @@ class UserPower extends Component {
     const columns = [{
       title: '菜单选项',
       dataIndex: 'name',
-      width: '30%',
+      width: '20%',
       render: (text, record) => (record.icon ?
         <span>
           <Icon type={record.icon} /> {text}
@@ -56,7 +46,7 @@ class UserPower extends Component {
         text),
     }, {
       title: '操作权限',
-      width: '60%',
+      width: '75%',
       className: styles['text-left'],
       render: (text, record) => (
         <CheckboxGroup options={getPowerText(record)} value={this.state.userPower[record.id]} onChange={checkedValues => this.onChangePower(checkedValues, record)} />
@@ -100,7 +90,7 @@ class UserPower extends Component {
         columns={columns}
         dataSource={menu}
         pagination={false}
-        scroll={{ x: 1000 }}
+        scroll={{ x: 1050 }}
         size="small"
         defaultExpandAllRows
         rowSelection={rowSelection}

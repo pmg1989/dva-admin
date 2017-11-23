@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Breadcrumb, Icon } from 'antd'
+import { Helmet } from 'react-helmet'
 import { Link } from 'dva/router'
 import { menu } from 'utils'
 import styles from './Bread.less'
 
 let pathSet = []
+
 const getPathSet = function (menuArray, parentPath) {
   parentPath = parentPath || '/'
   menuArray.forEach((item) => {
@@ -22,7 +24,7 @@ const getPathSet = function (menuArray, parentPath) {
 }
 getPathSet(menu)
 
-function Bread ({ location }) {
+function Bread({ location }) {
   let pathNames = []
   location.pathname.substr(1).split('/').forEach((item, key) => {
     if (key > 0) {
@@ -45,8 +47,16 @@ function Bread ({ location }) {
     )
   })
 
+  const title = pathNames.map((item) => {
+    if (!(item in pathSet)) {
+      item = 'Dashboard'
+    }
+    return pathSet[item].name
+  })
+
   return (
     <div className={styles.bread}>
+      <Helmet><title>{title.join(' - ')}</title></Helmet>
       <Breadcrumb>
         <Breadcrumb.Item>
           <Link to="/"><Icon type="home" /><span>主页</span></Link>
