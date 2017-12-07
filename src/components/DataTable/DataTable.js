@@ -39,17 +39,17 @@ class DataTable extends Component {
     this.setState({
       prevPage: pagination.current,
       currentPage: page.current,
-    }, () => {
-      setTimeout(() => {
-        this.setState({
-          prevPage: page.current,
-        })
-      }, 500)
     })
     onPageChange({
       ...query,
       current: page.current,
       pageSize: page.pageSize,
+    })
+  }
+
+  handleChangePrevPage = () => {
+    this.setState({
+      prevPage: this.state.currentPage,
     })
   }
 
@@ -59,6 +59,7 @@ class DataTable extends Component {
     const getBodyWrapperProps = {
       prevPage,
       currentPage,
+      onChangePrevPage: this.handleChangePrevPage,
     }
 
     const getBodyWrapper = body => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)

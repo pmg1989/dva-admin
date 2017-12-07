@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { TweenOneGroup } from 'rc-tween-one'
 import './TableBodyWrapper.less'
@@ -41,29 +41,39 @@ const leaveAnim = [
   },
 ]
 
-function TableBodyWrapper ({ body, prevPage, currentPage }) {
-  // 切换分页去除动画;
-  if (prevPage !== currentPage) {
-    return body
+class TableBodyWrapper extends Component {
+  static propTypes = {
+    body: PropTypes.element,
+    prevPage: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    onChangePrevPage: PropTypes.func.isRequired,
   }
 
-  return (
-    <TweenOneGroup
-      component="tbody"
-      className={body.props.className}
-      enter={enterAnim}
-      leave={leaveAnim}
-      appear={false}
-    >
-      {body.props.children}
-    </TweenOneGroup>
-  )
-}
+  componentWillReceiveProps (nextProps) {
+    if (this.props.currentPage !== nextProps.currentPage) {
+      // 等待动画执行完成后修正prevPage
+      setTimeout(() => { this.props.onChangePrevPage() }, 300)
+    }
+  }
 
-TableBodyWrapper.propTypes = {
-  body: PropTypes.element,
-  prevPage: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
+  render () {
+    const { body, prevPage, currentPage } = this.props
+    // 切换分页去除动画;
+    if (prevPage !== currentPage) {
+      return body
+    }
+    return (
+      <TweenOneGroup
+        component="tbody"
+        className={body.props.className}
+        enter={enterAnim}
+        leave={leaveAnim}
+        appear={false}
+      >
+        {body.props.children}
+      </TweenOneGroup>
+    )
+  }
 }
 
 export default TableBodyWrapper
