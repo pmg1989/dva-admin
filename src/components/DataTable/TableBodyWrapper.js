@@ -41,9 +41,9 @@ const leaveAnim = [
   },
 ]
 
-function TableBodyWrapper ({ body, page = 1, current }) {
+function TableBodyWrapper ({ body, prevPage, currentPage }) {
   // 切换分页去除动画;
-  if (current !== +page) {
+  if (prevPage !== currentPage) {
     return body
   }
 
@@ -62,14 +62,8 @@ function TableBodyWrapper ({ body, page = 1, current }) {
 
 TableBodyWrapper.propTypes = {
   body: PropTypes.element,
-  page: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  current: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
+  prevPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
 }
 
 export default TableBodyWrapper

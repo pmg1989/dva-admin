@@ -28,9 +28,25 @@ class DataTable extends Component {
     animate: true,
   }
 
+  state = {
+    prevPage: 1,
+    currentPage: 1,
+  }
+
   handlePageChange = (page) => {
-    const { query } = this.props.location
-    this.props.onPageChange({
+    const { location, pagination, onPageChange } = this.props
+    const { query } = location
+    this.setState({
+      prevPage: pagination.current,
+      currentPage: page.current,
+    }, () => {
+      setTimeout(() => {
+        this.setState({
+          prevPage: page.current,
+        })
+      }, 500)
+    })
+    onPageChange({
       ...query,
       current: page.current,
       pageSize: page.pageSize,
@@ -39,9 +55,10 @@ class DataTable extends Component {
 
   render () {
     const { dispatch, location, className, pagination, onPageChange, animate, ...props } = this.props
+    const { prevPage, currentPage } = this.state
     const getBodyWrapperProps = {
-      page: location.query.current || 1,
-      current: pagination.current || 1,
+      prevPage,
+      currentPage,
     }
 
     const getBodyWrapper = body => (<TableBodyWrapper {...getBodyWrapperProps} body={body} />)
