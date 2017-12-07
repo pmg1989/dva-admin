@@ -7,6 +7,8 @@ import AdminList from './List'
 import AdminSearch from './Search'
 import AdminModal from './ModalForm'
 
+const namespace = 'accountAdmin'
+
 function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading }) {
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -20,20 +22,14 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
     addPower,
     onSearch (fieldsValue) {
       dispatch({
-        type: 'accountAdmin/query',
-        payload: {
-          current: 1,
-          // pageSize: 10,
-          ...fieldsValue,
-        },
+        type: `${namespace}/query`,
+        payload: { current: 1, ...fieldsValue },
       })
     },
     onAdd () {
       dispatch({
-        type: 'accountAdmin/showModal',
-        payload: {
-          type: 'create',
-        },
+        type: `${namespace}/showModal`,
+        payload: { type: 'create' },
       })
     },
   }
@@ -45,7 +41,7 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
     deletePower,
     onPageChange (fieldsValue) {
       dispatch({
-        type: 'accountAdmin/query',
+        type: `${namespace}/query`,
         payload: { ...fieldsValue },
       })
     },
@@ -54,19 +50,14 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
     },
     onEditItem (item) {
       dispatch({
-        type: 'accountAdmin/showModal',
-        payload: {
-          type: 'update',
-          curItem: item,
-        },
+        type: `${namespace}/showModal`,
+        payload: { type: 'update', curItem: item },
       })
     },
     onStatusItem (item) {
       dispatch({
-        type: 'accountAdmin/updateStatus',
-        payload: {
-          curItem: item,
-        },
+        type: `${namespace}/updateStatus`,
+        payload: { curItem: item },
       })
     },
   }
@@ -77,11 +68,9 @@ function Admin ({ location, dispatch, curPowers, accountAdmin, modal, loading })
     onOk (data) {
       dispatch({
         type: data.id
-          ? 'accountAdmin/update'
-          : 'accountAdmin/create',
-        payload: {
-          curItem: data,
-        },
+          ? `${namespace}/update`
+          : `${namespace}/create`,
+        payload: { curItem: data },
       })
     },
     onCancel () {

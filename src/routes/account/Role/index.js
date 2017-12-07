@@ -7,6 +7,8 @@ import RoleList from './List'
 import RoleSearch from './Search'
 import RoleModal from './ModalForm'
 
+const namespace = 'accountRole'
+
 function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -17,9 +19,7 @@ function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
     onAdd () {
       dispatch({
         type: 'modal/showModal',
-        payload: {
-          type: 'create',
-        },
+        payload: { type: 'create' },
       })
     },
   }
@@ -30,15 +30,12 @@ function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
     updatePower,
     deletePower,
     onDeleteItem (id) {
-      dispatch({ type: 'accountRole/delete', payload: { id } })
+      dispatch({ type: `${namespace}/delete`, payload: { id } })
     },
     onEditItem (item) {
       dispatch({
         type: 'modal/showModal',
-        payload: {
-          type: 'update',
-          curItem: item,
-        },
+        payload: { type: 'update', curItem: item },
       })
     },
   }
@@ -49,11 +46,9 @@ function Role ({ curPowers, dispatch, accountRole, modal, loading }) {
     onOk (data) {
       dispatch({
         type: data.id
-          ? 'accountRole/update'
-          : 'accountRole/create',
-        payload: {
-          curItem: data,
-        },
+          ? `${namespace}/update`
+          : `${namespace}/create`,
+        payload: { curItem: data },
       })
     },
     onCancel () {

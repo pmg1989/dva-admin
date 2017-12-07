@@ -7,6 +7,8 @@ import UserList from './List'
 import UserSearch from './Search'
 import UserModal from './ModalForm'
 
+const namespace = 'accountUser'
+
 function User ({ location, curPowers, dispatch, accountUser, modal, loading }) {
   const addPower = checkPower(ADD, curPowers)
   const updatePower = checkPower(UPDATE, curPowers)
@@ -20,20 +22,14 @@ function User ({ location, curPowers, dispatch, accountUser, modal, loading }) {
     addPower,
     onSearch (fieldsValue) {
       dispatch({
-        type: 'accountUser/query',
-        payload: {
-          current: 1,
-          // pageSize: 10,
-          ...fieldsValue,
-        },
+        type: `${namespace}/query`,
+        payload: { current: 1, ...fieldsValue },
       })
     },
     onAdd () {
       dispatch({
         type: 'modal/showModal',
-        payload: {
-          type: 'create',
-        },
+        payload: { type: 'create' },
       })
     },
   }
@@ -45,28 +41,23 @@ function User ({ location, curPowers, dispatch, accountUser, modal, loading }) {
     deletePower,
     onPageChange (fieldsValue) {
       dispatch({
-        type: 'accountUser/query',
+        type: `${namespace}/query`,
         payload: { ...fieldsValue },
       })
     },
     onDeleteItem (id) {
-      dispatch({ type: 'accountUser/delete', payload: { id } })
+      dispatch({ type: `${namespace}/delete`, payload: { id } })
     },
     onEditItem (item) {
       dispatch({
-        type: 'accountUser/showModal',
-        payload: {
-          type: 'update',
-          curItem: item,
-        },
+        type: `${namespace}/showModal`,
+        payload: { type: 'update', curItem: item },
       })
     },
     onStatusItem (item) {
       dispatch({
-        type: 'accountUser/updateStatus',
-        payload: {
-          curItem: item,
-        },
+        type: `${namespace}/updateStatus`,
+        payload: { curItem: item },
       })
     },
     onDeleteBatch (ids) {
@@ -84,11 +75,9 @@ function User ({ location, curPowers, dispatch, accountUser, modal, loading }) {
     onOk (data) {
       dispatch({
         type: data.id
-          ? 'accountUser/update'
-          : 'accountUser/create',
-        payload: {
-          curItem: data,
-        },
+          ? `${namespace}/update`
+          : `${namespace}/create`,
+        payload: { curItem: data },
       })
     },
     onCancel () {
