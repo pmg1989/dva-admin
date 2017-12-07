@@ -5,7 +5,6 @@ import { DataTable, DropMenu } from 'components'
 import { UPDATE, STATUS, DELETE } from 'constants/options'
 import styles from './List.less'
 
-
 const confirm = Modal.confirm
 let selectedKeys = []
 
@@ -33,6 +32,7 @@ function List ({
   }
 
   const handleMenuClick = (key, record) => {
+    console.log(key)
     return {
       [UPDATE]: onEditItem,
       [STATUS]: onStatusItem,

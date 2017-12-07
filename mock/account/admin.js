@@ -101,7 +101,7 @@ module.exports = {
   'PUT /api/admin': function (req, res) {
     const editItem = req.body
 
-    const roleListData = global.roleListData.data
+    const roleListData = global.roleList.data
     const roleList = roleListData.map((item) => {
       return item.name
     })
@@ -117,7 +117,7 @@ module.exports = {
       return item
     })
 
-    res.json({ success: true, data: AdminList.data, page: AdminList.page })
+    res.json({ success: true, list: AdminList.data, page: AdminList.page })
   },
 
 }

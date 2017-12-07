@@ -70,6 +70,7 @@ let roleList = Mock.mock({
 })
 
 global.powerList = dic
+global.roleList = roleList
 
 module.exports = {
 
