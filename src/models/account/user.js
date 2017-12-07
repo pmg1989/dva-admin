@@ -1,10 +1,11 @@
 import { routerRedux } from 'dva/router'
-import { getCurPowers } from 'utils'
+import { getCurPowers, renderQuery } from 'utils'
 import { create, remove, update, query, get, removeBatch } from 'services/account/user'
 
 export default {
   namespace: 'accountUser',
   state: {
+    searchQuery: {},
     list: [],
     pagination: {
       current: 1,
@@ -28,13 +29,15 @@ export default {
   },
 
   effects: {
-    * query ({}, { select, call, put }) {
-      const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
-      const data = yield call(query, pathQuery)
+    * query ({ payload }, { select, call, put }) {
+      const { searchQuery } = yield select(({ accountUser }) => accountUser)
+      const querys = renderQuery(searchQuery, payload)
+      const data = yield call(query, querys)
       if (data.success) {
         yield put({
           type: 'querySuccess',
           payload: {
+            searchQuery: querys,
             list: data.list,
             pagination: data.page,
           },

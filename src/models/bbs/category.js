@@ -1,4 +1,4 @@
-import { getCurPowers } from 'utils'
+import { getCurPowers, renderQuery } from 'utils'
 import { create, remove, update, query } from 'services/bbs/category'
 
 const page = {
@@ -10,6 +10,7 @@ export default {
   namespace: 'bbsCategory',
   state: {
     isPostBack: true, // 判断是否是首次加载页面，作为前端分页判断标识符
+    searchQuery: {},
     list: [],
     pagination: {
       ...page,
@@ -24,7 +25,7 @@ export default {
           const curPowers = getCurPowers(pathname)
           if (curPowers) {
             dispatch({ type: 'app/changeCurPowers', payload: { curPowers } })
-            dispatch({ type: 'query' })
+            dispatch({ type: 'query', payload: {} })
           }
         }
       })
@@ -32,9 +33,9 @@ export default {
   },
 
   effects: {
-    * query ({}, { select, call, put }) {
-      const isPostBack = yield select(({ bbsCategory }) => bbsCategory.isPostBack)
-      const pathQuery = yield select(({ routing }) => routing.locationBeforeTransitions.query)
+    * query ({ payload }, { select, call, put }) {
+      const { isPostBack, searchQuery } = yield select(({ bbsCategory }) => bbsCategory)
+      const querys = renderQuery(searchQuery, payload)
 
       if (isPostBack) {
         const data = yield call(query)
@@ -44,11 +45,12 @@ export default {
             payload: {
               list: data.list,
               pagination: {
-                current: pathQuery.current ? +pathQuery.current : page.current,
-                pageSize: pathQuery.pageSize ? +pathQuery.pageSize : page.pageSize,
-                total: data.list.length,
+                current: payload.current ? +payload.current : page.current,
+                pageSize: payload.pageSize ? +payload.pageSize : page.pageSize,
+                total: data.length,
               },
               isPostBack: false,
+              searchQuery: querys,
             },
           })
         }
@@ -57,9 +59,10 @@ export default {
           type: 'querySuccess',
           payload: {
             pagination: {
-              current: pathQuery.current ? +pathQuery.current : page.current,
-              pageSize: pathQuery.pageSize ? +pathQuery.pageSize : page.pageSize,
+              current: payload.current ? +payload.current : page.current,
+              pageSize: payload.pageSize ? +payload.pageSize : page.pageSize,
             },
+            searchQuery: querys,
           },
         })
       }

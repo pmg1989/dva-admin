@@ -94,6 +94,19 @@ const getCurPowers = (curPath) => {
   return curPathPower // 返回curPathPower，是为方便页面跳转验证权限后，dispatch当然权限
 }
 
+function renderQuery (query, payload) {
+  const searchQuery = { ...query, ...payload }
+  for (let key in searchQuery) {
+    if (!searchQuery[key]) {
+      if (key === 'keyword') {
+        delete searchQuery.field
+      }
+      delete searchQuery[key]
+    }
+  }
+  return searchQuery
+}
+
 export {
   Cookie,
   menu,
@@ -104,4 +117,5 @@ export {
   setLoginOut,
   checkPower,
   getCurPowers,
+  renderQuery,
 }

@@ -17,6 +17,7 @@ function List ({
   loading,
   updatePower,
   deletePower,
+  onPageChange,
   onDeleteItem,
   onEditItem,
   onStatusItem,
@@ -122,6 +123,7 @@ function List ({
       dataSource={list}
       loading={loading.effects['accountUser/query']}
       pagination={pagination}
+      onPageChange={onPageChange}
       rowSelection={rowSelection}
       rowKey={record => record.id}
     />
@@ -133,6 +135,7 @@ List.propTypes = {
   loading: PropTypes.object.isRequired,
   updatePower: PropTypes.bool.isRequired,
   deletePower: PropTypes.bool.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   onStatusItem: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onDeleteBatch: PropTypes.func.isRequired,

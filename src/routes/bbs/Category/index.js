@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import { checkPower } from 'utils'
 import { ADD, UPDATE, DELETE } from 'constants/options'
@@ -20,15 +19,14 @@ function Category ({ location, curPowers, dispatch, bbsCategory, modal, loading 
     keyword,
     addPower,
     onSearch (fieldsValue) {
-      const { pathname } = location
-      fieldsValue.keyword.length
-        ? dispatch(routerRedux.push({
-          pathname,
-          query: {
-            ...fieldsValue,
-          },
-        }))
-        : dispatch(routerRedux.push({ pathname }))
+      dispatch({
+        type: 'bbsCategory/query',
+        payload: {
+          current: 1,
+          // pageSize: 10,
+          ...fieldsValue,
+        },
+      })
     },
     onAdd () {
       dispatch({
@@ -45,7 +43,12 @@ function Category ({ location, curPowers, dispatch, bbsCategory, modal, loading 
     loading,
     updatePower,
     deletePower,
-    location,
+    onPageChange (fieldsValue) {
+      dispatch({
+        type: 'bbsCategory/query',
+        payload: { ...fieldsValue },
+      })
+    },
     onDeleteItem (id) {
       dispatch({ type: 'bbsCategory/delete', payload: { id } })
     },

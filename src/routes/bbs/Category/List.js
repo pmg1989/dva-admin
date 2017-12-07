@@ -9,15 +9,16 @@ const confirm = Modal.confirm
 
 function List ({
   bbsCategory: {
+    searchQuery,
     list,
     pagination,
   },
   loading,
   updatePower,
   deletePower,
+  onPageChange,
   onDeleteItem,
   onEditItem,
-  location,
 }) {
   const handleDeleteItem = (record) => {
     confirm({
@@ -70,7 +71,7 @@ function List ({
   let total = pagination.total
 
   const getFilterList = () => {
-    const { field, keyword, current, pageSize } = location.query
+    const { field, keyword, current, pageSize } = searchQuery
     const currentPage = current || pagination.current
     const sizePage = pageSize || pagination.pageSize
 
@@ -89,6 +90,7 @@ function List ({
     loading,
     className: styles.table,
     pagination: { ...pagination, total },
+    onPageChange,
     rowKey: record => record.cid,
   }
 
@@ -98,11 +100,11 @@ function List ({
 }
 
 List.propTypes = {
-  location: PropTypes.object.isRequired,
   bbsCategory: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   updatePower: PropTypes.bool.isRequired,
   deletePower: PropTypes.bool.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired,
 }

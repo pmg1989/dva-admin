@@ -64,7 +64,7 @@ module.exports = {
       AdminList.page.current = currentPage * 1
       newPage = AdminList.page
     }
-    res.json({ success: true, data, page: { ...newPage, pageSize: Number(pageSize) } })
+    res.json({ success: true, list: data, page: { ...newPage, pageSize: Number(pageSize) } })
   },
 
   'POST /api/admin': function (req, res) {
