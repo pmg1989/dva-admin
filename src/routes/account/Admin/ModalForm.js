@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Radio, Modal, Icon, Select } from 'antd'
+import { InputAutoComplete } from 'components'
 import { validPhone } from 'utils/utilsValid'
 
 const FormItem = Form.Item
@@ -114,8 +115,7 @@ const ModalForm = ({
                 message: '邮箱格式不正确',
               },
             ],
-          })(<Input type="email" />)}
-          {/* (<InputEmailComplete/>)} */}
+          })(<InputAutoComplete />)}
         </FormItem>
         <FormItem label="角色：" hasFeedback {...formItemLayout}>
           {getFieldDecorator('roleId', {

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Modal, Icon } from 'antd'
+import { InputAutoComplete } from 'components'
 import { validPhone } from 'utils/utilsValid'
 
 const FormItem = Form.Item
@@ -91,7 +92,7 @@ const ModalForm = ({
                 message: '邮箱格式不正确',
               },
             ],
-          })(<Input />)}
+          })(<InputAutoComplete />)}
         </FormItem>
       </Form>
     </Modal>
